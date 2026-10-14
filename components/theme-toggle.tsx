@@ -20,7 +20,7 @@ export function ThemeToggle() {
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <button
-            className="icon-button focusable"
+            className="nexo-icon-button focusable"
             type="button"
             aria-label={isDark ? "Ativar tema claro" : "Ativar tema escuro"}
             onClick={() => setTheme(isDark ? "light" : "dark")}

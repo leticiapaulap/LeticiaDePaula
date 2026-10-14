@@ -1,116 +1,114 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { FileText, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { navItems, professional } from "@/lib/data";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { navItems, professional } from "@/lib/data";
+
+const portalLinks = [
+  { label: "Portal", href: "/#portal", path: "/" },
+  { label: "Exploração", href: "/#exploracao", path: "/" },
+  { label: "Sobre", href: "/sobre/", path: "/sobre/" },
+  { label: "Projetos", href: "/projetos/", path: "/projetos/" }
+] as const;
 
 export function Header() {
-  const [activeSection, setActiveSection] = useState<string>("inicio");
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const sections = navItems
-      .map((item) => document.getElementById(item.id))
-      .filter((section): section is HTMLElement => Boolean(section));
-
-    if (sections.length === 0) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible?.target.id) {
-          setActiveSection(visible.target.id);
-        }
-      },
-      {
-        rootMargin: "-28% 0px -58% 0px",
-        threshold: [0.15, 0.3, 0.6]
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
-
-  const closeMenu = () => setOpen(false);
+  const isActivePath = (path: string) =>
+    pathname === path || (path === "/projetos/" && pathname.startsWith("/projetos/"));
 
   return (
-    <header className="site-header">
-      <div className="container header-inner">
-        <a className="brand focusable" href="/#inicio" aria-label="Inicio">
-          <span className="brand-mark" aria-hidden="true">
-            {professional.monogram}
+    <header className="nexo-header">
+      <div className="nexo-header__inner">
+        <a className="nexo-brand focusable" href="/#portal" aria-label="NEXO, início do portfólio de Letícia de Paula">
+          <span className="nexo-brand__symbol" aria-hidden="true">
+            <svg viewBox="0 0 34 34" fill="none">
+              <path d="M6 26V8l22 18V8" />
+              <circle cx="17" cy="17" r="15" />
+            </svg>
           </span>
-          <span className="brand-text">
-            <span>{professional.name}</span>
-            <span>Portfolio profissional</span>
+          <span className="nexo-brand__wordmark">
+            <strong>NEXO</strong>
+            <span>Letícia de Paula</span>
           </span>
         </a>
 
-        <nav className="desktop-nav" aria-label="Navegacao principal">
-          {navItems.map((item) => (
+        <nav className="nexo-desktop-nav" aria-label="Navegação principal">
+          {portalLinks.map((link) => (
             <a
-              className="nav-link focusable"
-              data-active={activeSection === item.id}
-              href={item.href}
-              key={item.id}
+              aria-current={isActivePath(link.path) ? "page" : undefined}
+              className="nexo-nav-link focusable"
+              href={link.href}
+              key={link.href}
             >
-              {item.label}
+              {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="header-actions">
+        <div className="nexo-header__actions">
           <ThemeToggle />
-          <a className="primary-action focusable" href="/curriculo/">
-            <FileText size={17} />
-            Curriculo
+          <a className="nexo-direct-link focusable" href="/#portfolio">
+            Modo direto
+            <ArrowUpRight size={15} aria-hidden="true" />
           </a>
 
           <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild>
-              <button className="menu-trigger focusable" type="button" aria-label="Abrir menu">
-                <Menu size={20} />
+              <button
+                className="nexo-menu-trigger focusable"
+                type="button"
+                aria-label={open ? "Fechar menu" : "Abrir menu"}
+                aria-expanded={open}
+              >
+                <Menu size={19} aria-hidden="true" />
               </button>
             </Dialog.Trigger>
             <Dialog.Portal>
-              <Dialog.Overlay className="mobile-overlay" />
-              <Dialog.Content className="mobile-content" aria-describedby={undefined}>
-                <div className="mobile-header">
-                  <Dialog.Title className="brand">
-                    <span className="brand-mark" aria-hidden="true">
-                      {professional.monogram}
-                    </span>
-                    <span className="brand-text">
-                      <span>{professional.name}</span>
-                      <span>Portfolio profissional</span>
-                    </span>
-                  </Dialog.Title>
+              <Dialog.Overlay className="nexo-menu-overlay" />
+              <Dialog.Content className="nexo-menu-panel">
+                <div className="nexo-menu-panel__heading">
+                  <Dialog.Title className="nexo-menu-panel__title">Navegar</Dialog.Title>
+                  <Dialog.Description className="nexo-visually-hidden">
+                    Acesse diretamente cada página profissional ou retorne à experiência inicial.
+                  </Dialog.Description>
                   <Dialog.Close asChild>
-                    <button className="dialog-close focusable" type="button" aria-label="Fechar menu">
-                      <X size={19} />
+                    <button className="nexo-menu-close focusable" type="button" aria-label="Fechar menu">
+                      <X size={18} aria-hidden="true" />
                     </button>
                   </Dialog.Close>
                 </div>
 
-                <nav className="mobile-nav" aria-label="Navegacao mobile">
-                  {navItems.map((item) => (
-                    <a href={item.href} key={item.id} onClick={closeMenu}>
-                      {item.label}
-                    </a>
-                  ))}
-                  <a href="/curriculo/" onClick={closeMenu}>
-                    Curriculo digital
+                <nav className="nexo-mobile-nav" aria-label="Navegação compacta">
+                  <a href="/#portal" onClick={() => setOpen(false)}>
+                    Portal
+                  </a>
+                  <a href="/#exploracao" onClick={() => setOpen(false)}>
+                    Exploração
+                  </a>
+                  {navItems
+                    .filter((item) => item.id !== "inicio")
+                    .map((item) => (
+                      <a
+                        aria-current={
+                          item.id !== "certificacoes" && isActivePath(item.path) ? "page" : undefined
+                        }
+                        href={item.href}
+                        key={item.id}
+                        onClick={() => setOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  <a href="/curriculo/" onClick={() => setOpen(false)}>
+                    Currículo digital
                   </a>
                 </nav>
+
+                <p className="nexo-menu-panel__note">{professional.title}</p>
               </Dialog.Content>
             </Dialog.Portal>
           </Dialog.Root>

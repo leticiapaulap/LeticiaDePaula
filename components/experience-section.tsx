@@ -1,34 +1,52 @@
-import { Reveal } from "@/components/reveal";
+import { Clock3 } from "lucide-react";
 import { SectionShell } from "@/components/section-shell";
 import { experiences } from "@/lib/data";
 
 export function ExperienceSection() {
   return (
     <SectionShell
-      id="experiencia"
-      eyebrow="Experiencia"
-      title="Atuacao em ambientes tecnicos, operacionais e administrativos."
-      description="As experiencias foram descritas com escopo funcional confirmado pelas informacoes disponiveis, sem inventar cargos, periodos ou atribuicoes nao verificadas."
       alt
+      description="Os nomes foram informados; ainda não há currículo ou documento de vínculo que confirme cargos, datas ou atividades. Por isso, o conteúdo não presume responsabilidades ou resultados."
+      eyebrow="Experiência"
+      id="experiencia"
+      title="Uma trajetória que aguarda seus registros."
     >
-      <div className="timeline">
+      <ol className="career-timeline nexo-experience-list">
         {experiences.map((experience, index) => (
-          <Reveal className="experience-card" delay={index * 0.05} key={experience.organization}>
-            <div>
-              <p className="context-label">{experience.context}</p>
+          <li className="nexo-experience-entry" key={experience.id}>
+            <span className="nexo-experience-entry__index" aria-hidden="true">
+              0{index + 1}
+            </span>
+
+            <div className="nexo-experience-entry__company">
+              <p>{experience.area}</p>
               <h3>{experience.organization}</h3>
+              <span>{experience.modality}</span>
             </div>
-            <div>
-              <p>{experience.summary}</p>
-              <ul>
-                {experience.points.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
+
+            <dl className="nexo-experience-entry__facts">
+              <div>
+                <dt>Cargo</dt>
+                <dd>{experience.role}</dd>
+              </div>
+              <div>
+                <dt>Período</dt>
+                <dd>{experience.period}</dd>
+              </div>
+              <div>
+                <dt>Atividades e resultados</dt>
+                <dd>Aguardam validação</dd>
+              </div>
+            </dl>
+
+            <span className="nexo-evidence-status">
+              <Clock3 size={14} aria-hidden="true" />
+              {experience.verificationStatus}
+            </span>
+            <p className="nexo-experience-entry__note">{experience.validationNote}</p>
+          </li>
         ))}
-      </div>
+      </ol>
     </SectionShell>
   );
 }

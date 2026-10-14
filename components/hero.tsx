@@ -1,4 +1,4 @@
-import { ArrowRight, BarChart3, GitBranch, Mail, MapPin, Network, Workflow } from "lucide-react";
+import { ArrowRight, FileText, GitBranch, Mail, MapPin, Network } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { professional } from "@/lib/data";
 
@@ -7,12 +7,12 @@ export function Hero() {
     <section className="hero" data-section id="inicio">
       <div className="container hero-grid">
         <Reveal>
-          <p className="eyebrow">Desenvolvimento de software | Dados | Automacao</p>
+          <p className="eyebrow">Desenvolvimento web | Aplicações documentadas</p>
           <h1>{professional.name}</h1>
-          <p className="hero-lede">{professional.title}</p>
+          <p className="hero-lede">{professional.headline}</p>
           <p className="hero-positioning">{professional.positioning}</p>
 
-          <div className="hero-actions" aria-label="Acoes principais">
+          <div className="hero-actions" aria-label="Ações principais">
             <a className="primary-action focusable" href="#projetos">
               Ver projetos
               <ArrowRight size={17} />
@@ -42,40 +42,40 @@ export function Hero() {
         <Reveal className="hero-visual" delay={0.12}>
           <div className="portrait-panel" aria-label="Resumo visual do perfil profissional">
             <div className="portrait-image">
-              <img src={professional.avatar} alt="Foto de perfil de Leticia de Paula no GitHub" />
+              <img src={professional.avatar} alt="Foto de perfil de Letícia de Paula no GitHub" />
             </div>
 
             <div className="signal-board">
               <div className="signal-row">
                 <span className="signal-icon" aria-hidden="true">
-                  <Workflow size={18} />
+                  <FileText size={18} />
                 </span>
                 <div>
-                  <strong>Construcao de fluxos</strong>
-                  <span>Interfaces, automacoes e processos tecnicos mais claros.</span>
+                  <strong>Festa Fantasia</strong>
+                  <span>Aplicação web full stack documentada publicamente em React, TypeScript e PostgreSQL.</span>
                 </div>
               </div>
               <div className="signal-row">
                 <span className="signal-icon" aria-hidden="true">
-                  <BarChart3 size={18} />
+                  <FileText size={18} />
                 </span>
                 <div>
-                  <strong>Dados para operacao</strong>
-                  <span>Organizacao de informacoes para suporte, gestao e decisao.</span>
+                  <strong>NEXO</strong>
+                  <span>Portfólio em desenvolvimento com páginas diretas e conteúdo tipado.</span>
                 </div>
               </div>
               <div className="metric-strip">
                 <div className="metric-chip">
-                  <strong>Web</strong>
-                  <span>React e TypeScript</span>
+                  <strong>React</strong>
+                  <span>Interface documentada</span>
                 </div>
                 <div className="metric-chip">
-                  <strong>Dados</strong>
-                  <span>SQL e BI</span>
+                  <strong>TypeScript</strong>
+                  <span>Projeto documentado</span>
                 </div>
                 <div className="metric-chip">
-                  <strong>TI</strong>
-                  <span>Suporte B2B</span>
+                  <strong>Next.js</strong>
+                  <span>Portfólio em andamento</span>
                 </div>
               </div>
               <div className="signal-row">
@@ -84,7 +84,7 @@ export function Hero() {
                 </span>
                 <div>
                   <strong>{professional.location}</strong>
-                  <span>Disponivel para conversas profissionais e oportunidades em tecnologia.</span>
+                  <span>Localidade informada no perfil público do GitHub.</span>
                 </div>
               </div>
             </div>
