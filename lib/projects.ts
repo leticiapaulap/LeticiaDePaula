@@ -147,7 +147,13 @@ export const projects: Project[] = [
       alt: "Diagrama original da arquitetura do portfólio NEXO",
       tone: "warm"
     },
-    screenshots: [],
+    screenshots: [
+      {
+        src: "/projects/nexo-portal.png",
+        alt: "Captura real do portal NEXO com apresentação de Letícia de Paula e a fita metálica procedural",
+        caption: "Captura real do portal NEXO — build local da etapa 3, em 1440 × 960 px."
+      }
+    ],
     evidence: {
       level: "informado",
       sourceLabel: "Código disponível neste workspace; repositório remoto sem código"

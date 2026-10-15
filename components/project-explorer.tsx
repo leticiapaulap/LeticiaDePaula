@@ -1,18 +1,23 @@
 "use client";
 
-import { ArrowRight, ExternalLink, GitBranch } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, GitBranch } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useMemo, useRef, type KeyboardEvent, type PointerEvent } from "react";
 import type { ProjectCategory } from "@/lib/types";
 import { ProjectVisual } from "@/components/project-visual";
+import { useExperience } from "@/components/experience-provider";
 import { projectCategories, projects, type Project } from "@/lib/data";
+import { projectsForSkill } from "@/lib/skill-relations";
 
 type ActiveCategory = (typeof projectCategories)[number];
 
 const projectCounts = (category: ProjectCategory | "Todos") =>
   category === "Todos" ? projects.length : projects.filter((project) => project.category === category).length;
 
-function ProjectLink({ project }: { project: Project }) {
+function ProjectLink({ project, onSelect }: { project: Project; onSelect: (slug: string) => void }) {
+  const pathname = usePathname();
+  const { rememberGallery } = useExperience();
   const caseLink = project.links.find((link) => link.type === "case");
 
   if (!caseLink) {
@@ -20,7 +25,7 @@ function ProjectLink({ project }: { project: Project }) {
   }
 
   return (
-    <Link className="primary-action focusable" href={caseLink.href}>
+    <Link className="primary-action focusable" href={caseLink.href} onNavigate={() => { rememberGallery(`${pathname}#projetos`); onSelect(project.slug); }}>
       Ver detalhes
       <ArrowRight size={17} />
     </Link>
@@ -28,7 +33,9 @@ function ProjectLink({ project }: { project: Project }) {
 }
 
 export function ProjectExplorer() {
-  const [activeCategory, setActiveCategory] = useState<ActiveCategory>("Todos");
+  const { projectCategory, setProjectCategory, selectedProjectSlug, selectedSkillName, selectProject } = useExperience();
+  const activeCategory = projectCategory as ActiveCategory;
+  const touchStart = useRef<{ horizontal: number; vertical: number } | null>(null);
 
   const visibleProjects = useMemo(() => {
     if (activeCategory === "Todos") {
@@ -40,6 +47,33 @@ export function ProjectExplorer() {
 
   const featuredProjects = visibleProjects.filter((project) => project.featured);
   const secondaryProjects = visibleProjects.filter((project) => !project.featured);
+  const selectedSkillProjects = projectsForSkill(selectedSkillName).map((project) => project.slug);
+  const focusedProject =
+    visibleProjects.find((project) => project.slug === selectedProjectSlug) ??
+    visibleProjects.find((project) => selectedSkillProjects.includes(project.slug)) ??
+    visibleProjects[0];
+  const focusedIndex = visibleProjects.findIndex((project) => project.slug === focusedProject?.slug);
+  const selectAt = (index: number) => {
+    const project = visibleProjects[index];
+    if (project) selectProject(project.slug);
+  };
+  const handleKeyboard = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget) return;
+    if (event.key === "ArrowLeft") selectAt(Math.max(0, focusedIndex - 1));
+    else if (event.key === "ArrowRight") selectAt(Math.min(visibleProjects.length - 1, focusedIndex + 1));
+    else if (event.key === "Home") selectAt(0);
+    else if (event.key === "End") selectAt(visibleProjects.length - 1);
+    else return;
+    event.preventDefault();
+  };
+  const handleSwipe = (event: PointerEvent<HTMLDivElement>) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+    const horizontal = event.clientX - start.horizontal;
+    const vertical = event.clientY - start.vertical;
+    if (Math.abs(horizontal) > 55 && Math.abs(horizontal) > Math.abs(vertical) * 1.5) selectAt(focusedIndex + (horizontal < 0 ? 1 : -1));
+  };
 
   return (
     <div className="project-explorer">
@@ -54,7 +88,7 @@ export function ProjectExplorer() {
             }
             className="filter-chip focusable"
             key={category}
-            onClick={() => setActiveCategory(category)}
+            onClick={() => setProjectCategory(category)}
             type="button"
           >
             {category}
@@ -66,6 +100,30 @@ export function ProjectExplorer() {
         {visibleProjects.length === 1 ? "1 projeto" : `${visibleProjects.length} projetos`}
       </p>
 
+      {focusedProject ? (
+        <div className="nexo-gallery-stage focusable" role="group" aria-label="Galeria em foco. Use as setas para mudar de projeto." aria-keyshortcuts="ArrowLeft ArrowRight Home End" tabIndex={0} onKeyDown={handleKeyboard} onPointerDown={(event) => {
+          if (event.pointerType !== "mouse" && !(event.target as HTMLElement).closest("a, button")) {
+            touchStart.current = { horizontal: event.clientX, vertical: event.clientY };
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }
+        }} onPointerUp={handleSwipe} onPointerCancel={() => { touchStart.current = null; }}>
+          <div className="nexo-gallery-focus" key={focusedProject.slug}>
+            <ProjectVisual project={focusedProject} />
+            <div className="nexo-gallery-info">
+              <p className="context-label">EM FOCO / {String(focusedIndex + 1).padStart(2, "0")} DE {String(visibleProjects.length).padStart(2, "0")}</p>
+              <h3>{focusedProject.title}</h3>
+              <p>{focusedProject.description}</p>
+              <div className="tag-list">{focusedProject.technologies.slice(0, 5).map((technology) => <span className="tag" key={technology}>{technology}</span>)}</div>
+              <ProjectLink project={focusedProject} onSelect={selectProject} />
+              <small>Setas do teclado, botões abaixo ou deslize horizontal.</small>
+            </div>
+          </div>
+          <div className="nexo-gallery-tabs" role="group" aria-label="Selecionar projeto em destaque">
+            {visibleProjects.map((project) => <button className="focusable" type="button" key={project.slug} aria-pressed={focusedProject.slug === project.slug} onClick={() => selectProject(project.slug)}>{project.shortTitle}</button>)}
+          </div>
+        </div>
+      ) : null}
+
       {visibleProjects.length === 0 ? (
         <div className="empty-state">
           <strong>Nenhum projeto público nesta categoria.</strong>
@@ -74,7 +132,12 @@ export function ProjectExplorer() {
       ) : (
         <div className="project-grid">
           {featuredProjects.map((project) => (
-            <article className="project-card featured" key={project.slug}>
+            <article
+              aria-current={project.slug === focusedProject?.slug ? "true" : undefined}
+              className="project-card featured"
+              data-selected={project.slug === focusedProject?.slug}
+              key={project.slug}
+            >
               <ProjectVisual project={project} />
               <div className="project-body">
                 <div className="project-topline">
@@ -98,7 +161,15 @@ export function ProjectExplorer() {
                   ))}
                 </div>
                 <div className="project-links">
-                  <ProjectLink project={project} />
+                  <button
+                    aria-pressed={project.slug === focusedProject?.slug}
+                    className="nexo-project-focus focusable"
+                    onClick={() => selectProject(project.slug)}
+                    type="button"
+                  >
+                    {project.slug === focusedProject?.slug ? "Em foco" : "Destacar"}
+                  </button>
+                  <ProjectLink onSelect={selectProject} project={project} />
                   {project.links
                     .filter((link) => link.type !== "case")
                     .map((link) => (
@@ -119,7 +190,12 @@ export function ProjectExplorer() {
           ))}
 
           {secondaryProjects.map((project) => (
-            <article className="project-card" key={project.slug}>
+            <article
+              aria-current={project.slug === focusedProject?.slug ? "true" : undefined}
+              className="project-card"
+              data-selected={project.slug === focusedProject?.slug}
+              key={project.slug}
+            >
               <ProjectVisual compact project={project} />
               <div className="project-body">
                 <p className="project-status">{project.status}</p>
@@ -133,7 +209,15 @@ export function ProjectExplorer() {
                   ))}
                 </div>
                 <div className="project-links">
-                  <ProjectLink project={project} />
+                  <button
+                    aria-pressed={project.slug === focusedProject?.slug}
+                    className="nexo-project-focus focusable"
+                    onClick={() => selectProject(project.slug)}
+                    type="button"
+                  >
+                    {project.slug === focusedProject?.slug ? "Em foco" : "Destacar"}
+                  </button>
+                  <ProjectLink onSelect={selectProject} project={project} />
                   {project.links
                     .filter((link) => link.type !== "case")
                     .slice(0, 2)
@@ -155,6 +239,39 @@ export function ProjectExplorer() {
           ))}
         </div>
       )}
+
+      {focusedProject ? (
+        <div className="nexo-project-selection" aria-label="Navegação entre projetos">
+          <button
+            aria-label="Projeto anterior"
+            className="nexo-project-selection__arrow focusable"
+            disabled={focusedIndex <= 0}
+            onClick={() => {
+              const previous = visibleProjects[focusedIndex - 1];
+              if (previous) selectProject(previous.slug);
+            }}
+            type="button"
+          >
+            <ArrowLeft aria-hidden="true" size={17} />
+          </button>
+          <p aria-live="polite" className="nexo-project-selection__current">
+            <span>EM FOCO {String(focusedIndex + 1).padStart(2, "0")} / {String(visibleProjects.length).padStart(2, "0")}</span>
+            <strong>{focusedProject.title}</strong>
+          </p>
+          <button
+            aria-label="Próximo projeto"
+            className="nexo-project-selection__arrow focusable"
+            disabled={focusedIndex >= visibleProjects.length - 1}
+            onClick={() => {
+              const next = visibleProjects[focusedIndex + 1];
+              if (next) selectProject(next.slug);
+            }}
+            type="button"
+          >
+            <ArrowRight aria-hidden="true" size={17} />
+          </button>
+        </div>
+      ) : null}
 
       <aside className="pending-projects nexo-unpublished-note" aria-label="Conteúdo não autorizado para publicação">
         <div>

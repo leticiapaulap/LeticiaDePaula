@@ -1,10 +1,14 @@
+"use client";
+
 import { ArrowDown, ArrowRight, GitBranch, Mail, Network } from "lucide-react";
-import { SculptureLoader } from "@/components/portal/sculpture-loader";
+import { useExperience } from "@/components/experience-provider";
 import { professional } from "@/lib/profile";
 
 export function PortalHero() {
+  const { transitionTo, phase, setMode } = useExperience();
+
   return (
-    <section className="nexo-portal" id="portal" aria-labelledby="portal-title">
+    <section className="nexo-portal" id="portal" aria-labelledby="portal-title" data-experience-state={phase}>
       <div className="nexo-architecture-lines" aria-hidden="true" />
       <div className="nexo-portal__frame" aria-hidden="true">
         <span>NEXO / 01</span>
@@ -33,11 +37,19 @@ export function PortalHero() {
           </p>
 
           <div className="nexo-portal__actions">
-            <a className="nexo-button nexo-button--primary focusable" href="#exploracao">
+            <a
+              className="nexo-button nexo-button--primary focusable"
+              href="#exploracao"
+              onClick={() => { setMode("immersive"); transitionTo("nucleus"); }}
+            >
               Explorar meu universo
               <ArrowRight size={17} aria-hidden="true" />
             </a>
-            <a className="nexo-button nexo-button--quiet focusable" href="#portfolio">
+            <a
+              className="nexo-button nexo-button--quiet focusable"
+              href="#portfolio"
+              onClick={() => { setMode("direct"); transitionTo("nucleus"); }}
+            >
               Ver portfólio
             </a>
           </div>
@@ -105,9 +117,6 @@ export function PortalHero() {
               opacity=".66"
             />
           </svg>
-
-          <SculptureLoader />
-
           <div className="nexo-artwork__caption">
             <span>01</span>
             <span>CONEXÃO / FORMA / MOVIMENTO</span>

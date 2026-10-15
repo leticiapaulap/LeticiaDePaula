@@ -13,6 +13,10 @@ const portfolioSystemNodes = [
 ] as const;
 
 export function ProjectVisual({ project, compact = false }: { project: Project; compact?: boolean }) {
+  const preview = project.screenshots[0];
+  if (preview) {
+    return <figure className="nexo-project-preview"><img src={preview.src} alt={preview.alt} loading="lazy" width={1440} height={960} /><figcaption>{preview.caption}</figcaption></figure>;
+  }
   const nodes = project.slug === "festa-fantasia" ? publicSystemNodes : portfolioSystemNodes;
   const label = project.slug === "festa-fantasia" ? "Arquitetura documentada" : "Arquitetura em desenvolvimento";
 

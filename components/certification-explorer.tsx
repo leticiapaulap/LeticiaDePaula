@@ -1,7 +1,9 @@
 "use client";
 
-import { ExternalLink } from "lucide-react";
-import { useMemo, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { ExternalLink, Eye, X } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import type { Certification } from "@/lib/types";
 import {
   certificationAreas,
   certifications,
@@ -24,6 +26,8 @@ export function CertificationExplorer() {
   const [activeStatus, setActiveStatus] = useState<StatusFilter>("Todos");
   const [activeInstitution, setActiveInstitution] = useState("Todas as instituições");
   const [query, setQuery] = useState("");
+  const [preview, setPreview] = useState<Certification | null>(null);
+  const previewTrigger = useRef<HTMLButtonElement | null>(null);
 
   const institutions = useMemo(
     () => [...new Set(certifications.map((certification) => certification.institution))].sort((a, b) =>
@@ -49,6 +53,7 @@ export function CertificationExplorer() {
   }, [activeArea, activeInstitution, activeStatus, query]);
 
   return (
+    <Dialog.Root open={Boolean(preview)} onOpenChange={(open) => { if (!open) setPreview(null); }}>
     <div className="certification-explorer">
       <div className="nexo-certification-search">
         <label className="nexo-certification-query">
@@ -76,6 +81,9 @@ export function CertificationExplorer() {
           </select>
         </label>
       </div>
+
+      <p className="nexo-results-count" role="status">{visibleCertifications.length === 1 ? "1 curso" : `${visibleCertifications.length} cursos`}</p>
+      {query || activeArea !== "Todas" || activeStatus !== "Todos" || activeInstitution !== "Todas as instituições" ? <button className="secondary-action focusable" type="button" onClick={() => { setQuery(""); setActiveArea("Todas"); setActiveStatus("Todos"); setActiveInstitution("Todas as instituições"); }}>Limpar filtros</button> : null}
 
       <div className="certification-controls">
         <div className="filter-group" role="group" aria-label="Filtrar cursos por área">
@@ -114,9 +122,6 @@ export function CertificationExplorer() {
         </div>
       ) : (
         <>
-          <p className="nexo-results-count" aria-live="polite">
-            {visibleCertifications.length === 1 ? "1 curso" : `${visibleCertifications.length} cursos`}
-          </p>
           <div className="certification-grid">
           {visibleCertifications.map((certification) => (
             <article className="certification-card" key={`${certification.name}-${certification.institution}`}>
@@ -126,7 +131,7 @@ export function CertificationExplorer() {
                 </span>
                 <p className="context-label">{certification.area}</p>
                 <h3>{certification.name}</h3>
-                <p>{certification.institution}</p>
+                <button className="nexo-institution focusable" type="button" aria-label={`Filtrar cursos de ${certification.institution}`} onClick={() => setActiveInstitution(certification.institution)}>{certification.institution}</button>
               </div>
 
               <dl className="meta-list">
@@ -148,13 +153,16 @@ export function CertificationExplorer() {
                 </div>
               </dl>
 
-              {certification.note ? <p className="card-note">{certification.note}</p> : null}
+              {certification.note ? <details className="nexo-archive-details"><summary className="focusable">Contexto do curso</summary><p className="card-note">{certification.note}</p></details> : null}
 
               {certification.certificateUrl ? (
+                <div className="project-links">
+                <button className="secondary-action focusable" type="button" onClick={(event) => { previewTrigger.current = event.currentTarget; setPreview(certification); }} aria-label={`Visualizar certificado: ${certification.name}`}><Eye size={16} aria-hidden="true" />Visualizar certificado</button>
                 <a className="secondary-action focusable" href={certification.certificateUrl} rel="noreferrer" target="_blank">
                   <ExternalLink size={16} />
-                  Ver certificado
+                  Abrir PDF
                 </a>
+                </div>
               ) : null}
             </article>
           ))}
@@ -162,5 +170,13 @@ export function CertificationExplorer() {
         </>
       )}
     </div>
+    <Dialog.Portal>
+      <Dialog.Overlay className="nexo-certificate-overlay" />
+      <Dialog.Content className="nexo-certificate-dialog" onCloseAutoFocus={(event) => { event.preventDefault(); previewTrigger.current?.focus({ preventScroll: true }); }}>
+        <div className="nexo-certificate-dialog__header"><div><Dialog.Title>{preview?.name}</Dialog.Title><Dialog.Description>{preview?.institution} · Certificado fornecido pela profissional.</Dialog.Description></div><Dialog.Close asChild><button className="nexo-menu-close focusable" type="button" aria-label="Fechar certificado"><X size={20} aria-hidden="true" /></button></Dialog.Close></div>
+        {preview?.certificateUrl ? <><iframe title={`Certificado de ${preview.name}`} src={preview.certificateUrl} /><a className="secondary-action focusable" href={preview.certificateUrl} target="_blank" rel="noreferrer">Abrir PDF em outra aba<ExternalLink size={16} aria-hidden="true" /></a></> : null}
+      </Dialog.Content>
+    </Dialog.Portal>
+    </Dialog.Root>
   );
 }

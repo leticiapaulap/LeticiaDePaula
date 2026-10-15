@@ -1,9 +1,13 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { Menu, Pause, Play, X } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useExperience } from "@/components/experience-provider";
+import { ModeControl } from "@/components/experience-navigation";
+import { phaseForSection } from "@/lib/experience-state";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { navItems, professional } from "@/lib/data";
 
@@ -17,13 +21,20 @@ const portalLinks = [
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { motionEnabled, prefersReducedMotion, toggleMotion, transitionTo, activeSection } = useExperience();
   const isActivePath = (path: string) =>
     pathname === path || (path === "/projetos/" && pathname.startsWith("/projetos/"));
+  const handlePortalNavigation = (href: string) => {
+    if (href.includes("#")) transitionTo(href.includes("exploracao") ? "nucleus" : "portal");
+  };
+  const handleSectionNavigation = (id: string) => {
+    transitionTo(phaseForSection(id) ?? (id === "inicio" ? "portal" : "nucleus"));
+  };
 
   return (
     <header className="nexo-header">
       <div className="nexo-header__inner">
-        <a className="nexo-brand focusable" href="/#portal" aria-label="NEXO, início do portfólio de Letícia de Paula">
+        <Link className="nexo-brand focusable" href="/#portal" aria-label="NEXO, início do portfólio de Letícia de Paula">
           <span className="nexo-brand__symbol" aria-hidden="true">
             <svg viewBox="0 0 34 34" fill="none">
               <path d="M6 26V8l22 18V8" />
@@ -34,27 +45,46 @@ export function Header() {
             <strong>NEXO</strong>
             <span>Letícia de Paula</span>
           </span>
-        </a>
+        </Link>
 
         <nav className="nexo-desktop-nav" aria-label="Navegação principal">
           {portalLinks.map((link) => (
-            <a
-              aria-current={isActivePath(link.path) ? "page" : undefined}
+            <Link
+              aria-current={link.href.includes("#") ? pathname === "/" && activeSection === link.href.split("#")[1] ? "location" : undefined : isActivePath(link.path) ? "page" : undefined}
               className="nexo-nav-link focusable"
               href={link.href}
               key={link.href}
+              onClick={() => handlePortalNavigation(link.href)}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className="nexo-header__actions">
           <ThemeToggle />
-          <a className="nexo-direct-link focusable" href="/#portfolio">
-            Modo direto
-            <ArrowUpRight size={15} aria-hidden="true" />
-          </a>
+          <button
+            aria-label={
+              prefersReducedMotion
+                ? "Animações reduzidas pela preferência do dispositivo"
+                : motionEnabled
+                  ? "Pausar animações"
+                  : "Retomar animações"
+            }
+            aria-pressed={!motionEnabled || prefersReducedMotion}
+            className="nexo-icon-button nexo-motion-toggle focusable"
+            disabled={prefersReducedMotion}
+            onClick={toggleMotion}
+            title={prefersReducedMotion ? "Animações reduzidas pela preferência do dispositivo" : undefined}
+            type="button"
+          >
+            {motionEnabled && !prefersReducedMotion ? (
+              <Pause size={16} aria-hidden="true" />
+            ) : (
+              <Play size={16} aria-hidden="true" />
+            )}
+          </button>
+          <ModeControl className="nexo-mode-desktop" />
 
           <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild>
@@ -83,31 +113,71 @@ export function Header() {
                 </div>
 
                 <nav className="nexo-mobile-nav" aria-label="Navegação compacta">
-                  <a href="/#portal" onClick={() => setOpen(false)}>
+                  <Link
+                    href="/#portal"
+                    onClick={() => {
+                      setOpen(false);
+                      handlePortalNavigation("/#portal");
+                    }}
+                  >
                     Portal
-                  </a>
-                  <a href="/#exploracao" onClick={() => setOpen(false)}>
+                  </Link>
+                  <Link
+                    href="/#exploracao"
+                    onClick={() => {
+                      setOpen(false);
+                      handlePortalNavigation("/#exploracao");
+                    }}
+                  >
                     Exploração
-                  </a>
+                  </Link>
                   {navItems
                     .filter((item) => item.id !== "inicio")
                     .map((item) => (
-                      <a
+                      <Link
                         aria-current={
                           item.id !== "certificacoes" && isActivePath(item.path) ? "page" : undefined
                         }
                         href={item.href}
                         key={item.id}
-                        onClick={() => setOpen(false)}
+                        onClick={() => {
+                          setOpen(false);
+                          handleSectionNavigation(item.id);
+                        }}
                       >
                         {item.label}
-                      </a>
+                      </Link>
                     ))}
-                  <a href="/curriculo/" onClick={() => setOpen(false)}>
+                  <Link
+                    href="/curriculo/"
+                    onClick={() => {
+                      setOpen(false);
+                      transitionTo("convergence");
+                    }}
+                  >
                     Currículo digital
-                  </a>
+                  </Link>
                 </nav>
 
+                <ModeControl />
+                <button
+                  aria-pressed={!motionEnabled || prefersReducedMotion}
+                  className="nexo-motion-menu-control focusable"
+                  disabled={prefersReducedMotion}
+                  onClick={toggleMotion}
+                  type="button"
+                >
+                  {motionEnabled && !prefersReducedMotion ? (
+                    <Pause size={16} aria-hidden="true" />
+                  ) : (
+                    <Play size={16} aria-hidden="true" />
+                  )}
+                  {prefersReducedMotion
+                    ? "Animações reduzidas pelo dispositivo"
+                    : motionEnabled
+                      ? "Pausar animações"
+                      : "Retomar animações"}
+                </button>
                 <p className="nexo-menu-panel__note">{professional.title}</p>
               </Dialog.Content>
             </Dialog.Portal>

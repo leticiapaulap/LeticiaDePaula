@@ -1,11 +1,12 @@
 import { navItems, professional, socialLinks } from "@/lib/data";
+import Link from "next/link";
 
 export function Footer() {
   return (
     <footer className="site-footer">
       <div className="container footer-inner">
         <div>
-          <a className="brand focusable" href="/#portal" aria-label="Voltar ao portal do NEXO">
+          <Link className="brand focusable" href="/#portal" aria-label="Voltar ao portal do NEXO">
             <span className="brand-mark" aria-hidden="true">
               N
             </span>
@@ -13,15 +14,15 @@ export function Footer() {
               <span>NEXO</span>
               <span>A arquitetura das ideias</span>
             </span>
-          </a>
+          </Link>
           <p>{professional.title}</p>
         </div>
 
         <nav aria-label="Navegação do rodapé">
           {navItems.slice(1).map((item) => (
-            <a className="focusable" href={item.href} key={item.id}>
+            <Link className="focusable" href={item.href} key={item.id}>
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectVisual } from "@/components/project-visual";
+import { ProjectReturnLink } from "@/components/project-return-link";
 import { getProjectBySlug, professional, projects } from "@/lib/data";
 
 type ProjectPageProps = {
@@ -76,10 +77,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <span aria-current="page">{project.shortTitle}</span>
         </nav>
 
-        <Link className="text-action focusable back-link" href="/projetos/">
-          <ArrowLeft size={16} />
-          Galeria de projetos
-        </Link>
+        <ProjectReturnLink />
 
         <header className="project-detail-hero">
           <div>

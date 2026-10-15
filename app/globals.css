@@ -3993,3 +3993,295 @@ button:focus-visible {
     gap: 8px;
   }
 }
+
+.nexo-experience-root[data-motion-enabled="false"],
+.nexo-experience-root[data-motion-enabled="false"] * {
+  scroll-behavior: auto !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+.nexo-experience-stage {
+  position: fixed;
+  z-index: 1;
+  top: calc(var(--nexo-header-height) + 20px);
+  right: max(24px, calc((100vw - var(--nexo-content-width)) / 2 + 20px));
+  width: min(48vw, 660px);
+  height: min(72vh, 650px);
+  opacity: 0.1;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition:
+    top 760ms cubic-bezier(0.22, 0.7, 0.2, 1),
+    right 760ms cubic-bezier(0.22, 0.7, 0.2, 1),
+    width 760ms cubic-bezier(0.22, 0.7, 0.2, 1),
+    height 760ms cubic-bezier(0.22, 0.7, 0.2, 1),
+    opacity 520ms ease;
+}
+
+.nexo-experience-root[data-scene-ready="true"] .nexo-artwork__fallback {
+  opacity: 0;
+  transition: opacity 520ms ease;
+}
+
+.nexo-experience-root[data-experience-state="portal"] .nexo-experience-stage {
+  opacity: 0.92;
+}
+
+.nexo-experience-root[data-experience-state="nucleus"] .nexo-experience-stage {
+  top: calc(var(--nexo-header-height) + 8vh);
+  right: max(24px, calc((100vw - var(--nexo-content-width)) / 2 + 8vw));
+  width: min(42vw, 570px);
+  opacity: 0.11;
+}
+
+.nexo-experience-root[data-experience-state="projects"] .nexo-experience-stage {
+  top: 16vh;
+  right: max(20px, calc((100vw - var(--nexo-content-width)) / 2 + 4vw));
+  width: min(38vw, 510px);
+  height: min(68vh, 600px);
+  opacity: 0.12;
+}
+
+.nexo-experience-root[data-experience-state="experience"] .nexo-experience-stage {
+  top: 12vh;
+  right: max(16px, calc((100vw - var(--nexo-content-width)) / 2 + 3vw));
+  width: min(34vw, 450px);
+  height: min(76vh, 680px);
+  opacity: 0.11;
+}
+
+.nexo-experience-root[data-experience-state="competencies"] .nexo-experience-stage {
+  top: 19vh;
+  right: max(24px, calc((100vw - var(--nexo-content-width)) / 2 + 7vw));
+  width: min(40vw, 540px);
+  opacity: 0.12;
+}
+
+.nexo-experience-root[data-experience-state="education"] .nexo-experience-stage {
+  top: 13vh;
+  right: max(28px, calc((100vw - var(--nexo-content-width)) / 2 + 8vw));
+  width: min(36vw, 480px);
+  opacity: 0.1;
+}
+
+.nexo-experience-root[data-experience-state="convergence"] .nexo-experience-stage {
+  top: 17vh;
+  right: 25vw;
+  width: min(42vw, 560px);
+  opacity: 0.14;
+}
+
+.nexo-experience-root[data-motion-enabled="false"] .nexo-experience-stage {
+  transition-duration: 0.01ms;
+}
+
+.nexo-motion-menu-control {
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--nexo-line-strong);
+  background: transparent;
+  color: var(--nexo-bronze-light);
+  padding: 0 14px;
+  text-align: left;
+}
+
+.nexo-motion-menu-control:hover {
+  background: rgba(185, 163, 130, 0.08);
+}
+
+.project-card[data-selected="true"] {
+  border-color: rgba(185, 163, 130, 0.68);
+  box-shadow: inset 3px 0 var(--nexo-bronze);
+}
+
+.nexo-project-focus {
+  min-height: 36px;
+  border: 1px solid var(--nexo-line-strong);
+  background: transparent;
+  color: var(--nexo-bronze-light);
+  padding: 0 12px;
+  font-size: 0.73rem;
+}
+
+.nexo-project-focus:hover,
+.nexo-project-focus[aria-pressed="true"] {
+  border-color: var(--nexo-bronze);
+  background: rgba(185, 163, 130, 0.1);
+}
+
+.nexo-project-selection {
+  display: flex;
+  min-height: 86px;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 5vw, 52px);
+  border-top: 1px solid var(--nexo-line);
+  border-bottom: 1px solid var(--nexo-line);
+  margin-top: 28px;
+  padding: 12px 0;
+}
+
+.nexo-project-selection__arrow {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--nexo-line-strong);
+  background: transparent;
+  color: var(--nexo-bronze-light);
+}
+
+.nexo-project-selection__arrow:hover:not(:disabled) {
+  border-color: var(--nexo-bronze);
+  background: rgba(185, 163, 130, 0.08);
+}
+
+.nexo-project-selection__arrow:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+.nexo-project-selection__current {
+  display: grid;
+  max-width: min(520px, 60%);
+  gap: 6px;
+  margin: 0;
+  text-align: center;
+}
+
+.nexo-project-selection__current span {
+  color: var(--nexo-bronze);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+}
+
+.nexo-project-selection__current strong {
+  color: var(--nexo-paper);
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+  font-weight: 400;
+}
+
+.nexo-experience-entry[data-selected="true"] {
+  border-bottom-color: rgba(185, 163, 130, 0.55);
+  background: linear-gradient(90deg, rgba(185, 163, 130, 0.06), transparent 72%);
+}
+
+.nexo-experience-select {
+  min-height: 34px;
+  border: 1px solid var(--nexo-line);
+  background: transparent;
+  color: var(--nexo-bronze-light);
+  margin-top: 14px;
+  padding: 0 9px;
+  font-size: 0.65rem;
+}
+
+.nexo-experience-select:hover,
+.nexo-experience-select[aria-pressed="true"] {
+  border-color: var(--nexo-bronze);
+}
+
+.nexo-experience-responsibilities {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 16px;
+  color: #dadddc;
+  font-size: 0.74rem;
+  line-height: 1.65;
+}
+
+.skill-list li {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 9px;
+  padding-block: 14px;
+}
+
+.nexo-skill-node {
+  display: grid;
+  width: 100%;
+  justify-items: start;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+}
+
+.nexo-skill-node strong {
+  transition: color var(--nexo-motion-fast) ease;
+}
+
+.nexo-skill-node:hover strong,
+.nexo-skill-node[aria-pressed="true"] strong {
+  color: var(--nexo-bronze-light);
+}
+
+.nexo-skill-node em {
+  color: var(--nexo-bronze-light);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.skill-list li[data-selected="true"] {
+  border-left: 2px solid var(--nexo-bronze);
+  padding-left: 10px;
+}
+
+.skill-list li[data-connected="true"] {
+  background: rgba(185, 163, 130, 0.045);
+}
+
+.nexo-skill-project[data-connected="true"] {
+  border-color: var(--nexo-bronze-light);
+  color: var(--nexo-paper);
+}
+
+@media (max-width: 380px) {
+  .nexo-header__actions > .nexo-motion-toggle {
+    display: none;
+  }
+
+  .nexo-project-selection {
+    gap: 12px;
+  }
+
+  .nexo-project-selection__current {
+    max-width: 62%;
+  }
+}
+
+@media (max-width: 767px) {
+  .nexo-experience-stage,
+  .nexo-experience-root[data-experience-state="nucleus"] .nexo-experience-stage,
+  .nexo-experience-root[data-experience-state="projects"] .nexo-experience-stage,
+  .nexo-experience-root[data-experience-state="experience"] .nexo-experience-stage,
+  .nexo-experience-root[data-experience-state="competencies"] .nexo-experience-stage,
+  .nexo-experience-root[data-experience-state="education"] .nexo-experience-stage,
+  .nexo-experience-root[data-experience-state="convergence"] .nexo-experience-stage {
+    top: 47svh;
+    right: 0;
+    width: min(100vw, 480px);
+    height: 38svh;
+    opacity: 0.08;
+  }
+
+  .nexo-experience-root[data-experience-state="portal"] .nexo-experience-stage {
+    opacity: 0.64;
+  }
+}
+
+@media (max-width: 380px) {
+  .nexo-experience-root[data-experience-state="portal"] .nexo-experience-stage {
+    top: 48svh;
+    height: 33svh;
+    opacity: 0.48;
+  }
+}

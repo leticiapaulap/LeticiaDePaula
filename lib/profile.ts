@@ -4,22 +4,22 @@ export const professional = {
   headline: "Aplicações web construídas com contexto, documentação e atenção a quem usa.",
   title: "Desenvolvimento Web",
   positioning:
-    "Desenvolvimento web com código público documentado em React e TypeScript; formação em Análise e Desenvolvimento de Sistemas informada.",
+    "Desenvolvimento web, organização de dados e automação, com projetos públicos em React e TypeScript e experiência profissional descrita no currículo.",
   summary:
-    "Letícia de Paula desenvolve interfaces e aplicações web. Seu trabalho público verificável inclui um sistema full stack documentado em React, TypeScript, Node.js e PostgreSQL, além do portfólio NEXO, construído com Next.js e TypeScript. Sua formação em Análise e Desenvolvimento de Sistemas foi informada; instituição, datas, histórico profissional detalhado e certificados ainda aguardam documentos.",
+    "Letícia de Paula desenvolve interfaces e aplicações web. Seu trabalho público inclui um sistema full stack documentado em React, TypeScript, Node.js e PostgreSQL. O currículo fornecido também descreve experiências em tecnologia, suporte e dados, além de formação em Análise e Desenvolvimento de Sistemas no UDF, atualmente em andamento.",
   location: "Brasília, DF",
   email: "leticiapaulaads@gmail.com",
   github: "https://github.com/leticiapaulap",
   linkedin: "https://www.linkedin.com/in/let%C3%ADcia-de-paulap/",
   avatar: "https://avatars.githubusercontent.com/u/121705864?v=4",
   siteUrl: "https://leticia-paula-portfolio.usoiabensafins.chatgpt.site",
-  resumePdfPath: null as string | null,
-  resumePdfLabel: "Currículo PDF indisponível no repositório",
+  resumePdfPath: "/curriculo-leticia-de-paula.pdf" as string | null,
+  resumePdfLabel: "Baixar currículo em PDF",
   about: [
-    "Minha formação em Análise e Desenvolvimento de Sistemas foi informada, mas ainda não recebi documento para confirmar instituição, período e situação acadêmica. A localidade Brasília, DF consta no perfil público do GitHub.",
+    "Curso Análise e Desenvolvimento de Sistemas no Centro Universitário do Distrito Federal (UDF), com conclusão prevista para o segundo semestre de 2026, conforme o currículo fornecido.",
+    "Minha trajetória declarada reúne apoio a sistemas e automação na SENAPPEN, análise de dados geoespaciais na TCB Brasília e suporte técnico na Age Fibra. A apresentação resume essas experiências sem expor processos, sistemas ou informações corporativas.",
     "Nos repositórios públicos, o trabalho mais completo documentado é um sistema web full stack: interface em React e TypeScript, API Node.js, persistência em PostgreSQL e um módulo Spring Boot separado. Neste portfólio, desenvolvo o NEXO com Next.js, TypeScript e uma escultura 3D leve, sem esconder o conteúdo quando o WebGL está indisponível.",
-    "Gosto de entender como uma aplicação se organiza de ponta a ponta: interfaces, regras de negócio, dados e documentação. Prefiro apresentar o código, os links e os limites conhecidos do trabalho em vez de atribuir resultados sem evidência.",
-    "Os vínculos profissionais, projetos internos e cursos ainda sem documentos não são apresentados como fatos confirmados. Conforme materiais e autorizações forem disponibilizados, o conteúdo pode ser ampliado com escopo, período e tecnologias corretos."
+    "Organizo os conhecimentos por contexto e evidência: projetos públicos, currículo informado ou cursos documentados. Assim, ferramentas estudadas não são confundidas com tecnologias comprovadas em um projeto publicado."
   ],
   principles: [
     {

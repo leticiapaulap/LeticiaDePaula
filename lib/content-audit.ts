@@ -26,18 +26,23 @@ export const contentAudit: ContentAuditItem[] = [
   },
   {
     topic: "Formação",
-    status: "Parcial",
-    detail: "Análise e Desenvolvimento de Sistemas informado; instituição, período e situação aguardam documento."
+    status: "Informado em currículo",
+    detail: "Análise e Desenvolvimento de Sistemas no Centro Universitário do Distrito Federal (UDF), cursando; conclusão prevista para o segundo semestre de 2026. A conclusão efetiva não é presumida."
   },
   {
     topic: "Histórico profissional",
-    status: "Pendente",
-    detail: "Organizações informadas; cargos, vínculos, datas, atividades e resultados dependem do currículo atualizado."
+    status: "Informado em currículo",
+    detail: "Cargos, períodos e responsabilidades foram transcritos do currículo fornecido; resultados não informados e detalhes corporativos foram omitidos."
   },
   {
     topic: "Cursos e certificados",
-    status: "Pendente",
-    detail: "Nenhum certificado foi localizado. O curso informado em andamento não possui data de conclusão."
+    status: "Parcial",
+    detail: "Sete certificados reais estão anexados. Outros cursos constam somente no currículo e permanecem como informação a validar; Oracle Dev Gym está informado como em andamento."
+  },
+  {
+    topic: "Currículo para download",
+    status: "Disponível com redação",
+    detail: "A cópia pública remove o telefone pessoal, substitui o e-mail antigo pelo endereço profissional informado e elimina a referência antiga do PDF."
   },
   {
     topic: "Projetos corporativos",

@@ -1,7 +1,14 @@
+"use client";
+
 import { ArrowUpRight, CornerDownLeft } from "lucide-react";
+import Link from "next/link";
+import { useExperience } from "@/components/experience-provider";
 import { portalRooms } from "@/lib/portal";
+import { phaseForSection } from "@/lib/experience-state";
 
 export function ExplorationRoom() {
+  const { transitionTo, setMode } = useExperience();
+
   return (
     <section className="nexo-exploration" id="exploracao" aria-labelledby="exploration-title">
       <div className="nexo-exploration__frame">
@@ -22,7 +29,12 @@ export function ExplorationRoom() {
 
         <nav className="nexo-rooms" aria-label="Áreas de exploração do portfólio">
           {portalRooms.map((room) => (
-            <a className="nexo-room focusable" href={room.href} key={room.number}>
+            <a
+              className="nexo-room focusable"
+              href={room.href}
+              key={room.number}
+              onClick={() => transitionTo(phaseForSection(room.href.slice(1)) ?? "nucleus")}
+            >
               <span className="nexo-room__number">{room.number}</span>
               <span className="nexo-room__body">
                 <span className="nexo-room__label">{room.section} / ÁREA</span>
@@ -35,13 +47,24 @@ export function ExplorationRoom() {
         </nav>
 
         <div className="nexo-exploration__footer">
-          <a className="nexo-return-link focusable" href="#portal">
+          <a className="nexo-return-link focusable" href="#portal" onClick={() => transitionTo("portal")}>
             <CornerDownLeft size={15} aria-hidden="true" />
             Voltar ao portal
           </a>
-          <a className="nexo-exploration__direct focusable" href="#portfolio">
+          <a
+            className="nexo-exploration__direct focusable"
+            href="#portfolio"
+            onClick={() => { setMode("direct"); transitionTo("nucleus"); }}
+          >
             Ou continue no modo direto <ArrowUpRight size={15} aria-hidden="true" />
           </a>
+          <Link
+            className="nexo-exploration__direct focusable"
+            href="/contato/"
+            onClick={() => transitionTo("convergence")}
+          >
+            Convergir no contato <ArrowUpRight size={15} aria-hidden="true" />
+          </Link>
         </div>
       </div>
     </section>

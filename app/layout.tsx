@@ -3,8 +3,12 @@ import { Instrument_Serif, Manrope } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { ExperienceProvider } from "@/components/experience-provider";
+import { ExperienceNavigation } from "@/components/experience-navigation";
+import { SculptureLoader } from "@/components/portal/sculpture-loader";
 import { StructuredData } from "@/components/structured-data";
 import "./globals.css";
+import "./experience.css";
 
 const interfaceFont = Manrope({
   subsets: ["latin"],
@@ -74,13 +78,19 @@ export default function RootLayout({
     <html className={`${interfaceFont.variable} ${editorialFont.variable}`} lang="pt-BR" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <a className="skip-link" href="#conteudo">
-            Ir para o conteúdo
-          </a>
-          <Header />
-          <main id="conteudo">{children}</main>
-          <Footer />
-          <StructuredData />
+          <ExperienceProvider>
+            <a className="skip-link" href="#conteudo">
+              Ir para o conteúdo
+            </a>
+            <Header />
+            <div className="nexo-experience-stage" aria-hidden="true">
+              <SculptureLoader />
+            </div>
+            <main id="conteudo">{children}</main>
+            <Footer />
+            <ExperienceNavigation />
+            <StructuredData />
+          </ExperienceProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -35,6 +35,8 @@ export function EducationSection() {
           </dl>
           <p>{education.note}</p>
           {education.areas.length ? (
+            <details className="nexo-archive-details" open>
+            <summary className="focusable">Áreas de estudo</summary>
             <div className="study-areas" aria-label="Áreas documentadas de estudo">
               {education.areas.map((area) => (
                 <span className="tag" key={area}>
@@ -43,6 +45,7 @@ export function EducationSection() {
                 </span>
               ))}
             </div>
+            </details>
           ) : null}
         </div>
       </Reveal>

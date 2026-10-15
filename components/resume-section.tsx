@@ -1,4 +1,5 @@
 import { FileText, LockKeyhole, Mail } from "lucide-react";
+import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionShell } from "@/components/section-shell";
 import { professional } from "@/lib/data";
@@ -7,18 +8,18 @@ export function ResumeSection() {
   return (
     <SectionShell
       alt
-      description="O currículo digital pode ser lido ou impresso. O PDF só será disponibilizado quando o arquivo atualizado estiver no projeto."
+      description="Baixe a versão de divulgação do currículo ou leia a versão digital. O telefone pessoal foi removido do PDF."
       eyebrow="Currículo"
       id="curriculo"
-      title="Documento e versão digital sem botão fictício."
+      title="Currículo disponível para download e leitura."
     >
       <Reveal className="resume-download-panel">
         <div>
           <p className="context-label">Currículo digital</p>
-          <h3>Informações legíveis; arquivos sem simulação.</h3>
+          <h3>Versão de leitura e arquivo para download.</h3>
           <p>
-            A versão digital já está disponível para leitura e impressão. Nenhum PDF atualizado foi encontrado no
-            projeto; o download será habilitado quando um arquivo real for adicionado.
+            O PDF de divulgação remove o telefone pessoal e usa o endereço profissional informado. A versão digital
+            também pode ser lida e impressa diretamente no navegador.
           </p>
         </div>
 
@@ -34,10 +35,10 @@ export function ResumeSection() {
               PDF ainda não disponível
             </span>
           )}
-          <a className="secondary-action focusable" href="/curriculo/">
+          <Link className="secondary-action focusable" href="/curriculo/">
             <FileText size={17} />
             Ler currículo digital
-          </a>
+          </Link>
           <a className="text-action focusable" href={`mailto:${professional.email}`}>
             <Mail size={16} />
             Solicitar por e-mail

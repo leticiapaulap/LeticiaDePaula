@@ -2,6 +2,7 @@ import { CertificationsSection } from "@/components/certifications-section";
 import { ContactSection } from "@/components/contact-section";
 import { EducationSection } from "@/components/education-section";
 import { ExperienceSection } from "@/components/experience-section";
+import { ModeLabel } from "@/components/experience-navigation";
 import { ExplorationRoom } from "@/components/portal/exploration-room";
 import { PortalHero } from "@/components/portal/portal-hero";
 import { ProfileSection } from "@/components/profile-section";
@@ -17,7 +18,7 @@ export default function Home() {
 
       <div className="nexo-direct" id="portfolio">
         <header className="nexo-direct__intro">
-          <p className="nexo-direct__eyebrow">MODO DIRETO / 02-D</p>
+          <ModeLabel />
           <div className="nexo-direct__heading">
             <div>
               <h2>Um portfólio, sem desvios.</h2>

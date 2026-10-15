@@ -19,6 +19,11 @@ export const skillGroups: SkillGroup[] = [
         projectSlugs: ["festa-fantasia", "portfolio-leticia-de-paula"]
       },
       {
+        name: "JavaScript",
+        evidence: "experiencia-informada",
+        context: "Conhecimento listado no currículo; sem projeto público associado aqui."
+      },
+      {
         name: "Vite",
         evidence: "uso-publico",
         context: "Documentado como ferramenta de desenvolvimento do frontend do Festa Fantasia.",
@@ -72,6 +77,11 @@ export const skillGroups: SkillGroup[] = [
         evidence: "uso-publico",
         context: "Endpoints e fluxos públicos e administrativos documentados no projeto.",
         projectSlugs: ["festa-fantasia"]
+      },
+      {
+        name: "GraphQL",
+        evidence: "experiencia-informada",
+        context: "Conhecimento listado no currículo; sem implementação pública relacionada."
       }
     ]
   },
@@ -91,20 +101,53 @@ export const skillGroups: SkillGroup[] = [
         evidence: "uso-publico",
         context: "Restrições de unicidade e migrations documentadas no projeto.",
         projectSlugs: ["festa-fantasia"]
+      },
+      {
+        name: "MySQL",
+        evidence: "experiencia-informada",
+        context: "Banco de dados listado no currículo; sem projeto público associado."
       }
     ]
   },
   {
     id: "data-bi",
     title: "Dados e BI",
-    description: "Só são listadas ferramentas associadas a um projeto ou certificado verificável.",
-    items: []
+    description: "Ferramentas declaradas no currículo; nenhuma relação com projeto é presumida.",
+    items: [
+      {
+        name: "Power BI",
+        evidence: "experiencia-informada",
+        context: "Listada no currículo e em curso documentado; sem projeto público associado."
+      },
+      {
+        name: "Excel",
+        evidence: "experiencia-informada",
+        context: "Listado no currículo e em curso documentado; sem projeto público associado."
+      },
+      {
+        name: "SQL",
+        evidence: "uso-publico",
+        context: "Esquema e migrações do projeto Festa Fantasia são documentados publicamente.",
+        projectSlugs: ["festa-fantasia"]
+      }
+    ]
   },
   {
     id: "automation",
     title: "Automação",
-    description: "Ainda sem artefato público ou documentação autorizada para apresentar.",
-    items: []
+    description: "Conhecimentos declarados no currículo, sem projetos corporativos publicados.",
+    items: [
+      {
+        name: "Python",
+        evidence: "experiencia-informada",
+        context: "Conhecimento e automação listados no currículo; sem projeto público associado."
+      },
+      {
+        name: "Power Automate",
+        evidence: "experiencia-informada",
+        context: "Ferramenta de automação listada no currículo; sem fluxo corporativo publicado."
+      }
+    ]
   },
   {
     id: "tools-processes",
@@ -128,6 +171,21 @@ export const skillGroups: SkillGroup[] = [
         evidence: "uso-publico",
         context: "Publicação documentada da interface e da API do Festa Fantasia.",
         projectSlugs: ["festa-fantasia"]
+      },
+      {
+        name: "Docker · Postman · DBeaver · VS Code",
+        evidence: "experiencia-informada",
+        context: "Ferramentas listadas no currículo; o uso em projetos específicos não foi associado."
+      },
+      {
+        name: "SharePoint",
+        evidence: "experiencia-informada",
+        context: "Ferramenta listada no currículo, sem associação a projeto público."
+      },
+      {
+        name: "SEI",
+        evidence: "estudo",
+        context: "SEI! USAR 4.0 concluído com certificado."
       }
     ]
   }
