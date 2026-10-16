@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useExperience } from "@/components/experience-provider";
 import { portalRooms } from "@/lib/portal";
 import { phaseForSection } from "@/lib/experience-state";
+import { ExperienceNavigation } from "@/components/experience-navigation";
+import { SceneAccent } from "@/components/scene-accent";
 
 export function ExplorationRoom() {
   const { transitionTo, setMode } = useExperience();
@@ -13,7 +15,7 @@ export function ExplorationRoom() {
     <section className="nexo-exploration" id="exploracao" aria-labelledby="exploration-title">
       <div className="nexo-exploration__frame">
         <p className="nexo-exploration__eyebrow">
-          <span>01</span> / PRIMEIRO AMBIENTE
+          <span>02</span> / TRAJETÓRIA
         </p>
         <div className="nexo-exploration__heading">
           <h2 id="exploration-title">
@@ -22,8 +24,7 @@ export function ExplorationRoom() {
             <em>abre um caminho.</em>
           </h2>
           <p>
-            Um primeiro ponto de encontro entre ideias e evidências: navegue pelo espaço ou escolha uma seção para
-            seguir diretamente.
+            Projetos, experiências e aprendizados se encontram aqui. Escolha por onde começar.
           </p>
         </div>
 
@@ -46,6 +47,7 @@ export function ExplorationRoom() {
           ))}
         </nav>
 
+        <div className="exploration-scene-row"><SceneAccent phase="nucleus" /><ExperienceNavigation /></div>
         <div className="nexo-exploration__footer">
           <a className="nexo-return-link focusable" href="#portal" onClick={() => transitionTo("portal")}>
             <CornerDownLeft size={15} aria-hidden="true" />
@@ -56,14 +58,14 @@ export function ExplorationRoom() {
             href="#portfolio"
             onClick={() => { setMode("direct"); transitionTo("nucleus"); }}
           >
-            Ou continue no modo direto <ArrowUpRight size={15} aria-hidden="true" />
+            Ler portfólio completo <ArrowUpRight size={15} aria-hidden="true" />
           </a>
           <Link
             className="nexo-exploration__direct focusable"
             href="/contato/"
             onClick={() => transitionTo("convergence")}
           >
-            Convergir no contato <ArrowUpRight size={15} aria-hidden="true" />
+            Vamos conversar <ArrowUpRight size={15} aria-hidden="true" />
           </Link>
         </div>
       </div>

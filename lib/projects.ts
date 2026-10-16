@@ -9,7 +9,7 @@ export const projects: Project[] = [
     category: "Desenvolvimento Web",
     featured: true,
     publicationStatus: "Publicado",
-    status: "Código e documentação públicos; demonstração indisponível",
+    status: "Aplicação web com código público",
     summary:
       "Sistema full stack para cadastro de fantasias, votação anônima por navegador, painel administrativo, QR Codes e resultado público com ranking.",
     description:
@@ -59,6 +59,11 @@ export const projects: Project[] = [
     ],
     links: [
       {
+        label: "Ver aplicação",
+        href: "https://festa-fantasia.vercel.app/",
+        type: "demo"
+      },
+      {
         label: "GitHub",
         href: "https://github.com/leticiapaulap/Festa_Fantasia",
         type: "github"
@@ -74,7 +79,13 @@ export const projects: Project[] = [
       alt: "Diagrama original dos componentes e fluxos documentados do projeto Festa Fantasia",
       tone: "teal"
     },
-    screenshots: [],
+    screenshots: [
+      {
+        src: "/projects/festa-fantasia-home.webp",
+        alt: "Tela pública do concurso Festa Fantasia, com o tema Halloween, cadastro de fantasias e área de votação",
+        caption: "Aplicação publicada como Halloween. Captura real da página pública em 16/10/2026."
+      }
+    ],
     evidence: {
       level: "publico",
       sourceLabel: "README público do repositório",
@@ -84,16 +95,16 @@ export const projects: Project[] = [
   {
     id: "nexo-portfolio",
     slug: "portfolio-leticia-de-paula",
-    title: "NEXO — A Arquitetura das Ideias",
-    shortTitle: "NEXO",
+    title: "Letícia de Paula — Portfólio profissional",
+    shortTitle: "Portfólio pessoal",
     category: "Portfólio",
     featured: false,
     publicationStatus: "Em desenvolvimento",
     status: "Portfólio em desenvolvimento",
     summary:
-      "Portal editorial com escultura procedural, páginas profissionais e acesso direto a conteúdos verificáveis.",
+      "Portfólio editorial com escultura 3D, navegação acessível e uma apresentação integrada de projetos e trajetória.",
     description:
-      "Portfólio profissional em construção neste projeto local. O portal NEXO preserva o acesso direto a estudos de caso, apresentação e informações de contato.",
+      "Uma experiência autoral que une linguagem editorial, uma escultura procedural e caminhos diretos para conhecer meu trabalho.",
     problem:
       "Currículos estáticos não permitem consultar estudos de caso, fontes, competências e conteúdos em evolução.",
     solution:
@@ -127,7 +138,7 @@ export const projects: Project[] = [
       "components/portal: experiência inicial, sala de navegação e escultura procedural carregada sob demanda.",
       "components: seções visuais, filtros client-side, header acessível e componentes de apoio.",
       "lib: dados profissionais, experiências, projetos, formação, competências, cursos e links sociais.",
-      "public: imagem Open Graph e futuros documentos públicos."
+      "public: imagens, currículo e certificados disponíveis para consulta."
     ],
     learnings: [
       "Separar dados e interface reduz o risco de inconsistência em um portfólio que tende a evoluir.",
@@ -148,19 +159,19 @@ export const projects: Project[] = [
     ],
     media: {
       kind: "technical",
-      alt: "Diagrama original da arquitetura do portfólio NEXO",
+      alt: "Diagrama da arquitetura do portfólio de Letícia de Paula",
       tone: "warm"
     },
     screenshots: [
       {
         src: "/projects/nexo-portal.webp",
-        alt: "Captura real do portal NEXO com apresentação de Letícia de Paula e a fita metálica procedural",
-        caption: "Captura real do portal NEXO — build local da etapa 3, em 1440 × 960 px."
+        alt: "Captura real do portfólio de Letícia de Paula com apresentação pessoal e escultura metálica",
+        caption: "Abertura do portfólio de Letícia de Paula."
       }
     ],
     evidence: {
       level: "publico",
-      sourceLabel: "Base em repositório público; refinamentos disponíveis neste workspace",
+      sourceLabel: "Código-fonte no GitHub",
       href: "https://github.com/leticiapaulap/LeticiaDePaula"
     }
   }

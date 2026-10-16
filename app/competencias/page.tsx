@@ -10,7 +10,7 @@ export default function SkillsPage() {
     <EditorialPage
       eyebrow="Competências"
       title="Ferramentas com contexto."
-      description="Conhecimentos organizados por área, com referências a projetos, experiências informadas e cursos. Selecione uma tecnologia para consultar suas conexões."
+      description="Interfaces, APIs, dados e ferramentas que se complementam. Explore as áreas e veja como as tecnologias se conectam aos meus projetos."
     >
       <SkillsSection />
     </EditorialPage>

@@ -1,7 +1,5 @@
 import type { Certification, CertificationArea } from "@/lib/types";
 
-const curriculumNote = "Informado no currículo fornecido; certificado não anexado.";
-
 export const certifications: Certification[] = [
   {
     name: "Fundamentos da Lei Geral de Proteção de Dados (LGPD)",
@@ -11,7 +9,6 @@ export const certifications: Certification[] = [
     completionDate: "02/09/2026",
     status: "Concluído",
     certificateUrl: "/certificates/enap-fundamentos-lgpd.pdf",
-    note: "Certificado anexado; conclusão registrada pela Enap.",
     priority: 1
   },
   {
@@ -22,7 +19,6 @@ export const certifications: Certification[] = [
     completionDate: "14/08/2026",
     status: "Concluído",
     certificateUrl: "/certificates/enap-sei-usar-4.pdf",
-    note: "Certificado anexado; conclusão registrada pela Enap.",
     priority: 2
   },
   {
@@ -33,7 +29,6 @@ export const certifications: Certification[] = [
     completionDate: "14/10/2026",
     status: "Concluído",
     certificateUrl: "/certificates/enap-modelos-de-agrupamento.pdf",
-    note: "Certificado anexado; curso concluído em 14/10/2026.",
     priority: 3
   },
   {
@@ -84,7 +79,6 @@ export const certifications: Certification[] = [
     completionDate: "30/04/2026",
     status: "Concluído",
     certificateUrl: "/certificates/versatil-desenvolvedor-profissional.pdf",
-    note: "Certificado anexado; curso realizado de 16/05/2025 a 30/04/2026, com emissão em 12/05/2026.",
     priority: 8
   },
   {
@@ -95,94 +89,14 @@ export const certifications: Certification[] = [
     completionDate: "17/09/2026",
     status: "Concluído",
     certificateUrl: "/certificates/bradesco-introducao-analise-dados-power-bi.pdf",
-    note: "Certificado da Escola Virtual anexado; cópia pública sem o endereço de impressão do portal.",
     priority: 9
-  },
-  {
-    name: "Full Stack Developer",
-    institution: "Versátil TI",
-    area: "Desenvolvimento",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 10
-  },
-  {
-    name: "Master Java",
-    institution: "Versátil TI",
-    area: "Desenvolvimento",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 11
-  },
-  {
-    name: "Linguagem Python",
-    institution: "Versátil TI",
-    area: "Desenvolvimento",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 12
-  },
-  {
-    name: "Spring Boot e Angular 17+",
-    institution: "Deal",
-    area: "Desenvolvimento",
-    workload: "91 h",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 13
-  },
-  {
-    name: "Desenvolvimento Java",
-    institution: "Udemy",
-    area: "Desenvolvimento",
-    workload: "13 h",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 14
-  },
-  {
-    name: "Simplifica Python Express",
-    institution: "Simplifica Treinamentos",
-    area: "Desenvolvimento",
-    workload: "10 h",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 15
-  },
-  {
-    name: "GenAI & Dados",
-    institution: "Fundação Bradesco",
-    area: "IA e Dados",
-    workload: "52 h",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 16
-  },
-  {
-    name: "Trilha Banco de Dados",
-    institution: "Fundação Bradesco",
-    area: "Banco de Dados",
-    workload: "38 h",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 17
-  },
-  {
-    name: "Excel",
-    institution: "Udemy",
-    area: "Ferramentas",
-    workload: "11,5 h",
-    status: "A validar",
-    note: curriculumNote,
-    priority: 18
   },
   {
     name: "Databases for Developers: Foundations",
     institution: "Oracle Dev Gym",
     area: "Banco de Dados",
     status: "Em andamento",
-    note: "Curso informado como em andamento no currículo; sem certificado de conclusão.",
-    priority: 19
+    priority: 10
   }
 ];
 

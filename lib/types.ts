@@ -68,8 +68,6 @@ export type Experience = {
   responsibilities: string[];
   technologies: string[];
   results: string[];
-  validationNote: string;
-  verificationStatus: "Informado no currículo" | "A validar";
 };
 
 export type SkillEvidence = "uso-publico" | "experiencia-informada" | "estudo" | "a-validar";
@@ -105,7 +103,7 @@ export type CertificationArea =
   | "IA e Dados"
   | "Privacidade e Administração";
 
-export type CertificationStatus = "Concluído" | "Em andamento" | "A validar";
+export type CertificationStatus = "Concluído" | "Em andamento";
 
 export type Certification = {
   name: string;

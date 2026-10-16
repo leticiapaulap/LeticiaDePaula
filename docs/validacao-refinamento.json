@@ -1,0 +1,419 @@
+{
+  "date": "2026-10-16",
+  "identity": "Letícia de Paula",
+  "comparisonBase": "ab51e9f",
+  "host": "Windows, Node.js 24.13.0, npm 11.6.2, Chromium 153 headless; desenvolvimento local, não dedicado",
+  "versions": {
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "typescript": "6.0.3",
+    "@playwright/test": "1.64.1",
+    "axe-core": "4.14.0",
+    "lighthouse": "13.5.0"
+  },
+  "tests": {
+    "startTime": "2026-10-16T13:46:48.263Z",
+    "duration": 158943.794,
+    "expected": 123,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "widths": [
+    320,
+    375,
+    430,
+    768,
+    1024,
+    1280,
+    1440,
+    1920
+  ],
+  "measurements": {
+    "before": {
+      "mobile": {
+        "environment": {
+          "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Mobile Safari/537.36",
+          "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+          "benchmarkIndex": 1080.5,
+          "credits": {
+            "axe-core": "4.14.0"
+          }
+        },
+        "settings": {
+          "formFactor": "mobile",
+          "screen": {
+            "mobile": true,
+            "width": 412,
+            "height": 823,
+            "deviceScaleFactor": 1.75,
+            "disabled": false
+          },
+          "throttling": {
+            "rttMs": 150,
+            "throughputKbps": 1638.4,
+            "requestLatencyMs": 562.5,
+            "downloadThroughputKbps": 1474.5600000000002,
+            "uploadThroughputKbps": 675,
+            "cpuSlowdownMultiplier": 4
+          }
+        },
+        "runs": [
+          {
+            "fetchTime": "2026-10-16T13:15:55.719Z",
+            "performance": 48,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 4635.769,
+            "cls": 0.0004772575121672597,
+            "tbtMs": 1717.4230000000002,
+            "transferBytes": 314586,
+            "jsDecodedBytes": 629542
+          },
+          {
+            "fetchTime": "2026-10-16T13:16:12.456Z",
+            "performance": 52,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 4334.362,
+            "cls": 0,
+            "tbtMs": 1560.4540000000002,
+            "transferBytes": 314586,
+            "jsDecodedBytes": 629542
+          },
+          {
+            "fetchTime": "2026-10-16T13:16:26.218Z",
+            "performance": 86,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 3007.53625,
+            "cls": 0,
+            "tbtMs": 304,
+            "transferBytes": 314586,
+            "jsDecodedBytes": 629542
+          }
+        ],
+        "median": {
+          "performance": 52,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 4334.362,
+          "cls": 0,
+          "tbtMs": 1560.4540000000002,
+          "transferBytes": 314586,
+          "jsDecodedBytes": 629542
+        }
+      },
+      "desktop": {
+        "environment": {
+          "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+          "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+          "benchmarkIndex": 1185.5,
+          "credits": {
+            "axe-core": "4.14.0"
+          }
+        },
+        "settings": {
+          "formFactor": "desktop",
+          "screen": {
+            "mobile": false,
+            "width": 1350,
+            "height": 940,
+            "deviceScaleFactor": 1,
+            "disabled": false
+          },
+          "throttling": {
+            "rttMs": 40,
+            "throughputKbps": 10240,
+            "requestLatencyMs": 0,
+            "downloadThroughputKbps": 0,
+            "uploadThroughputKbps": 0,
+            "cpuSlowdownMultiplier": 1
+          }
+        },
+        "runs": [
+          {
+            "fetchTime": "2026-10-16T13:16:40.691Z",
+            "performance": 89,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 691.0944999999999,
+            "cls": 0,
+            "tbtMs": 276,
+            "transferBytes": 582782,
+            "jsDecodedBytes": 1587801
+          },
+          {
+            "fetchTime": "2026-10-16T13:16:54.551Z",
+            "performance": 97,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 608.26,
+            "cls": 0,
+            "tbtMs": 133.5,
+            "transferBytes": 582782,
+            "jsDecodedBytes": 1587801
+          },
+          {
+            "fetchTime": "2026-10-16T13:17:11.648Z",
+            "performance": 85,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 594.1500000000001,
+            "cls": 0,
+            "tbtMs": 343.5000000000001,
+            "transferBytes": 582782,
+            "jsDecodedBytes": 1587801
+          }
+        ],
+        "median": {
+          "performance": 89,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 608.26,
+          "cls": 0,
+          "tbtMs": 276,
+          "transferBytes": 582782,
+          "jsDecodedBytes": 1587801
+        }
+      }
+    },
+    "after": {
+      "mobile": {
+        "environment": {
+          "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Mobile Safari/537.36",
+          "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+          "benchmarkIndex": 1989.5,
+          "credits": {
+            "axe-core": "4.14.0"
+          }
+        },
+        "settings": {
+          "formFactor": "mobile",
+          "screen": {
+            "mobile": true,
+            "width": 412,
+            "height": 823,
+            "deviceScaleFactor": 1.75,
+            "disabled": false
+          },
+          "throttling": {
+            "rttMs": 150,
+            "throughputKbps": 1638.4,
+            "requestLatencyMs": 562.5,
+            "downloadThroughputKbps": 1474.5600000000002,
+            "uploadThroughputKbps": 675,
+            "cpuSlowdownMultiplier": 4
+          }
+        },
+        "runs": [
+          {
+            "fetchTime": "2026-10-16T13:50:47.568Z",
+            "performance": 86,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 2946.968,
+            "cls": 0,
+            "tbtMs": 240,
+            "transferBytes": 308050,
+            "jsDecodedBytes": 624083
+          },
+          {
+            "fetchTime": "2026-10-16T13:51:00.204Z",
+            "performance": 94,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 2903.4999500000004,
+            "cls": 0,
+            "tbtMs": 115,
+            "transferBytes": 308050,
+            "jsDecodedBytes": 624083
+          },
+          {
+            "fetchTime": "2026-10-16T13:51:10.925Z",
+            "performance": 93,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 2926.11355,
+            "cls": 0,
+            "tbtMs": 125,
+            "transferBytes": 308050,
+            "jsDecodedBytes": 624083
+          }
+        ],
+        "median": {
+          "performance": 93,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 2926.11355,
+          "cls": 0,
+          "tbtMs": 125,
+          "transferBytes": 308050,
+          "jsDecodedBytes": 624083
+        }
+      },
+      "desktop": {
+        "environment": {
+          "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+          "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+          "benchmarkIndex": 1747,
+          "credits": {
+            "axe-core": "4.14.0"
+          }
+        },
+        "settings": {
+          "formFactor": "desktop",
+          "screen": {
+            "mobile": false,
+            "width": 1350,
+            "height": 940,
+            "deviceScaleFactor": 1,
+            "disabled": false
+          },
+          "throttling": {
+            "rttMs": 40,
+            "throughputKbps": 10240,
+            "requestLatencyMs": 0,
+            "downloadThroughputKbps": 0,
+            "uploadThroughputKbps": 0,
+            "cpuSlowdownMultiplier": 1
+          }
+        },
+        "runs": [
+          {
+            "fetchTime": "2026-10-16T13:51:20.923Z",
+            "performance": 100,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 635.84095,
+            "cls": 0,
+            "tbtMs": 52,
+            "transferBytes": 595298,
+            "jsDecodedBytes": 1578931
+          },
+          {
+            "fetchTime": "2026-10-16T13:51:31.791Z",
+            "performance": 100,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 597.298,
+            "cls": 0,
+            "tbtMs": 28.499999999999886,
+            "transferBytes": 595319,
+            "jsDecodedBytes": 1578931
+          },
+          {
+            "fetchTime": "2026-10-16T13:51:43.032Z",
+            "performance": 100,
+            "accessibility": 100,
+            "seo": 100,
+            "lcpMs": 580.336,
+            "cls": 0,
+            "tbtMs": 11.5,
+            "transferBytes": 595319,
+            "jsDecodedBytes": 1578931
+          }
+        ],
+        "median": {
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 597.298,
+          "cls": 0,
+          "tbtMs": 28.499999999999886,
+          "transferBytes": 595319,
+          "jsDecodedBytes": 1578931
+        }
+      }
+    }
+  },
+  "runtime": [
+    {
+      "width": 1440,
+      "mode": "direct",
+      "idleDrawsPerSecond": 0,
+      "pausedDrawsPerSecond": 0,
+      "probes": 0,
+      "draws": 0,
+      "triangles": [],
+      "scriptsDecodedBytes": 642844,
+      "scriptsTransferBytes": 201237,
+      "largestScriptBytes": 229820,
+      "maximumEventDurationMs": 80
+    },
+    {
+      "width": 1440,
+      "mode": "immersive",
+      "idleDrawsPerSecond": 31,
+      "pausedDrawsPerSecond": 0,
+      "probes": 2,
+      "draws": 106,
+      "triangles": [
+        2304
+      ],
+      "scriptsDecodedBytes": 1578931,
+      "scriptsTransferBytes": 450350,
+      "largestScriptBytes": 922823,
+      "maximumEventDurationMs": 48
+    },
+    {
+      "width": 375,
+      "mode": "immersive",
+      "idleDrawsPerSecond": 0,
+      "pausedDrawsPerSecond": 0,
+      "probes": 2,
+      "draws": 24,
+      "triangles": [
+        512
+      ],
+      "scriptsDecodedBytes": 1560170,
+      "scriptsTransferBytes": 443680,
+      "largestScriptBytes": 922823,
+      "maximumEventDurationMs": 72
+    }
+  ],
+  "links": {
+    "internalLinks": 44,
+    "paths": 20,
+    "invalid": [],
+    "download": "curriculo-leticia-de-paula.pdf"
+  },
+  "console": {
+    "routes": 10,
+    "errors": []
+  },
+  "media": {
+    "festaFantasia": {
+      "date": "2026-10-16T13:22:11.928Z",
+      "status": 200,
+      "url": "https://halloween-disney.vercel.app/",
+      "title": "Halloween",
+      "heading": "Halloween",
+      "api": [
+        {
+          "path": "/api/settings",
+          "status": 200
+        }
+      ],
+      "errors": []
+    },
+    "portfolio": "Captura real do build local em 1440 × 960, com identidade pessoal e WebGL ativo, animação pausada.",
+    "portraitConfigured": false
+  },
+  "content": {
+    "publicCourses": 10,
+    "certificates": 9,
+    "ongoing": 1,
+    "unconfirmedCoursesInInternalReport": 9
+  },
+  "inp": {
+    "fieldMeasured": false,
+    "note": "Event Timing de um fluxo local e TBT não equivalem a INP de campo."
+  },
+  "deployment": {
+    "performed": false
+  },
+  "dependencyAudit": {
+    "vulnerabilities": 0
+  }
+}

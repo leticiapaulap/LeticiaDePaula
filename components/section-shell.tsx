@@ -1,4 +1,6 @@
 import { Reveal } from "@/components/reveal";
+import { SceneAccent } from "@/components/scene-accent";
+import { phaseForSection } from "@/lib/experience-state";
 
 export function SectionShell({
   id,
@@ -24,6 +26,7 @@ export function SectionShell({
             <h2>{title}</h2>
           </div>
           <p>{description}</p>
+          <SceneAccent phase={phaseForSection(id) ?? "nucleus"} className="section-scene" />
         </Reveal>
         {children}
       </div>

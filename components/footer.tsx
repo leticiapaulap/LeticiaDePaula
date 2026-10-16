@@ -6,16 +6,12 @@ export function Footer() {
     <footer className="site-footer">
       <div className="container footer-inner">
         <div>
-          <Link className="brand focusable" href="/#portal" prefetch={false}>
-            <span className="brand-mark" aria-hidden="true">
-              N
-            </span>
+          <Link className="brand personal-brand focusable" href="/#portal" prefetch={false}>
             <span className="brand-text">
-              <span>NEXO</span>
-              <span>A arquitetura das ideias</span>
+              <span>Letícia <em>de Paula</em></span>
             </span>
           </Link>
-          <p>{professional.title}</p>
+          <p>{professional.title} · {professional.location}</p>
         </div>
 
         <nav aria-label="Navegação do rodapé">

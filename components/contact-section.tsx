@@ -1,6 +1,7 @@
 import { GitBranch, Mail, Network, Send } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { professional } from "@/lib/data";
+import { SceneAccent } from "@/components/scene-accent";
 
 export function ContactSection() {
   return (
@@ -11,9 +12,9 @@ export function ContactSection() {
             <p className="eyebrow">Contato</p>
             <h2>Vamos conversar sobre tecnologia, projetos e oportunidades.</h2>
             <p>
-              Para uma conversa profissional, o e-mail é o contato mais direto. GitHub e LinkedIn são os perfis informados
-              por Letícia; os links não enviam dados pelo portfólio.
+              Tem uma oportunidade, um projeto ou uma boa ideia para compartilhar? Vamos conversar. Você também encontra meu trabalho no GitHub e minha trajetória no LinkedIn.
             </p>
+            <SceneAccent phase="convergence" className="contact-scene" />
           </div>
 
           <aside className="contact-panel" aria-label="Informações de contato">

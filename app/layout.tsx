@@ -4,13 +4,13 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ExperienceProvider } from "@/components/experience-provider";
-import { ExperienceNavigation } from "@/components/experience-navigation";
 import { SculptureLoader } from "@/components/portal/sculpture-loader";
 import { StructuredData } from "@/components/structured-data";
 import { pageMetadata } from "@/lib/metadata";
 import { navItems } from "@/lib/navigation";
 import "./globals.css";
 import "./experience.css";
+import "./refinements.css";
 
 const interfaceFont = Manrope({
   subsets: ["latin"],
@@ -27,9 +27,10 @@ const editorialFont = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  ...pageMetadata("NEXO — A Arquitetura das Ideias", "Ideias que ganham forma. Portfólio profissional de Letícia de Paula, com aplicações web e documentação de projetos.", "/"),
+  ...pageMetadata("Letícia de Paula", "Desenvolvimento web, dados e soluções com propósito. Conheça os projetos, a trajetória e a formação de Letícia de Paula.", "/"),
+  applicationName: "Letícia de Paula",
   title: {
-    default: "NEXO — A Arquitetura das Ideias | Letícia de Paula",
+    default: "Letícia de Paula",
     template: "%s | Letícia de Paula"
   }
 };
@@ -70,7 +71,6 @@ export default function RootLayout({
             </div>
             <main id="conteudo" tabIndex={-1}>{children}</main>
             <Footer />
-            <ExperienceNavigation />
             <StructuredData />
           </ExperienceProvider>
         </ThemeProvider>

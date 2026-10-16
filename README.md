@@ -1,8 +1,8 @@
-# NEXO — A Arquitetura das Ideias
+# Letícia de Paula — Portfólio profissional
 
-Portfólio profissional de Letícia de Paula. O conceito NEXO conecta trajetória, projetos, competências e formação por meio de uma composição editorial e uma fita procedural em 3D. O conteúdo profissional é HTML estático e pode ser consultado por URL, por mecanismos de busca e sem WebGL.
+Portfólio profissional de Letícia de Paula. A composição editorial conecta trajetória, projetos, competências e formação a uma escultura procedural em 3D. Grafite, marfim e dourado, tipografia editorial e navegação acessível formam a identidade visual. A única marca pública é o nome profissional. O conteúdo é HTML estático e pode ser consultado por URL, mecanismos de busca e sem WebGL.
 
-Esta entrega refina a implementação das etapas anteriores. A auditoria, os resultados de testes e os limites de publicação estão em [docs/auditoria-producao.md](docs/auditoria-producao.md). O histórico técnico da experiência está em [docs/etapa-3.md](docs/etapa-3.md).
+Esta entrega refina a implementação existente, sem reconstrução. A auditoria e os resultados atuais estão em [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). Pendências e fontes de conteúdo ficam em [docs/conteudo-interno.md](docs/conteudo-interno.md), não na interface. Os relatórios anteriores em `docs/auditoria-producao.md` e `docs/etapa-3.md` são históricos.
 
 ## Tecnologias
 
@@ -64,18 +64,18 @@ vercel.json                Build, diretório público, cache e cabeçalhos
 
 Server Components e dados tipados geram as páginas HTML no build. Client Components atendem filtros, pesquisa, preferências e navegação imersiva. `ExperienceProvider` coordena fases e seleções; um contexto separado de seleções evita atualizar as listas quando só a cena ou as preferências mudam. O renderizador não controla a disponibilidade do conteúdo.
 
-A escultura tem sete estados: Portal, Núcleo, Projetos, Experiência, Competências, Formação e Convergência. Os alvos compartilham topologia e são interpolados na GPU. A cena fica ancorada à área de arte do portal, tem presença discreta nas páginas internas e é ocultada no modo direto.
+A escultura tem sete estados: Portal, Núcleo, Projetos, Experiência, Competências, Formação e Contato. Os alvos compartilham topologia e são interpolados na GPU. Uma única cena acompanha áreas decorativas reservadas da abertura e das seções, sem ocupar a área dos textos. Páginas internas usam SVG imediato e uma cena já ativada ou solicitada pelo modo imersivo; em mobile, a decoração interna secundária é ocultada. O modo direto não carrega o renderizador.
 
 | Rota | Conteúdo |
 | --- | --- |
 | `/` | Portal, exploração e todas as seções profissionais |
-| `/sobre/` | Apresentação, princípios e fontes |
+| `/sobre/` | Apresentação, princípios e integração opcional da fotografia |
 | `/projetos/` | Galeria, filtros e estados vazios |
 | `/projetos/festa-fantasia/` | Estudo de caso do projeto público |
-| `/projetos/portfolio-leticia-de-paula/` | Estudo de caso do NEXO |
+| `/projetos/portfolio-leticia-de-paula/` | Estudo de caso do portfólio pessoal |
 | `/experiencia/` | Cargos, períodos e atividades informados no currículo |
 | `/competencias/` | Conhecimentos e relações documentadas com projetos |
-| `/formacao/` | Formação acadêmica, 19 cursos, filtros e nove PDFs |
+| `/formacao/` | Formação acadêmica, dez cursos públicos, filtros e nove PDFs |
 | `/contato/` | E-mail e perfis profissionais |
 | `/curriculo/` | Currículo digital indexável e imprimível |
 | URL desconhecida | Página 404 com caminhos para continuar |
@@ -97,7 +97,7 @@ Categorias sem projetos têm estados vazios reais. Não publique fluxos, nomes d
 
 ### Certificações e formação
 
-Edite `lib/certifications.ts`: nome, instituição, área, carga horária, data de conclusão, status, nota editorial e prioridade. Somente um documento real deve receber `certificateUrl`, apontando para `public/certificates/`. Sem comprovante, use `A validar`; estudos em curso usam `Em andamento`.
+Edite `lib/certifications.ts`: nome, instituição, área, carga horária, data de conclusão, status e prioridade. Somente um documento real deve receber `certificateUrl`, apontando para `public/certificates/`. Estudos em curso usam `Em andamento`, sem botão de visualização. Cursos cuja conclusão ainda não está confirmada ficam em `docs/conteudo-interno.md`, não recebem status de concluídos e não aparecem como pendências na biblioteca pública.
 
 A pesquisa ignora acentos e combina nome, instituição e área. Verifique os filtros, o diálogo e o link direto ao PDF depois de adicionar um arquivo. Os certificados atuais foram renderizados e conferidos; a conclusão de “Contribuindo em um Projeto Open Source no GitHub” é 01/04/2026, conforme o documento.
 
@@ -126,12 +126,12 @@ Axe testa critérios automatizáveis de WCAG 2.2 AA. Isso não é certificação
 - Renderização sob demanda, pausa de aba oculta e de modo direto; movimento contínuo somente no portal/núcleo da home em desktop, limitado a aproximadamente 30 atualizações por segundo. Páginas internas só mantêm uma cena já ativada ou a carregam por escolha explícita do visitante.
 - Geometria e pixel ratio por dispositivo; sem texturas remotas nem pós-processamento.
 - SVG imediato, texto sem animação de entrada e dimensões explícitas nas capturas.
-- Captura NEXO em WebP, imagens abaixo da dobra com lazy loading e fontes locais após o build.
+- Capturas reais em WebP, imagens abaixo da dobra com lazy loading e fontes locais após o build.
 - Cache imutável somente para arquivos versionados em `/_next/static/`; documentos de nome estável podem ser atualizados a cada publicação.
 
 `npm run assets` recria `public/og-leticia.png` a partir do SVG e `public/projects/nexo-portal.webp` a partir do PNG original. Os originais são fontes do processamento e foram preservados.
 
-Metas: LCP ≤ 2,5 s; CLS ≤ 0,1; INP ≤ 200 ms. Consulte as medições reais e suas condições em [docs/auditoria-producao.md](docs/auditoria-producao.md). TBT de Lighthouse não é INP; métricas de campo precisam de tráfego real.
+Metas: LCP ≤ 2,5 s; CLS ≤ 0,1; INP ≤ 200 ms. Consulte as medições reais e suas condições em [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). TBT de Lighthouse não é INP; métricas de campo precisam de tráfego real.
 
 ## Testes e auditorias
 
@@ -177,4 +177,10 @@ Em outro host estático, publique exclusivamente `out/`, preserve as barras fina
 
 ## Pendências externas
 
-O LinkedIn informado responde com bloqueio a acesso automatizado e precisa de conferência manual. A demonstração antiga de Festa Fantasia não é anunciada porque o destino anteriormente verificado não correspondia ao projeto. Cursos sem certificado permanecem marcados; a situação acadêmica, o vínculo profissional atual e futuros documentos dependem de atualização da proprietária. Nenhum resultado, diploma, vaga ou vínculo foi inventado.
+O LinkedIn informado precisa de conferência manual. A demonstração de Festa Fantasia foi revisitada: a URL configurada no repositório redireciona à aplicação pública com tema Halloween; a página e a API de configurações responderam com sucesso em 16/10/2026. Captura e contexto de publicação estão registrados na auditoria. Não foram enviados cadastros ou votos. Situação acadêmica, vínculo atual e futuros documentos dependem de atualização da proprietária. Nenhum resultado, diploma, vaga ou vínculo foi inventado.
+
+## Fotografia pessoal
+
+`components/professional-portrait.tsx` está integrado à seção Sobre de forma opcional. Configure `portrait` em `lib/portrait.ts` somente após receber uma fotografia real e autorizada: `src`, texto alternativo, `width`, `height` e legenda opcional. Use um caminho local em `public/` e as dimensões verdadeiras da imagem. Com `null`, não há espaço vazio, imagem substituta nem download remoto.
+
+A fotografia usa largura fluida, altura automática e `object-fit: contain`, sem recorte, filtros de rosto, rotação da pessoa ou alteração de proporções. A profundidade é criada apenas pela moldura e pelas sombras, sem simular um modelo 3D interativo. O retrato complementa a apresentação em Sobre, não disputa a abertura com a escultura. Conferir pose, rosto, tatuagens, roupa, acessórios e enquadramento com a proprietária antes de publicar.

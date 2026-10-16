@@ -7,7 +7,7 @@ export function EducationSection() {
   return (
     <SectionShell
       alt
-      description="Formação acadêmica e cursos livres são apresentados separadamente. Instituição, período e situação dependem da validação dos documentos."
+      description="A base que conecta raciocínio, desenvolvimento de software e aplicação prática."
       eyebrow="Formação"
       id="formacao"
       title="Base acadêmica em análise e desenvolvimento."

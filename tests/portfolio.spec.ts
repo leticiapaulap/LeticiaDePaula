@@ -88,7 +88,7 @@ test("filtros, galeria e retorno preservam a seleção", async ({ page }) => {
   await page.keyboard.press("Home");
   await expect(page.locator(".nexo-gallery-info h3")).toContainText("Festa Fantasia");
   await page.keyboard.press("End");
-  await expect(page.locator(".nexo-gallery-info h3")).toContainText("NEXO");
+  await expect(page.locator(".nexo-gallery-info h3")).toContainText("Letícia de Paula");
 });
 
 test("busca sem acentos, filtros e certificados", async ({ page }) => {
@@ -141,6 +141,7 @@ test("timeline e mapa preservam conexões verificáveis", async ({ page }) => {
   await page.getByRole("button", { name: "Próximo marco" }).click();
   await expect(page.locator(".nexo-career-navigation__current strong")).toHaveText("TCB Brasília");
   await page.goto("/competencias/");
+  await page.locator(".skill-category").filter({ has: page.getByRole("heading", { name: "Automação", exact: true }) }).locator("summary").click();
   await page.locator(".nexo-skill-node").filter({ has: page.getByText("Python", { exact: true }) }).click();
   await expect(page.locator(".nexo-map-empty")).toContainText("Nenhum projeto público associado a Python");
   await page.getByRole("button", { name: "Ver todas as conexões" }).click();
@@ -174,7 +175,7 @@ test("movimento reduzido e fallback sem WebGL", async ({ page }) => {
   await expect(page.locator(".nexo-experience-root")).toHaveAttribute("data-motion-enabled", "false");
   await expect(page.locator(".nexo-artwork__fallback")).toHaveCSS("opacity", "1");
   await expect(page.locator("canvas")).toHaveCount(0);
-  await page.getByRole("link", { name: "Ver portfólio", exact: true }).click();
+  await page.getByRole("link", { name: "Ler portfólio completo", exact: true }).click();
   await expect(page.locator("#sobre")).toBeVisible();
 });
 
@@ -194,6 +195,9 @@ test("rotas, documentos e metadados publicados", async ({ page, request }) => {
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", await canonical.getAttribute("href") ?? "");
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /\/og-leticia\.png$/);
     await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute("content", await page.locator('meta[name="description"]').getAttribute("content") ?? "");
+    await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute("content", "Letícia de Paula");
+    expect(await page.title()).not.toMatch(/NEXO|Arquitetura das Ideias|Em Camadas/i);
+    expect(await page.locator("body").innerText()).not.toMatch(/\bNEXO\b|Arquitetura das Ideias|Em Camadas|A validar|Informado no currículo|Não anexado/i);
   }
   await page.goto("/formacao/");
   const documents = await page.locator('a[href$=".pdf"]').evaluateAll((links) => [...new Set(links.map((link) => link.getAttribute("href")!))]);
@@ -213,7 +217,7 @@ test("rotas, documentos e metadados publicados", async ({ page, request }) => {
   await expect(page).toHaveURL(/\/curriculo\/$/);
   const missingPage = await page.goto("/conexao-inexistente/");
   expect(missingPage?.status()).toBe(404);
-  await page.getByRole("link", { name: "Início do NEXO" }).click();
+  await page.getByRole("link", { name: "Voltar ao início" }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.locator(".nexo-experience-stage")).toHaveAttribute("data-anchored", "true");
 });
@@ -224,7 +228,7 @@ test("conteúdo e navegação sem JavaScript", async ({ browser }) => {
   await page.goto("/");
   await expect(page.getByRole("navigation", { name: "Navegação sem JavaScript" })).toBeVisible();
   await page.getByRole("navigation", { name: "Navegação sem JavaScript" }).getByRole("link", { name: "Cursos", exact: true }).click();
-  await expect(page.locator(".certification-card")).toHaveCount(19);
+  await expect(page.locator(".certification-card")).toHaveCount(10);
   await expect(page.getByRole("link", { name: "Abrir PDF", exact: true })).toHaveCount(9);
   await expect(page.locator(".nexo-artwork__fallback")).toHaveCount(0);
   await context.close();

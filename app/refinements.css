@@ -1,0 +1,658 @@
+.personal-brand {
+  color: var(--foreground);
+}
+
+.nexo-header .personal-brand .nexo-brand__wordmark strong,
+.site-footer .personal-brand .brand-text > span {
+  display: block;
+  color: inherit;
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.personal-brand em {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.nexo-header .personal-brand {
+  color: #f2f0ea;
+}
+
+.nexo-header .personal-brand em {
+  color: #dfc8a5;
+}
+
+.nexo-experience-root {
+  padding-bottom: 0;
+}
+
+.nexo-experience-nav {
+  position: relative;
+  z-index: auto;
+  inset: auto;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 28px;
+  box-shadow: none;
+  transform: none;
+}
+
+.nexo-portal__content {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(24px, 4vw, 72px);
+}
+
+.nexo-portal__title {
+  font-size: clamp(4rem, 7.7vw, 7.4rem);
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+}
+
+.nexo-portal__statement {
+  margin-top: 28px;
+  font-size: clamp(1.5rem, 2.15vw, 2rem);
+  line-height: 1.2;
+}
+
+.nexo-portal__introduction {
+  max-width: 440px;
+  font-size: 0.9rem;
+}
+
+.nexo-portal__artwork {
+  min-width: 0;
+}
+
+.nexo-route__hero {
+  padding-block: 0;
+}
+
+.nexo-route__hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4.7rem);
+}
+
+.professional-portrait {
+  min-width: 0;
+  margin: 0;
+}
+
+.professional-portrait__frame {
+  position: relative;
+  isolation: isolate;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 16px 18px 0 -8px var(--surface-soft), 16px 18px 0 -7px var(--accent);
+}
+
+.professional-portrait__frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.professional-portrait__depth {
+  position: absolute;
+  z-index: -1;
+  inset: -12px 20px 20px -12px;
+  border: 1px solid var(--border);
+}
+
+.professional-portrait figcaption {
+  margin-top: 28px;
+  color: var(--muted-strong);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.profile-grid--portrait {
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+}
+
+.profile-grid--portrait .workflow-list {
+  grid-column: 1 / -1;
+}
+
+.nexo-route__hero-inner {
+  padding-block: clamp(36px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.4fr);
+  gap: clamp(24px, 5vw, 80px);
+  align-items: center;
+}
+
+.nexo-route__eyebrow {
+  margin: 32px 0 12px;
+}
+
+.nexo-route__back {
+  margin-top: 24px;
+}
+
+.route-hero-copy {
+  min-width: 0;
+}
+
+.scene-accent {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  height: 240px;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.scene-accent__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.65;
+}
+
+.scene-accent__orbit {
+  position: absolute;
+  inset: 12%;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  transform: rotate(-24deg) scaleY(0.7);
+}
+
+.scene-accent__caption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+}
+
+.nexo-direct .section-heading {
+  padding-right: 120px;
+}
+
+.section-heading .section-scene {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+}
+
+.section-scene .scene-accent__caption {
+  display: none;
+}
+
+.project-case-scene {
+  width: 130px;
+  height: 100px;
+  margin-top: 20px;
+}
+
+.exploration-scene-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 24px;
+}
+
+.exploration-scene-row .scene-accent,
+.contact-scene {
+  width: 160px;
+  height: 130px;
+}
+
+.exploration-scene-row .nexo-experience-nav {
+  margin: 0;
+}
+
+.nexo-experience-root[data-experience-state] .nexo-experience-stage[data-anchored="true"] {
+  top: 0;
+  right: auto;
+  left: 0;
+  width: var(--scene-width);
+  height: var(--scene-height);
+  transform: translate3d(var(--scene-left), var(--scene-top), 0);
+  opacity: 1;
+}
+
+.nexo-experience-root[data-experience-state] .nexo-experience-stage:not([data-anchored="true"]) {
+  visibility: hidden;
+}
+
+.nexo-experience-root[data-mode="immersive"][data-scene-ready="true"] [data-scene-active="true"] .scene-accent__svg {
+  opacity: 0;
+}
+
+.project-showcase {
+  margin-block: 20px 0;
+  border: 0;
+  overflow: visible;
+}
+
+.nexo-route__body.nexo-direct .project-list-section {
+  padding-block: 32px 72px;
+}
+
+.project-showcase__feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  animation: nexo-focus-in 220ms ease both;
+}
+
+.project-showcase__media {
+  min-width: 0;
+  align-self: start;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 12px 14px 0 -3px var(--surface-soft);
+}
+
+.project-window-bar {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  color: var(--muted-strong);
+}
+
+.project-window-bar > span {
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+}
+
+.project-window-bar small {
+  margin-left: auto;
+  font-size: 0.6rem;
+}
+
+.project-showcase .nexo-project-preview img {
+  transition: filter 220ms ease;
+}
+
+.project-showcase__media:hover img {
+  filter: brightness(1.06);
+}
+
+.project-showcase .project-showcase__info {
+  gap: 18px;
+  padding: 0;
+}
+
+.project-showcase__info h3 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.05;
+}
+
+.project-showcase__highlights {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted-strong);
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.project-showcase__selection {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 38px;
+}
+
+.project-showcase__tab {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid var(--border);
+  background: transparent;
+  padding: 18px 20px;
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.project-showcase__tab[aria-pressed="true"],
+.project-showcase__tab:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.project-showcase__tab span:nth-child(2) {
+  display: grid;
+  gap: 4px;
+}
+
+.project-showcase__tab strong {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.project-showcase__tab small {
+  color: var(--muted-strong);
+  font-size: 0.7rem;
+}
+
+.project-showcase__tab > svg {
+  margin-left: auto;
+}
+
+.project-showcase__tab-number {
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: 1.8rem;
+  color: var(--accent);
+}
+
+.project-static-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.nexo-direct .nexo-experience-entry {
+  grid-template-columns: 32px minmax(180px, 0.7fr) minmax(0, 1.3fr);
+  gap: 24px;
+  padding-block: 28px;
+}
+
+.career-role,
+.career-period {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.career-role {
+  font-weight: 500;
+}
+
+.nexo-experience-entry__company .nexo-experience-select {
+  display: block;
+  margin-top: 16px;
+}
+
+.nexo-experience-entry .nexo-experience-entry__facts > div {
+  display: block;
+}
+
+.nexo-experience-responsibilities {
+  display: grid;
+  gap: 10px;
+}
+
+.nexo-direct .skills-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+.nexo-direct .skill-category {
+  padding: 0;
+  border-width: 0 0 1px;
+  background: transparent;
+}
+
+.skill-category > summary {
+  display: flex;
+  min-height: 86px;
+  align-items: center;
+  gap: 18px;
+  padding-block: 20px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.skill-category > summary::-webkit-details-marker {
+  display: none;
+}
+
+.skill-category > summary::after {
+  content: "+";
+  color: var(--accent);
+  font-size: 1.5rem;
+}
+
+.skill-category[open] > summary::after {
+  content: "−";
+}
+
+.skill-category > summary h3 {
+  font-size: 1.5rem;
+}
+
+.nexo-direct .skill-category > summary p {
+  color: var(--muted-strong);
+  font-size: 0.8rem;
+}
+
+.skill-category__count {
+  margin-left: auto;
+  white-space: nowrap;
+  color: var(--muted-strong);
+  font-size: 0.72rem;
+}
+
+.skill-category .skill-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 28px;
+  padding-bottom: 20px;
+}
+
+.nexo-direct .nexo-skill-node em {
+  color: var(--foreground);
+  font-size: 0.7rem;
+}
+
+.nexo-direct .certification-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.nexo-direct .certification-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 20px;
+  padding: 22px;
+  background: transparent;
+}
+
+.certification-card__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.certificate-institution-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--border);
+  color: var(--accent-strong);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.certification-card .certificate-title h3 {
+  margin: 8px 0 0;
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.certificate-title .context-label {
+  margin: 0;
+  font-size: 0.62rem;
+}
+
+.certification-card .certificate-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin: auto 0 0;
+}
+
+.certificate-facts > div {
+  display: grid;
+  gap: 4px;
+}
+
+.nexo-direct .certificate-facts dd {
+  font-size: 0.84rem;
+}
+
+.certification-card .nexo-certificate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.certification-card .nexo-certificate-actions a,
+.certification-card .nexo-certificate-actions button {
+  min-height: 44px;
+  padding: 8px 10px;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 1099px) {
+  .nexo-direct .certification-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-showcase__feature {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .nexo-header .personal-brand .nexo-brand__wordmark strong {
+    font-size: 1.4rem;
+  }
+
+  .nexo-portal__content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .nexo-portal__title {
+    font-size: clamp(3.65rem, 15vw, 5.8rem);
+  }
+
+  .nexo-portal__eyebrow {
+    max-width: 100%;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nexo-portal__statement {
+    margin-top: 22px;
+    font-size: 1.6rem;
+  }
+
+  .nexo-portal__artwork {
+    margin-top: 0;
+  }
+
+  .nexo-route__hero {
+    padding-block: 0;
+  }
+
+  .nexo-route__hero-inner {
+    padding-block: 28px 36px;
+  }
+
+  .profile-grid--portrait {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nexo-route__hero-inner,
+  .project-showcase__selection,
+  .skill-category .skill-list,
+  .nexo-direct .certification-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .route-hero-scene,
+  .section-heading .section-scene,
+  .project-case-scene,
+  .contact-scene,
+  .exploration-scene-row .scene-accent {
+    display: none;
+  }
+
+  .nexo-direct .section-heading {
+    padding-right: 0;
+  }
+
+  .nexo-direct .nexo-experience-entry {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .nexo-experience-entry__facts {
+    grid-column: 2;
+  }
+
+  .nexo-experience-entry__company .nexo-experience-select {
+    margin-top: 8px;
+  }
+
+  .skill-category > summary {
+    gap: 12px;
+  }
+
+  .skill-category > summary > svg {
+    display: none;
+  }
+
+  .skill-category > summary p {
+    display: none;
+  }
+
+  .skill-category__count {
+    font-size: 0.65rem;
+  }
+
+  .project-showcase__media {
+    box-shadow: none;
+  }
+
+  .project-showcase__selection {
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .nexo-direct .certification-card {
+    gap: 16px;
+    padding: 20px;
+  }
+}
+
+@media print {
+  .scene-accent,
+  .project-showcase__selection,
+  .professional-portrait__depth {
+    display: none;
+  }
+}

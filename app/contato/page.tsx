@@ -3,14 +3,14 @@ import { ContactSection } from "@/components/contact-section";
 import { EditorialPage } from "@/components/editorial-page";
 import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = pageMetadata("Contato", "Contate Letícia de Paula por e-mail ou acesse os perfis profissionais informados.", "/contato/");
+export const metadata: Metadata = pageMetadata("Contato", "Converse com Letícia de Paula sobre tecnologia, projetos e oportunidades. E-mail, GitHub e LinkedIn.", "/contato/");
 
 export default function ContactPage() {
   return (
     <EditorialPage
       eyebrow="Contato"
       title="Vamos conectar ideias."
-      description="Entre em contato por e-mail ou conheça meu trabalho nos perfis profissionais. O link de e-mail abre seu aplicativo de mensagens."
+      description="Uma conversa pode ser o começo de uma boa parceria. Fale comigo sobre projetos, tecnologia e novas oportunidades."
     >
       <ContactSection />
     </EditorialPage>

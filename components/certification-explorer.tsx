@@ -14,12 +14,11 @@ import {
 type AreaFilter = CertificationArea | "Todas";
 type StatusFilter = CertificationStatus | "Todos";
 
-const statusFilters: StatusFilter[] = ["Todos", "Concluído", "Em andamento", "A validar"];
+const statusFilters: StatusFilter[] = ["Todos", "Concluído", "Em andamento"];
 const normalizeSearch = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-BR");
 const statusClasses: Record<CertificationStatus, string> = {
   Concluído: "status-complete",
-  "Em andamento": "status-progress",
-  "A validar": "status-pending"
+  "Em andamento": "status-progress"
 };
 
 export function CertificationExplorer() {
@@ -126,16 +125,16 @@ export function CertificationExplorer() {
           <div className="certification-grid">
           {visibleCertifications.map((certification) => (
             <article className="certification-card" key={`${certification.name}-${certification.institution}`}>
-              <div>
-                <span className={`status-pill ${statusClasses[certification.status]}`}>
-                  {certification.status}
-                </span>
+              <div className="certification-card__heading">
+                <span className="certificate-institution-mark" aria-hidden="true">{certification.institution.includes("Enap") ? "EN" : certification.institution.includes("Bradesco") ? "FB" : certification.institution.includes("Versátil") ? "VT" : certification.institution.includes("Oracle") ? "OR" : "DIO"}</span>
+                <span className={`status-pill ${statusClasses[certification.status]}`}>{certification.status}</span>
+              </div>
+              <div className="certificate-title">
                 <p className="context-label">{certification.area}</p>
                 <h3>{certification.name}</h3>
                 <button className="nexo-institution focusable" type="button" aria-label={`Filtrar cursos de ${certification.institution}`} onClick={() => setActiveInstitution(certification.institution)}>{certification.institution}</button>
               </div>
-
-              <dl className="meta-list">
+              {certification.workload || certification.completionDate ? <dl className="meta-list certificate-facts">
                 {certification.workload ? (
                   <div>
                     <dt>Carga horária</dt>
@@ -148,13 +147,7 @@ export function CertificationExplorer() {
                     <dd>{certification.completionDate}</dd>
                   </div>
                 ) : null}
-                <div>
-                  <dt>Certificado</dt>
-                  <dd>{certification.certificateUrl ? "Disponível" : "Não anexado"}</dd>
-                </div>
-              </dl>
-
-              {certification.note ? <details className="nexo-archive-details"><summary className="focusable">Contexto do curso</summary><p className="card-note">{certification.note}</p></details> : null}
+              </dl> : null}
 
               {certification.certificateUrl ? (
                 <div className="project-links">
@@ -174,7 +167,7 @@ export function CertificationExplorer() {
     <Dialog.Portal>
       <Dialog.Overlay className="nexo-certificate-overlay" />
       <Dialog.Content className="nexo-certificate-dialog" onCloseAutoFocus={(event) => { event.preventDefault(); previewTrigger.current?.focus({ preventScroll: true }); }}>
-        <div className="nexo-certificate-dialog__header"><div><Dialog.Title>{preview?.name}</Dialog.Title><Dialog.Description>{preview?.institution} · Certificado fornecido pela profissional.</Dialog.Description></div><Dialog.Close asChild><button className="nexo-menu-close focusable" type="button" aria-label="Fechar certificado"><X size={20} aria-hidden="true" /></button></Dialog.Close></div>
+        <div className="nexo-certificate-dialog__header"><div><Dialog.Title>{preview?.name}</Dialog.Title><Dialog.Description>{preview?.institution}{preview?.workload ? ` · ${preview.workload}` : ""}{preview?.completionDate ? ` · ${preview.completionDate}` : ""}</Dialog.Description></div><Dialog.Close asChild><button className="nexo-menu-close focusable" type="button" aria-label="Fechar certificado"><X size={20} aria-hidden="true" /></button></Dialog.Close></div>
         {preview?.certificateUrl ? <><iframe title={`Certificado de ${preview.name}`} src={preview.certificateUrl} /><a className="secondary-action focusable" href={preview.certificateUrl} target="_blank" rel="noreferrer">Abrir PDF em outra aba<ExternalLink size={16} aria-hidden="true" /></a></> : null}
       </Dialog.Content>
     </Dialog.Portal>

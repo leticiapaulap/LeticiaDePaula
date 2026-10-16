@@ -10,7 +10,7 @@ export const experiences: Experience[] = [
     modality: "Estágio",
     area: "Tecnologia da Informação",
     featured: true,
-    context: "Experiência declarada no currículo fornecido pela profissional.",
+    context: "Organização, documentação e apoio às rotinas de tecnologia.",
     responsibilities: [
       "Organização de documentos e dados, atualização de controles e acompanhamento de demandas da equipe.",
       "Apoio à manutenção de sistemas, automação de processos e integração de APIs.",
@@ -18,8 +18,6 @@ export const experiences: Experience[] = [
     ],
     technologies: [],
     results: [],
-    validationNote: "Resumo baseado no currículo fornecido; detalhes internos e dados corporativos não são publicados.",
-    verificationStatus: "Informado no currículo"
   },
   {
     id: "tcb-brasilia",
@@ -29,15 +27,13 @@ export const experiences: Experience[] = [
     location: "Localidade não informada",
     modality: "Experiência profissional",
     area: "Dados geoespaciais",
-    context: "Experiência declarada no currículo fornecido pela profissional.",
+    context: "Análise e organização de dados geoespaciais para apoiar rotinas operacionais.",
     responsibilities: [
       "Análise, conferência e organização de dados geoespaciais, com verificação de consistência.",
       "Elaboração de planilhas, relatórios e controles operacionais; acompanhamento de demandas."
     ],
     technologies: [],
     results: [],
-    validationNote: "Resumo baseado no currículo fornecido; resultados quantitativos não foram informados.",
-    verificationStatus: "Informado no currículo"
   },
   {
     id: "age-fibra",
@@ -47,14 +43,12 @@ export const experiences: Experience[] = [
     location: "Localidade não informada",
     modality: "Experiência profissional",
     area: "Suporte de TI",
-    context: "Experiência declarada no currículo fornecido pela profissional.",
+    context: "Suporte técnico a usuários e acompanhamento de demandas de tecnologia.",
     responsibilities: [
       "Atendimento e suporte técnico a usuários, com registro e acompanhamento de chamados.",
       "Apoio à manutenção básica de equipamentos e às rotinas operacionais da área."
     ],
     technologies: [],
     results: [],
-    validationNote: "Resumo baseado no currículo fornecido; resultados quantitativos não foram informados.",
-    verificationStatus: "Informado no currículo"
   }
 ];

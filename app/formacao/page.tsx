@@ -10,8 +10,8 @@ export default function EducationPage() {
   return (
     <EditorialPage
       eyebrow="Formação e cursos"
-      title="Aprendizado em construção."
-      description="Formação acadêmica, curso informado em andamento e pesquisa por área ou instituição — sem concluir cursos no lugar de um certificado."
+      title="Aprendizado que abre caminhos."
+      description="Formação acadêmica e cursos que ampliam meu repertório em desenvolvimento, dados e tecnologia."
     >
       <EducationSection />
       <CertificationsSection />

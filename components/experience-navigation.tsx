@@ -21,7 +21,7 @@ export function ModeControl({ className = "" }: { className?: string }) {
 
 export function ModeLabel() {
   const { mode } = useExperience();
-  return <p className="nexo-direct__eyebrow">{mode === "direct" ? "MODO DIRETO / 02-D" : "EXPLORAÇÃO / TRAJETÓRIA CONECTADA"}</p>;
+  return <p className="nexo-direct__eyebrow">{mode === "direct" ? "PORTFÓLIO / LEITURA DIRETA" : "PORTFÓLIO / EM PERSPECTIVA"}</p>;
 }
 
 export function ExperienceNavigation() {

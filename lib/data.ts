@@ -1,5 +1,4 @@
 export { certifications, certificationAreas } from "@/lib/certifications";
-export { contentAudit } from "@/lib/content-audit";
 export { education } from "@/lib/education";
 export { experiences } from "@/lib/experiences";
 export { navItems } from "@/lib/navigation";

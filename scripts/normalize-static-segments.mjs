@@ -25,4 +25,4 @@ async function normalizeDirectory(directory) {
 }
 
 await normalizeDirectory(exportRoot);
-log(`NEXO: ${normalizedFiles} static navigation segment paths normalized.`);
+log(`Portfólio: ${normalizedFiles} static navigation segment paths normalized.`);

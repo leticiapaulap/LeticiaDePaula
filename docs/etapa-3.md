@@ -1,4 +1,4 @@
-# Etapa 3 — Interatividade do NEXO
+# Etapa 3 — Interatividade do portfólio (histórico)
 
 Esta entrega acrescenta interatividade ao portal e às páginas profissionais existentes. A exportação continua estática; não há backend, cadastro ou publicação automática. Os dados profissionais e os estudos de caso continuam em `lib/`.
 

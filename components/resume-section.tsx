@@ -8,18 +8,17 @@ export function ResumeSection() {
   return (
     <SectionShell
       alt
-      description="Baixe a versão de divulgação do currículo ou leia a versão digital. O telefone pessoal foi removido do PDF."
+      description="Minha trajetória, formação e repertório técnico reunidos para uma leitura objetiva."
       eyebrow="Currículo"
       id="curriculo"
-      title="Currículo disponível para download e leitura."
+      title="O essencial, em um só lugar."
     >
       <Reveal className="resume-download-panel">
         <div>
           <p className="context-label">Currículo digital</p>
-          <h3>Versão de leitura e arquivo para download.</h3>
+          <h3>Conheça minha trajetória profissional.</h3>
           <p>
-            O PDF de divulgação remove o telefone pessoal e usa o endereço profissional informado. A versão digital
-            também pode ser lida e impressa diretamente no navegador.
+            Baixe o currículo em PDF ou consulte a versão digital. Você também pode imprimir a página diretamente pelo navegador.
           </p>
         </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, FileText } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useExperienceSelection } from "@/components/experience-provider";
 import { SectionShell } from "@/components/section-shell";
 import { experiences } from "@/lib/data";
@@ -17,10 +17,10 @@ export function ExperienceSection() {
   return (
     <SectionShell
       alt
-      description="Cargos, períodos e atividades foram transcritos do currículo fornecido. A apresentação resume os relatos sem expor rotinas internas nem atribuir resultados não informados."
+      description="Experiências em tecnologia, dados e suporte que conectam organização, análise e atenção às pessoas."
       eyebrow="Experiência"
       id="experiencia"
-      title="Tecnologia, dados e suporte em contextos diferentes."
+      title="Uma trajetória em movimento."
     >
       <div className="nexo-career-navigation focusable" role="group" aria-label="Percorrer os marcos profissionais" tabIndex={0} onKeyDown={(event) => {
         if (event.target !== event.currentTarget) return;
@@ -53,29 +53,21 @@ export function ExperienceSection() {
             <div className="nexo-experience-entry__company">
               <p>{experience.area}</p>
               <h3>{experience.organization}</h3>
-              <span>{experience.modality}</span>
+              <strong className="career-role">{experience.role}</strong>
+              <span className="career-period">{experience.period}</span>
               <button
                 aria-pressed={selectedIndex === index}
                 className="nexo-experience-select focusable"
                 onClick={() => selectExperience(experience.id)}
                 type="button"
               >
-                {selectedIndex === index ? "Marco em foco" : "Destacar marco"}
+                {selectedIndex === index ? "Em destaque" : "Destacar experiência"}
               </button>
             </div>
 
             <dl className="nexo-experience-entry__facts">
-              <div><dt>Contexto</dt><dd>{experience.context}</dd></div>
               <div>
-                <dt>Cargo</dt>
-                <dd>{experience.role}</dd>
-              </div>
-              <div>
-                <dt>Período</dt>
-                <dd>{experience.period}</dd>
-              </div>
-              <div>
-                <dt>Responsabilidades</dt>
+                <dt className="nexo-visually-hidden">Atividades</dt>
                 <dd>
                   <ul className="nexo-experience-responsibilities">
                     {experience.responsibilities.map((responsibility) => (
@@ -86,11 +78,6 @@ export function ExperienceSection() {
               </div>
             </dl>
 
-            <span className="nexo-evidence-status">
-              <FileText size={14} aria-hidden="true" />
-              {experience.verificationStatus}
-            </span>
-            <p className="nexo-experience-entry__note">{experience.validationNote}</p>
           </li>
         ))}
       </ol>

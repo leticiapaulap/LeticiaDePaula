@@ -9,7 +9,7 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "React",
         evidence: "uso-publico",
-        context: "Documentado na interface do projeto Festa Fantasia e neste portfólio.",
+        context: "Interfaces componentizadas em Festa Fantasia e neste portfólio.",
         projectSlugs: ["festa-fantasia", "portfolio-leticia-de-paula"]
       },
       {
@@ -21,24 +21,24 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "JavaScript",
         evidence: "experiencia-informada",
-        context: "Conhecimento listado no currículo; sem projeto público associado aqui."
+        context: "Conhecimentos em interfaces e interações para a web."
       },
       {
         name: "Vite",
         evidence: "uso-publico",
-        context: "Documentado como ferramenta de desenvolvimento do frontend do Festa Fantasia.",
+        context: "Ambiente de desenvolvimento do frontend de Festa Fantasia.",
         projectSlugs: ["festa-fantasia"]
       },
       {
         name: "Tailwind CSS",
         evidence: "uso-publico",
-        context: "Documentado no frontend do Festa Fantasia e neste portfólio.",
+        context: "Estilização responsiva em Festa Fantasia e neste portfólio.",
         projectSlugs: ["festa-fantasia", "portfolio-leticia-de-paula"]
       },
       {
         name: "Next.js",
         evidence: "uso-publico",
-        context: "Framework do projeto NEXO em desenvolvimento.",
+        context: "Rotas estáticas e estrutura deste portfólio.",
         projectSlugs: ["portfolio-leticia-de-paula"]
       },
       {
@@ -52,82 +52,82 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "back-end",
     title: "Back-end",
-    description: "APIs e componentes de servidor documentados nos projetos.",
+    description: "APIs, regras de negócio e integração entre sistemas.",
     items: [
       {
         name: "Node.js · APIs serverless",
         evidence: "uso-publico",
-        context: "API de produção e handlers Vercel descritos no repositório Festa Fantasia.",
+        context: "API e handlers serverless de Festa Fantasia.",
         projectSlugs: ["festa-fantasia"]
       },
       {
         name: "Java · Spring Boot",
         evidence: "uso-publico",
-        context: "Módulo Java/Spring Boot separado, mantido e documentado no mesmo repositório.",
+        context: "Módulo Java/Spring Boot do projeto Festa Fantasia.",
         projectSlugs: ["festa-fantasia"]
       },
       {
         name: "Spring Data JPA · Spring Security",
         evidence: "uso-publico",
-        context: "Dependências e arquitetura documentadas para o módulo Spring Boot.",
+        context: "Persistência e segurança no módulo Spring Boot.",
         projectSlugs: ["festa-fantasia"]
       },
       {
         name: "APIs REST",
         evidence: "uso-publico",
-        context: "Endpoints e fluxos públicos e administrativos documentados no projeto.",
+        context: "Endpoints para fluxos públicos e administrativos.",
         projectSlugs: ["festa-fantasia"]
       },
       {
         name: "GraphQL",
         evidence: "experiencia-informada",
-        context: "Conhecimento listado no currículo; sem implementação pública relacionada."
+        context: "Conhecimentos em consultas e integração de dados."
       }
     ]
   },
   {
     id: "database",
     title: "Banco de Dados",
-    description: "Persistência e migrações documentadas.",
+    description: "Modelagem, consultas, persistência e migrações.",
     items: [
       {
         name: "PostgreSQL",
         evidence: "uso-publico",
-        context: "Banco persistente documentado para a aplicação.",
+        context: "Persistência de participantes, votos e configurações do concurso.",
         projectSlugs: ["festa-fantasia"]
       },
       {
         name: "SQL · Flyway",
         evidence: "uso-publico",
-        context: "Restrições de unicidade e migrations documentadas no projeto.",
+        context: "Migrações e restrições de unicidade em Festa Fantasia.",
         projectSlugs: ["festa-fantasia"]
       },
       {
         name: "MySQL",
         evidence: "experiencia-informada",
-        context: "Banco de dados listado no currículo; sem projeto público associado."
+        context: "Conhecimentos em bancos relacionais e consultas."
       }
     ]
   },
   {
     id: "data-bi",
     title: "Dados e BI",
-    description: "Ferramentas declaradas no currículo; nenhuma relação com projeto é presumida.",
+    description: "Análise, organização e visualização de informações.",
     items: [
       {
         name: "Power BI",
         evidence: "experiencia-informada",
-        context: "Listada no currículo e em curso documentado; sem projeto público associado."
+        context: "Estudos em análise de dados e construção de visualizações."
       },
       {
         name: "Excel",
         evidence: "experiencia-informada",
-        context: "Listado no currículo e em curso documentado; sem projeto público associado."
+        context: "Organização de informações, planilhas e análise de dados."
       },
       {
         name: "SQL",
         evidence: "uso-publico",
-        context: "Esquema e migrações do projeto Festa Fantasia são documentados publicamente.",
+        context: "Esquema relacional e migrações de Festa Fantasia.",
         projectSlugs: ["festa-fantasia"]
       }
     ]
@@ -135,17 +135,17 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "automation",
     title: "Automação",
-    description: "Conhecimentos declarados no currículo, sem projetos corporativos publicados.",
+    description: "Estudos e ferramentas para simplificar rotinas.",
     items: [
       {
         name: "Python",
         evidence: "experiencia-informada",
-        context: "Conhecimento e automação listados no currículo; sem projeto público associado."
+        context: "Conhecimentos em Python e automação de rotinas."
       },
       {
         name: "Power Automate",
         evidence: "experiencia-informada",
-        context: "Ferramenta de automação listada no currículo; sem fluxo corporativo publicado."
+        context: "Conhecimentos em criação de fluxos automatizados."
       }
     ]
   },
@@ -175,12 +175,12 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "Docker · Postman · DBeaver · VS Code",
         evidence: "experiencia-informada",
-        context: "Ferramentas listadas no currículo; o uso em projetos específicos não foi associado."
+        context: "Ferramentas de apoio ao desenvolvimento, testes e consulta de dados."
       },
       {
         name: "SharePoint",
         evidence: "experiencia-informada",
-        context: "Ferramenta listada no currículo, sem associação a projeto público."
+        context: "Conhecimentos em organização e colaboração com documentos."
       },
       {
         name: "SEI",
@@ -192,8 +192,8 @@ export const skillGroups: SkillGroup[] = [
 ];
 
 export const skillEvidenceLabels = {
-  "uso-publico": "Evidência em projeto",
-  "experiencia-informada": "Experiência informada",
-  estudo: "Estudo informado",
-  "a-validar": "A validar"
+  "uso-publico": "Em projetos",
+  "experiencia-informada": "Conhecimento técnico",
+  estudo: "Em estudo",
+  "a-validar": "Em estudo"
 } as const;

@@ -1,16 +1,19 @@
 import { Reveal } from "@/components/reveal";
 import { SectionShell } from "@/components/section-shell";
 import { professional } from "@/lib/data";
+import { ProfessionalPortrait } from "@/components/professional-portrait";
+import { portrait } from "@/lib/portrait";
 
 export function ProfileSection() {
   return (
     <SectionShell
-      description="Uma apresentação objetiva para recrutadores: trajetória, repertório técnico e forma de resolver problemas sem exagerar títulos ou criar promessas que não possam ser comprovadas."
+      description="Desenvolvimento, dados e aprendizado contínuo. Um pouco de quem sou e de como penso as soluções que construo."
       eyebrow="Sobre"
       id="sobre"
       title="Tecnologia com leitura prática do negócio."
     >
-      <div className="profile-grid">
+      <div className={`profile-grid${portrait ? " profile-grid--portrait" : ""}`}>
+        {portrait ? <ProfessionalPortrait portrait={portrait} /> : null}
         <Reveal className="editorial-copy">
           {professional.about.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>

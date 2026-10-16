@@ -19,7 +19,7 @@ class SceneErrorBoundary extends Component<{ children: ReactNode; onError: () =>
 
 export function SculptureLoader() {
   const pathname = usePathname();
-  const { phase, mode, preferencesReady, sceneRequested, markSceneReady, markSceneUnavailable } = useExperience();
+  const { phase, activeSection, mode, preferencesReady, sceneRequested, markSceneReady, markSceneUnavailable } = useExperience();
   const surface = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [supported, setSupported] = useState(false);
@@ -68,7 +68,9 @@ export function SculptureLoader() {
   useEffect(() => {
     const stage = surface.current?.parentElement;
     if (!stage) return;
-    const artwork = pathname === "/" && phase === "portal" ? document.querySelector<HTMLElement>(".nexo-portal__artwork") : null;
+    const artwork = pathname === "/"
+      ? document.getElementById(activeSection)?.querySelector<HTMLElement>("[data-scene-anchor]")
+      : document.querySelector<HTMLElement>(".route-hero-scene, .project-case-scene");
     const target = artwork ?? stage;
     const observer = new IntersectionObserver(([entry]) => setInViewport(entry.isIntersecting));
     observer.observe(target);
@@ -81,7 +83,13 @@ export function SculptureLoader() {
       stage.style.setProperty("--scene-left", `${bounds.left}px`);
       stage.style.setProperty("--scene-width", `${bounds.width}px`);
       stage.style.setProperty("--scene-height", `${bounds.height}px`);
-      stage.dataset.anchored = "true";
+      if (bounds.width > 0 && bounds.height > 0) {
+        stage.dataset.anchored = "true";
+        artwork.dataset.sceneActive = "true";
+      } else {
+        delete stage.dataset.anchored;
+        delete artwork.dataset.sceneActive;
+      }
     };
     const schedule = () => { if (!frame) frame = window.requestAnimationFrame(position); };
     const resize = new ResizeObserver(schedule);
@@ -94,13 +102,14 @@ export function SculptureLoader() {
     window.addEventListener("resize", schedule, { passive: true });
     return () => {
       delete stage.dataset.anchored;
+      if (artwork) delete artwork.dataset.sceneActive;
       window.cancelAnimationFrame(frame);
       observer.disconnect();
       resize.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [pathname, phase]);
+  }, [pathname, phase, activeSection]);
 
   useEffect(() => {
     if (mode !== "immersive" || !supported || !visible || !inViewport) return;

@@ -12,10 +12,10 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { navItems, professional } from "@/lib/data";
 
 const portalLinks = [
-  { label: "Portal", href: "/#portal", path: "/" },
-  { label: "Exploração", href: "/#exploracao", path: "/" },
+  { label: "Início", href: "/#portal", path: "/" },
   { label: "Sobre", href: "/sobre/", path: "/sobre/" },
-  { label: "Projetos", href: "/projetos/", path: "/projetos/" }
+  { label: "Projetos", href: "/projetos/", path: "/projetos/" },
+  { label: "Contato", href: "/contato/", path: "/contato/" }
 ] as const;
 
 export function Header() {
@@ -34,16 +34,9 @@ export function Header() {
   return (
     <header className="nexo-header">
       <div className="nexo-header__inner">
-        <Link className="nexo-brand focusable" href="/#portal" prefetch={false}>
-          <span className="nexo-brand__symbol" aria-hidden="true">
-            <svg viewBox="0 0 34 34" fill="none">
-              <path d="M6 26V8l22 18V8" />
-              <circle cx="17" cy="17" r="15" />
-            </svg>
-          </span>
+        <Link className="nexo-brand personal-brand focusable" href="/#portal" prefetch={false} onClick={() => transitionTo("portal")}>
           <span className="nexo-brand__wordmark">
-            <strong>NEXO</strong>
-            <span>Letícia de Paula</span>
+            <strong>Letícia <em>de Paula</em></strong>
           </span>
         </Link>
 
@@ -120,16 +113,7 @@ export function Header() {
                       handlePortalNavigation("/#portal");
                     }}
                   >
-                    Portal
-                  </Link>
-                  <Link
-                    href="/#exploracao"
-                    onClick={() => {
-                      setOpen(false);
-                      handlePortalNavigation("/#exploracao");
-                    }}
-                  >
-                    Exploração
+                    Início
                   </Link>
                   {navItems
                     .filter((item) => item.id !== "inicio")

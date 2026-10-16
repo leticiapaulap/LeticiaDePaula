@@ -29,7 +29,7 @@ for (const width of [320, 375, 430, 768, 1024, 1280, 1440, 1920]) {
     await expect(page.getByRole("dialog", { name: "Navegar" })).toBeVisible();
     await page.getByRole("dialog").getByRole("link", { name: "Currículo digital" }).scrollIntoViewIfNeeded();
     const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
-    expect(result.violations.map(({ id }) => id)).toEqual([]);
+    expect(result.violations.map(({ id, nodes }) => ({ id, nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })) }))).toEqual([]);
     await page.keyboard.press("Escape");
     await expect(page.getByRole("button", { name: "Abrir menu" })).toBeFocused();
     expect(errors).toEqual([]);

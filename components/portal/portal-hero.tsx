@@ -11,46 +11,45 @@ export function PortalHero() {
     <section className="nexo-portal" id="portal" aria-labelledby="portal-title" data-experience-state={phase}>
       <div className="nexo-architecture-lines" aria-hidden="true" />
       <div className="nexo-portal__frame" aria-hidden="true">
-        <span>NEXO / 01</span>
-        <span>IDEIAS EM MOVIMENTO</span>
+        <span>PORTFÓLIO / 01</span>
+        <span>BRASÍLIA, BRASIL</span>
       </div>
 
       <div className="nexo-portal__content">
         <div className="nexo-portal__copy">
           <p className="nexo-portal__eyebrow">
             <span className="nexo-status-dot" aria-hidden="true" />
-            NEXO — A arquitetura das ideias
+            Desenvolvimento web · Dados · Automação
           </p>
 
           <h1 id="portal-title" className="nexo-portal__title">
             Letícia
             <br />
-            <span>de Paula.</span>
+            <span>de Paula</span>
           </h1>
 
           <p className="nexo-portal__statement">
-            Ideias que ganham forma. Conhecimentos que se conectam. Soluções que evoluem.
+            Tecnologia com propósito.<br />Experiências com cuidado.
           </p>
           <p className="nexo-portal__introduction">
-            Uma abordagem prática de desenvolvimento web, documentação e atenção ao contexto — construída por{" "}
-            {professional.name}.
+            Crio interfaces e aplicações que conectam pessoas, dados e ideias. Conheça meus projetos e os caminhos que fazem parte da minha trajetória.
           </p>
 
           <div className="nexo-portal__actions">
             <a
               className="nexo-button nexo-button--primary focusable"
-              href="#exploracao"
-              onClick={() => { setMode("immersive"); transitionTo("nucleus"); }}
+              href="#projetos"
+              onClick={() => transitionTo("projects")}
             >
-              Explorar meu universo
+              Conhecer projetos
               <ArrowRight size={17} aria-hidden="true" />
             </a>
             <a
               className="nexo-button nexo-button--quiet focusable"
-              href="#portfolio"
-              onClick={() => { setMode("direct"); transitionTo("nucleus"); }}
+              href="#exploracao"
+              onClick={() => { setMode("immersive"); transitionTo("nucleus"); }}
             >
-              Ver portfólio
+              Explorar trajetória
             </a>
           </div>
 
@@ -68,7 +67,7 @@ export function PortalHero() {
           </nav>
         </div>
 
-        <div className="nexo-portal__artwork">
+        <div className="nexo-portal__artwork" data-scene-anchor="portal">
           <div className="nexo-artwork__coordinates" aria-hidden="true">
             <span>BRASÍLIA</span>
             <span>15°47&apos;S — 47°52&apos;W</span>

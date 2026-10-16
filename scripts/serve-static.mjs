@@ -54,4 +54,4 @@ createServer(async (request, response) => {
     ...(compress ? { "Content-Encoding": "gzip" } : {})
   });
   response.end(request.method === "HEAD" ? undefined : payload);
-}).listen(port, "127.0.0.1", () => log(`NEXO preview: http://127.0.0.1:${port}`));
+}).listen(port, "127.0.0.1", () => log(`Portfólio preview: http://127.0.0.1:${port}`));

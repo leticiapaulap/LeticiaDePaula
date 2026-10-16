@@ -1,13 +1,17 @@
 import { ProjectExplorer } from "@/components/project-explorer";
 import { SectionShell } from "@/components/section-shell";
 
-export function ProjectsSection() {
+export function ProjectsSection({ compact = false }: { compact?: boolean }) {
+  if (compact) {
+    return <section className="section project-list-section" data-section id="projetos" aria-labelledby="projects-list-title"><div className="container"><h2 className="nexo-visually-hidden" id="projects-list-title">Projetos selecionados</h2><ProjectExplorer /></div></section>;
+  }
+
   return (
     <SectionShell
-      description="O estudo de caso publicado foi conferido no repositório e no README. O NEXO está identificado como portfólio em desenvolvimento. Sistemas internos e dados sensíveis não são divulgados."
+      description="Da experiência de quem usa à estrutura que sustenta cada aplicação. Explore os projetos, suas escolhas e seus resultados."
       eyebrow="Projetos"
       id="projetos"
-      title="Código documentado. Estado declarado."
+      title="Ideias em prática."
     >
       <ProjectExplorer />
     </SectionShell>

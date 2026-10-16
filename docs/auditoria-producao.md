@@ -1,4 +1,6 @@
-# NEXO — auditoria de produção
+# Letícia de Paula — auditoria de produção (histórico)
+
+> Relatório histórico da entrega `ab51e9f`. Marca, composição, inventário público e métricas descritos aqui refletem aquela versão. A revisão atual, com identidade exclusiva Letícia de Paula, está em [refinamento-pessoal.md](refinamento-pessoal.md).
 
 ## Escopo e método
 

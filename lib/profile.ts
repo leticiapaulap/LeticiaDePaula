@@ -3,12 +3,12 @@ import { siteUrl } from "@/lib/site";
 export const professional = {
   name: "Letícia de Paula",
   monogram: "LP",
-  headline: "Aplicações web construídas com contexto, documentação e atenção a quem usa.",
+  headline: "Desenvolvimento web com atenção às pessoas e aos detalhes.",
   title: "Desenvolvimento Web",
   positioning:
-    "Desenvolvimento web, organização de dados e automação, com projetos públicos em React e TypeScript e experiência profissional descrita no currículo.",
+    "Desenvolvimento web, dados e automação. Interfaces em React e TypeScript, com atenção à experiência de quem usa.",
   summary:
-    "Letícia de Paula desenvolve interfaces e aplicações web. Seu trabalho público inclui um sistema full stack documentado em React, TypeScript, Node.js e PostgreSQL. O currículo fornecido também descreve experiências em tecnologia, suporte e dados, além de formação em Análise e Desenvolvimento de Sistemas no UDF, atualmente em andamento.",
+    "Desenvolvo interfaces e aplicações web com React, TypeScript, Node.js e PostgreSQL. Minha trajetória reúne experiências em tecnologia, suporte e dados geoespaciais. Curso Análise e Desenvolvimento de Sistemas no UDF e conecto esse aprendizado à construção de soluções práticas.",
   location: "Brasília, DF",
   email: "leticiapaulaads@gmail.com",
   github: "https://github.com/leticiapaulap",
@@ -18,10 +18,10 @@ export const professional = {
   resumePdfPath: "/curriculo-leticia-de-paula.pdf" as string | null,
   resumePdfLabel: "Baixar currículo em PDF",
   about: [
-    "Curso Análise e Desenvolvimento de Sistemas no Centro Universitário do Distrito Federal (UDF), com conclusão prevista para o segundo semestre de 2026, conforme o currículo fornecido.",
-    "Minha trajetória declarada reúne apoio a sistemas e automação na SENAPPEN, análise de dados geoespaciais na TCB Brasília e suporte técnico na Age Fibra. A apresentação resume essas experiências sem expor processos, sistemas ou informações corporativas.",
-    "Nos repositórios públicos, o trabalho mais completo documentado é um sistema web full stack: interface em React e TypeScript, API Node.js, persistência em PostgreSQL e um módulo Spring Boot separado. Neste portfólio, desenvolvo o NEXO com Next.js, TypeScript e uma escultura 3D leve, sem esconder o conteúdo quando o WebGL está indisponível.",
-    "Organizo os conhecimentos por contexto e evidência: projetos públicos, currículo informado ou cursos documentados. Assim, ferramentas estudadas não são confundidas com tecnologias comprovadas em um projeto publicado."
+    "Sou Letícia de Paula, de Brasília. Curso Análise e Desenvolvimento de Sistemas no Centro Universitário do Distrito Federal (UDF), com conclusão prevista para o segundo semestre de 2026.",
+    "Minha trajetória passa pelo apoio a sistemas e automação na SENAPPEN, pela análise de dados geoespaciais na TCB Brasília e pelo suporte técnico na Age Fibra. São contextos diferentes que aproximam tecnologia, organização e cuidado com as pessoas.",
+    "Nos projetos, gosto de conectar interface, dados e funcionamento. Festa Fantasia reúne React, TypeScript, Node.js e PostgreSQL em uma aplicação full stack. Este portfólio explora uma linguagem editorial com Next.js e uma escultura 3D, sem abrir mão da leitura e da navegação direta.",
+    "Valorizo soluções compreensíveis, documentação útil e aprendizado contínuo. Meu objetivo é transformar necessidades reais em experiências digitais claras e bem cuidadas."
   ],
   principles: [
     {

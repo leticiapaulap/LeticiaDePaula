@@ -2,7 +2,6 @@
 
 import { BadgeCheck, ChartNoAxesCombined, ClipboardList, Code2, Database, Server, Wrench } from "lucide-react";
 import Link from "next/link";
-import { Reveal } from "@/components/reveal";
 import { SectionShell } from "@/components/section-shell";
 import { useExperienceSelection } from "@/components/experience-provider";
 import { SkillConnectionMap } from "@/components/skill-connection-map";
@@ -16,10 +15,10 @@ export function SkillsSection() {
   return (
     <SectionShell
       alt
-      description="Selecione uma tecnologia para destacar sua relação com projetos documentados. A lista preserva as mesmas conexões sem depender de WebGL."
+      description="Explore as categorias e selecione uma tecnologia para conhecer suas conexões com os projetos."
       eyebrow="Competências"
       id="competencias"
-      title="Repertório técnico organizado por contexto de uso."
+      title="Repertório que se conecta."
     >
       <SkillConnectionMap />
       <div
@@ -31,14 +30,15 @@ export function SkillsSection() {
           const Icon = icons[index % icons.length] ?? BadgeCheck;
 
           return (
-            <Reveal className="skill-card" key={group.id}>
-              <div className="skill-heading">
+            <details className="skill-card skill-category" key={group.id} open={index === 0}>
+              <summary className="skill-heading focusable">
                 <Icon size={24} aria-hidden="true" />
                 <div>
                   <h3>{group.title}</h3>
                   <p>{group.description}</p>
                 </div>
-              </div>
+                <span className="skill-category__count">{group.items.length} tecnologias</span>
+              </summary>
               {group.items.length > 0 ? (
                 <ul className="skill-list">
                   {group.items.map((item) => (
@@ -83,7 +83,7 @@ export function SkillsSection() {
               ) : (
                 <p className="nexo-skill-empty">Sem ferramenta ou experiência verificável publicada nesta área.</p>
               )}
-            </Reveal>
+            </details>
           );
         })}
       </div>

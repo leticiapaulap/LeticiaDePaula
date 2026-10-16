@@ -20,16 +20,16 @@ export function SkillConnectionMap() {
   return (
     <div className="nexo-connection-map">
       <div className="nexo-connection-map__heading">
-        <div><p className="context-label">CONEXÕES DOCUMENTADAS / 2D</p><h3>Do repertório à aplicação.</h3></div>
+        <div><p className="context-label">TECNOLOGIA EM CONTEXTO</p><h3>Do repertório à aplicação.</h3></div>
         {hasSelection ? <button className="secondary-action focusable" type="button" onClick={() => selectSkill(null)}><RotateCcw size={15} aria-hidden="true" />Ver todas as conexões</button> : null}
       </div>
-      <p>Selecione um projeto neste mapa ou uma tecnologia na lista abaixo. Cada linha representa uma relação registrada.</p>
+      <p>Escolha um projeto para explorar as tecnologias usadas na sua construção.</p>
       <div className="nexo-connection-map__graph">
         <div className="nexo-map-groups">
           {skillGroups.map((group) => {
             const linked = skillConnections.some((connection) => connection.groupId === group.id);
             const highlighted = !hasSelection ? linked : connectedSkills.some((skill) => skill.groupId === group.id && skill.projectSlugs?.length);
-            return <div className="nexo-map-group" key={group.id} data-connected={highlighted}><strong>{group.title}</strong><small>{linked ? "Relações documentadas" : "Sem projeto público associado"}</small></div>;
+            return <div className="nexo-map-group" key={group.id} data-connected={highlighted}><strong>{group.title}</strong><small>{linked ? "Em projetos" : "Conhecimentos e estudos"}</small></div>;
           })}
         </div>
         <svg className="nexo-map-curves" viewBox="0 0 100 360" preserveAspectRatio="none" aria-hidden="true">
@@ -48,9 +48,9 @@ export function SkillConnectionMap() {
       </div>
       <div className="nexo-map-detail" id={panelId} aria-live="polite" aria-atomic="true">
         <p className="context-label">{selectedSkill ? "TECNOLOGIA EM FOCO" : selectedProject ? "PROJETO EM FOCO" : "EXPLORE AS RELAÇÕES"}</p>
-        <h4>{selectedSkill?.name ?? selectedProject?.shortTitle ?? "Uma trajetória com evidências."}</h4>
+        <h4>{selectedSkill?.name ?? selectedProject?.shortTitle ?? "Conhecimento em prática."}</h4>
         <p>{selectedSkill?.context ?? selectedProject?.summary ?? "A lista completa abaixo também permite explorar as conexões por teclado ou toque."}</p>
-        {selectedSkill && connectedProjects.length === 0 ? <p className="nexo-map-empty">Nenhum projeto público associado a {selectedSkill.name}. O conhecimento informado permanece na lista, sem relações presumidas.</p> : null}
+        {selectedSkill && connectedProjects.length === 0 ? <p className="nexo-map-empty">Nenhum projeto público associado a {selectedSkill.name}.</p> : null}
         {selectedProject ? <div className="tag-list" aria-label={`Tecnologias relacionadas a ${selectedProject.shortTitle}`}>{connectedSkills.map((skill) => <button className="filter-chip focusable" type="button" key={skill.name} onClick={() => selectSkill(skill.name)}>{skill.name}</button>)}</div> : null}
         <div className="nexo-map-case-links">{connectedProjects.map((project) => <Link className="text-action focusable" href={`/projetos/${project.slug}/`} key={project.slug} onNavigate={() => selectProject(project.slug)}>{project.shortTitle} / Estudo de caso<ArrowUpRight size={16} aria-hidden="true" /></Link>)}</div>
       </div>

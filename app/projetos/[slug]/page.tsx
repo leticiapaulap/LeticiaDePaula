@@ -6,6 +6,7 @@ import { ProjectVisual } from "@/components/project-visual";
 import { ProjectReturnLink } from "@/components/project-return-link";
 import { getProjectBySlug, projects } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
+import { SceneAccent } from "@/components/scene-accent";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -49,7 +50,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <div className="container">
         <nav className="nexo-breadcrumb nexo-breadcrumb--detail" aria-label="Breadcrumb">
           <Link className="focusable" href="/">
-            NEXO
+            Letícia de Paula
           </Link>
           <span aria-hidden="true">/</span>
           <Link className="focusable" href="/projetos/">
@@ -83,6 +84,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   </a>
                 ))}
             </div>
+            <SceneAccent phase="projects" className="project-case-scene" />
           </div>
           <ProjectVisual project={project} />
         </header>
@@ -94,11 +96,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <strong>{project.publicationStatus}</strong>
             </div>
             <div>
-              <span>Status do projeto</span>
+              <span>Projeto</span>
               <strong>{project.status}</strong>
             </div>
             <div>
-              <span>Fonte de validação</span>
+              <span>Repositório</span>
               {project.evidence.href ? (
                 <a href={project.evidence.href} rel="noreferrer" target="_blank">
                   {project.evidence.sourceLabel}
@@ -171,7 +173,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </div>
 
-        <section className="nexo-case-screenshots" aria-labelledby="case-screenshots-title">
+        {project.screenshots.length > 1 ? <section className="nexo-case-screenshots" aria-labelledby="case-screenshots-title">
           <div>
             <p className="eyebrow">Registro visual</p>
             <h2 id="case-screenshots-title">Imagens e capturas.</h2>
@@ -191,7 +193,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               ))}
             </div>
           ) : null}
-        </section>
+        </section> : null}
 
         <nav className="project-navigation" aria-label="Navegação entre projetos">
           <Link className="secondary-action focusable" href={`/projetos/${previousProject.slug}/`}>

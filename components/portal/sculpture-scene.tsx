@@ -212,14 +212,14 @@ function SceneRig({ active, quality }: { active: boolean; quality: SceneQuality 
 
   return (
     <>
-      <ambientLight intensity={0.6} />
+      <ambientLight intensity={quality === "mobile" ? 0.95 : 0.7} />
       <hemisphereLight args={["#edf2f0", "#202329", 1.1]} />
       <directionalLight ref={light} color="#f2e4c7" intensity={2.1} position={[3, 4, 4]} />
       <pointLight color="#dfbc83" intensity={7} position={[-3, 0.2, 2.8]} />
       {quality !== "mobile" ? <pointLight color="#aabfcb" intensity={4} position={[1.7, -2, -2]} /> : null}
       <group ref={group}>
         <mesh ref={mesh} args={[geometry]} dispose={null} frustumCulled={false}>
-          <meshPhysicalMaterial ref={material} color="#c8ad83" metalness={0.74} roughness={0.27} clearcoat={quality === "desktop" ? 0.5 : 0} side={THREE.DoubleSide} />
+          <meshPhysicalMaterial ref={material} color="#c8ad83" metalness={quality === "mobile" ? 0.58 : 0.74} roughness={0.27} clearcoat={quality === "desktop" ? 0.5 : 0} side={THREE.DoubleSide} />
         </mesh>
         <lineSegments ref={graph} geometry={connections} dispose={null}>
           <lineBasicMaterial ref={graphMaterial} vertexColors transparent opacity={0} depthWrite={false} />

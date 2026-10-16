@@ -27,7 +27,7 @@ export const experienceSceneStates: Record<ExperiencePhase, ExperienceSceneState
   experience: { label: "Experiência", section: "experiencia", href: "/experiencia/", cameraPosition: [0.12, 0.14, 4.9], cameraTarget: [0, 0, 0], rotation: [-0.08, -0.12, 0.06], ribbonScale: [1, 1, 1], ribbonColor: "#cfb388", lightIntensity: 1.08, roughness: 0.32 },
   competencies: { label: "Competências", section: "competencias", href: "/competencias/", cameraPosition: [0, 0.06, 4.8], cameraTarget: [0, 0, 0], rotation: [0.08, -0.16, 0.04], ribbonScale: [1, 1, 1], ribbonColor: "#d8c29d", lightIntensity: 1.16, roughness: 0.25 },
   education: { label: "Formação", section: "formacao", href: "/formacao/", cameraPosition: [0, 0.06, 5], cameraTarget: [0, 0, 0], rotation: [0.16, -0.16, -0.06], ribbonScale: [1, 1, 1], ribbonColor: "#bba782", lightIntensity: 0.98, roughness: 0.36 },
-  convergence: { label: "Convergência", section: "contato", href: "/contato/", cameraPosition: [0, 0, 4.8], cameraTarget: [0, 0, 0], rotation: [0.12, -0.22, -0.12], ribbonScale: [1, 1, 1], ribbonColor: "#dfc8a5", lightIntensity: 1.18, roughness: 0.24 }
+  convergence: { label: "Contato", section: "contato", href: "/contato/", cameraPosition: [0, 0, 4.8], cameraTarget: [0, 0, 0], rotation: [0.12, -0.22, -0.12], ribbonScale: [1, 1, 1], ribbonColor: "#dfc8a5", lightIntensity: 1.18, roughness: 0.24 }
 };
 
 export type ExperienceState = {

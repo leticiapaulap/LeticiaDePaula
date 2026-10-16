@@ -57,7 +57,7 @@ export default function CurriculoPage() {
                   <article key={experience.organization}>
                     <p className="resume-kicker">{experience.area}</p>
                     <h3>{experience.organization}</h3>
-                    <p className="resume-tags">{experience.role}</p>
+                    <p className="resume-tags">{experience.role} · {experience.period}</p>
                     <p>{experience.context}</p>
                     <ul className="resume-list">
                       {experience.responsibilities.map((point) => (
@@ -89,7 +89,7 @@ export default function CurriculoPage() {
                 <strong>{education.course}</strong>
               </p>
               <p>{education.institution}</p>
-              <p>{education.note}</p>
+              <p>{education.status} · {education.period}</p>
             </section>
           </div>
         </div>
