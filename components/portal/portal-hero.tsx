@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowDown, ArrowRight, GitBranch, Mail, Network } from "lucide-react";
+import Link from "next/link";
 import { useExperience } from "@/components/experience-provider";
 import { professional } from "@/lib/profile";
 
@@ -22,7 +23,7 @@ export function PortalHero() {
             Desenvolvimento web · Dados · Automação
           </p>
 
-          <h1 id="portal-title" className="nexo-portal__title">
+          <h1 id="portal-title" className="nexo-portal__title" tabIndex={-1}>
             Letícia
             <br />
             <span>de Paula</span>
@@ -36,21 +37,23 @@ export function PortalHero() {
           </p>
 
           <div className="nexo-portal__actions">
-            <a
+            <Link
               className="nexo-button nexo-button--primary focusable"
-              href="#projetos"
-              onClick={() => transitionTo("projects")}
+              href="/projetos/"
+              transitionTypes={["nav-forward"]}
+              onNavigate={() => transitionTo("projects")}
             >
               Conhecer projetos
               <ArrowRight size={17} aria-hidden="true" />
-            </a>
-            <a
+            </Link>
+            <Link
               className="nexo-button nexo-button--quiet focusable"
-              href="#exploracao"
-              onClick={() => { setMode("immersive"); transitionTo("nucleus"); }}
+              href="/sobre/"
+              transitionTypes={["nav-forward"]}
+              onNavigate={() => { setMode("immersive"); requestScene(); transitionTo("nucleus"); }}
             >
-              Explorar trajetória
-            </a>
+              Explorar trajetória <ArrowRight size={17} aria-hidden="true" />
+            </Link>
           </div>
 
           <nav className="nexo-socials" aria-label="Perfis e contato">
@@ -132,10 +135,10 @@ export function PortalHero() {
         ) : null}
       </div>
 
-      <a className="nexo-scroll-cue focusable" href="#exploracao" aria-label="Continue a explorar — primeira área de exploração">
-        <span>CONTINUE A EXPLORAR</span>
+      <Link className="nexo-scroll-cue focusable" href="/sobre/" transitionTypes={["nav-forward"]} onNavigate={() => transitionTo("nucleus")} aria-label="Próximo capítulo / 02: Sobre mim">
+        <span>PRÓXIMO CAPÍTULO / 02</span>
         <ArrowDown size={15} aria-hidden="true" />
-      </a>
+      </Link>
     </section>
   );
 }

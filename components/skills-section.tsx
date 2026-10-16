@@ -1,6 +1,6 @@
 "use client";
 
-import { BadgeCheck, ChartNoAxesCombined, ClipboardList, Code2, Database, Server, Wrench } from "lucide-react";
+import { BadgeCheck, ChartNoAxesCombined, ChevronDown, ClipboardList, Code2, Database, Server, Wrench } from "lucide-react";
 import Link from "next/link";
 import { SectionShell } from "@/components/section-shell";
 import { useExperienceSelection } from "@/components/experience-provider";
@@ -30,14 +30,15 @@ export function SkillsSection() {
           const Icon = icons[index % icons.length] ?? BadgeCheck;
 
           return (
-            <details className="skill-card skill-category" key={group.id} open={index === 0}>
+            <details className="skill-card skill-category" key={group.id} name="skill-categories" open={index === 0}>
               <summary className="skill-heading focusable">
                 <Icon size={24} aria-hidden="true" />
                 <div>
                   <h3>{group.title}</h3>
                   <p>{group.description}</p>
                 </div>
-                <span className="skill-category__count">{group.items.length} tecnologias</span>
+                <span className="skill-category__count">{group.items.length} competências</span>
+                <ChevronDown className="skill-category__chevron" size={20} aria-hidden="true" />
               </summary>
               {group.items.length > 0 ? (
                 <ul className="skill-list">
@@ -50,7 +51,7 @@ export function SkillsSection() {
                       <button
                         aria-pressed={selectedSkillName === item.name}
                         className="nexo-skill-node focusable"
-                        onClick={() => selectSkill(item.name)}
+                        onClick={() => selectSkill(selectedSkillName === item.name ? null : item.name)}
                         type="button"
                       >
                         <strong>{item.name}</strong>

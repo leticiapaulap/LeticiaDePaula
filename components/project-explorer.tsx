@@ -60,7 +60,7 @@ export function ProjectExplorer() {
             event.currentTarget.setPointerCapture(event.pointerId);
           }
         }} onPointerUp={handleSwipe} onPointerCancel={() => { touchStart.current = null; }}>
-          <article className="project-showcase__feature" key={focusedProject.slug}>
+          <article className="project-showcase__feature" data-project-category={focusedProject.category} key={focusedProject.slug}>
             <div className="project-showcase__media">
               <div className="project-window-bar" aria-hidden="true"><span /><span /><span /><small>{focusedProject.shortTitle}</small></div>
               <ProjectVisual project={focusedProject} />
@@ -78,7 +78,7 @@ export function ProjectExplorer() {
             </div>
           </article>
           <div className="project-showcase__selection" role="group" aria-label="Selecionar projeto em destaque">
-            {visibleProjects.map((project, index) => <button className="project-showcase__tab focusable" type="button" key={project.slug} aria-pressed={focusedProject.slug === project.slug} onClick={() => selectProject(project.slug)}><span className="project-showcase__tab-number">0{index + 1}</span><span><strong>{project.shortTitle}</strong><small>{project.category}</small></span><ArrowRight size={17} aria-hidden="true" /></button>)}
+            {visibleProjects.map((project) => <button className="project-showcase__tab focusable" type="button" key={project.slug} aria-pressed={focusedProject.slug === project.slug} onClick={() => selectProject(project.slug)}>{project.screenshots[0] ? <img className="project-showcase__thumbnail" src={project.screenshots[0].src} alt="" width={112} height={80} loading="lazy" /> : null}<span><strong>{project.shortTitle}</strong><small>{project.category}</small></span><ArrowRight size={17} aria-hidden="true" /></button>)}
           </div>
         </div>
       ) : <div className="empty-state"><strong>Nenhum projeto público nesta categoria.</strong><span>Explore as outras categorias para conhecer meus projetos.</span></div>}

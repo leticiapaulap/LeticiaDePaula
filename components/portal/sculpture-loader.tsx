@@ -28,7 +28,7 @@ export function SculptureLoader() {
   const [visible, setVisible] = useState(true);
   const [inViewport, setInViewport] = useState(false);
   const [quality, setQuality] = useState<SceneQuality>("mobile");
-  const shouldLoad = sceneRequested || (pathname === "/" && (quality !== "mobile" || phase !== "portal"));
+  const shouldLoad = sceneRequested || (mode === "immersive" && quality !== "mobile");
 
   const handleReady = useCallback(() => { setReady(true); markSceneReady(); }, [markSceneReady]);
   const handleError = useCallback(() => { setFailed(true); setReady(false); markSceneUnavailable(); }, [markSceneUnavailable]);
@@ -68,8 +68,10 @@ export function SculptureLoader() {
   useEffect(() => {
     const stage = surface.current?.parentElement;
     if (!stage) return;
+    const companion = document.querySelector<HTMLElement>(".journey-companion [data-scene-anchor]");
+    const useCompanion = Boolean(companion && companion.getBoundingClientRect().width > 0 && !["portal", "exploracao", "portfolio"].includes(activeSection));
     const artwork = pathname === "/"
-      ? document.getElementById(activeSection)?.querySelector<HTMLElement>("[data-scene-anchor]")
+      ? useCompanion ? companion : document.getElementById(activeSection)?.querySelector<HTMLElement>("[data-scene-anchor]")
       : document.querySelector<HTMLElement>(".route-hero-scene, .project-case-scene");
     const target = artwork ?? stage;
     const observer = new IntersectionObserver(([entry]) => setInViewport(entry.isIntersecting));
@@ -109,7 +111,7 @@ export function SculptureLoader() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [pathname, phase, activeSection]);
+  }, [pathname, phase, activeSection, quality]);
 
   useEffect(() => {
     if (mode !== "immersive" || !supported || !visible || !inViewport) return;

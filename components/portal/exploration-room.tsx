@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useExperience } from "@/components/experience-provider";
 import { portalRooms } from "@/lib/portal";
 import { phaseForSection } from "@/lib/experience-state";
-import { ExperienceNavigation } from "@/components/experience-navigation";
 import { SceneAccent } from "@/components/scene-accent";
 
 export function ExplorationRoom() {
@@ -47,7 +46,7 @@ export function ExplorationRoom() {
           ))}
         </nav>
 
-        <div className="exploration-scene-row"><SceneAccent phase="nucleus" /><ExperienceNavigation /></div>
+        <div className="exploration-scene-row"><SceneAccent phase="nucleus" /></div>
         <div className="nexo-exploration__footer">
           <a className="nexo-return-link focusable" href="#portal" onClick={() => transitionTo("portal")}>
             <CornerDownLeft size={15} aria-hidden="true" />

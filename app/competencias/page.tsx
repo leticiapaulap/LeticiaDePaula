@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { EditorialPage } from "@/components/editorial-page";
 import { SkillsSection } from "@/components/skills-section";
 import { pageMetadata } from "@/lib/metadata";
@@ -7,6 +8,7 @@ export const metadata: Metadata = pageMetadata("Competências", "Tecnologias org
 
 export default function SkillsPage() {
   return (
+    <ViewTransition enter={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} exit={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} default="none">
     <EditorialPage
       eyebrow="Competências"
       title="Ferramentas com contexto."
@@ -14,5 +16,6 @@ export default function SkillsPage() {
     >
       <SkillsSection />
     </EditorialPage>
+    </ViewTransition>
   );
 }

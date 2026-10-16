@@ -150,12 +150,9 @@ export function CertificationExplorer() {
               </dl> : null}
 
               {certification.certificateUrl ? (
-                <div className="project-links">
-                <button className="secondary-action focusable" type="button" onClick={(event) => { previewTrigger.current = event.currentTarget; setPreview(certification); }} aria-label={`Visualizar certificado: ${certification.name}`}><Eye size={16} aria-hidden="true" />Visualizar certificado</button>
-                <a className="secondary-action focusable" href={certification.certificateUrl} rel="noreferrer" target="_blank">
-                  <ExternalLink size={16} />
-                  Abrir PDF
-                </a>
+                <div className="nexo-certificate-actions">
+                <button className="secondary-action focusable" data-certificate-url={certification.certificateUrl} type="button" onClick={(event) => { previewTrigger.current = event.currentTarget; setPreview(certification); }} aria-label={`Ver certificado: ${certification.name}`}><Eye size={16} aria-hidden="true" />Ver certificado</button>
+                <noscript><a className="secondary-action focusable" href={certification.certificateUrl} rel="noreferrer" target="_blank">Abrir certificado em PDF<ExternalLink size={16} aria-hidden="true" /></a></noscript>
                 </div>
               ) : null}
             </article>

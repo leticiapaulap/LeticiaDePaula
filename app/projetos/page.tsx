@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { EditorialPage } from "@/components/editorial-page";
 import { ProjectsSection } from "@/components/projects-section";
 import { pageMetadata } from "@/lib/metadata";
@@ -7,6 +8,7 @@ export const metadata: Metadata = pageMetadata("Projetos", "Aplicações web de 
 
 export default function ProjectsPage() {
   return (
+    <ViewTransition enter={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} exit={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} default="none">
     <EditorialPage
       eyebrow="Projetos"
       title="Da ideia à experiência."
@@ -14,5 +16,6 @@ export default function ProjectsPage() {
     >
       <ProjectsSection compact />
     </EditorialPage>
+    </ViewTransition>
   );
 }

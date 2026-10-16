@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from "react";
 import { usePathname } from "next/navigation";
-import { createExperienceState, experienceReducer, phaseForRoute, phaseForSection, transitionDuration, type ExperienceMode, type ExperiencePhase } from "@/lib/experience-state";
+import { createExperienceState, experienceReducer, phaseForRoute, transitionDuration, type ExperienceMode, type ExperiencePhase } from "@/lib/experience-state";
 
 type ExperienceContextValue = ReturnType<typeof useExperienceController>;
 const ExperienceContext = createContext<ExperienceContextValue | null>(null);
@@ -77,30 +77,6 @@ function useExperienceController() {
     const slug = pathname.match(/^\/projetos\/([^/]+)/)?.[1];
     if (slug) selectProject(slug);
   }, [pathname, selectProject, transitionTo]);
-
-  useEffect(() => {
-    if (pathname !== "/") return;
-    const sections = Array.from(document.querySelectorAll<HTMLElement>("#portal, #exploracao, [data-section]"));
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const readingLine = Math.min(360, window.innerHeight * 0.42);
-      const section = [...sections].reverse().find((entry) => entry.getBoundingClientRect().top <= readingLine) ?? sections[0];
-      const phase = section && phaseForSection(section.id);
-      if (phase) transitionTo(phase, section.id);
-    };
-    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
-    schedule();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    window.addEventListener("hashchange", schedule);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      window.removeEventListener("hashchange", schedule);
-    };
-  }, [pathname, transitionTo]);
 
   return useMemo(() => ({ ...state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, rememberGallery, transitionId: state.revision, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, toggleMotion, markSceneReady, markSceneUnavailable }), [state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, toggleMotion, markSceneReady, markSceneUnavailable]);
 }

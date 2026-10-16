@@ -30,7 +30,7 @@ export function EditorialPage({
           </nav>
 
           <p className="nexo-route__eyebrow">{eyebrow}</p>
-          <h1>{title}</h1>
+          <h1 id="chapter-title" tabIndex={-1}>{title}</h1>
           <p className="nexo-route__description">{description}</p>
           <Link className="nexo-route__back focusable" href="/">
             <ArrowLeft size={15} aria-hidden="true" />

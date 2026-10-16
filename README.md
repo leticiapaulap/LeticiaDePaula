@@ -2,7 +2,7 @@
 
 Portfólio profissional de Letícia de Paula. A composição editorial conecta trajetória, projetos, competências e formação a uma escultura procedural em 3D. Grafite, marfim e dourado, tipografia editorial e navegação acessível formam a identidade visual. A única marca pública é o nome profissional. O conteúdo é HTML estático e pode ser consultado por URL, mecanismos de busca e sem WebGL.
 
-Esta entrega refina a implementação existente, sem reconstrução. A auditoria e os resultados atuais estão em [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). Pendências e fontes de conteúdo ficam em [docs/conteudo-interno.md](docs/conteudo-interno.md), não na interface. Os relatórios anteriores em `docs/auditoria-producao.md` e `docs/etapa-3.md` são históricos.
+Esta entrega evolui a implementação existente, sem reconstrução. A rodada mais recente está documentada em [docs/pos-revisao.md](docs/pos-revisao.md); a revisão anterior permanece em [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). Pendências e fontes de conteúdo ficam em [docs/conteudo-interno.md](docs/conteudo-interno.md), não na interface. Os relatórios anteriores preservam os resultados das versões que mediram.
 
 ## Tecnologias
 
@@ -52,7 +52,9 @@ app/                       Rotas, layout, metadados, sitemap, robots e 404
   projetos/[slug]/         Estudos de caso gerados no build
   globals.css              Tokens e estilos editoriais
   experience.css           Interação, responsividade, foco e impressão
+  refinements.css          Acabamento visual e navegação por capítulos
 components/                Seções profissionais e controles
+  experience-navigation.tsx Navegação entre capítulos e modo de leitura
   portal/                  Portal, SVG, carregador e cena 3D
 lib/                       Conteúdo tipado, relações e máquina de estados
 public/                    Imagens públicas, currículo e nove certificados
@@ -64,19 +66,21 @@ vercel.json                Build, diretório público, cache e cabeçalhos
 
 Server Components e dados tipados geram as páginas HTML no build. Client Components atendem filtros, pesquisa, preferências e navegação imersiva. `ExperienceProvider` coordena fases e seleções; um contexto separado de seleções evita atualizar as listas quando só a cena ou as preferências mudam. O renderizador não controla a disponibilidade do conteúdo.
 
-A escultura tem sete estados: Portal, Núcleo, Projetos, Experiência, Competências, Formação e Contato. Os alvos compartilham topologia e são interpolados na GPU. Uma única cena acompanha áreas decorativas reservadas da abertura e das seções, sem ocupar a área dos textos. Páginas internas usam SVG imediato e uma cena já ativada ou solicitada pelo modo imersivo; em mobile, a decoração interna secundária é ocultada. O modo direto não carrega o renderizador.
+A escultura tem sete estados: Apresentação, Sobre, Projetos, Experiência, Competências, Formação e Contato. Os alvos compartilham topologia e são interpolados na GPU. Uma única cena acompanha as rotas; no celular, usa SVG e só carrega WebGL após solicitação explícita. Uma visita em modo direto não carrega o renderizador. Movimento reduzido desativa as transições espaciais, sem eliminar conteúdo.
+
+Cada capítulo é uma rota HTML independente, carregável e compartilhável. A navegação mantém entradas reais no histórico do navegador, inclui anterior/próximo, seleção direta, teclado e gesto horizontal opcional no mobile. A rolagem não é capturada: timelines, galerias, competências e documentos extensos permanecem acessíveis em fluxo natural.
 
 | Rota | Conteúdo |
 | --- | --- |
-| `/` | Portal, exploração e todas as seções profissionais |
-| `/sobre/` | Apresentação, princípios e integração opcional da fotografia |
-| `/projetos/` | Galeria, filtros e estados vazios |
+| `/` | 01 — Apresentação |
+| `/sobre/` | 02 — Sobre mim, princípios e fotografia opcional |
+| `/projetos/` | 03 — Galeria, filtros e estados vazios |
 | `/projetos/festa-fantasia/` | Estudo de caso do projeto público |
 | `/projetos/portfolio-leticia-de-paula/` | Estudo de caso do portfólio pessoal |
-| `/experiencia/` | Cargos, períodos e atividades informados no currículo |
-| `/competencias/` | Conhecimentos e relações documentadas com projetos |
-| `/formacao/` | Formação acadêmica, dez cursos públicos, filtros e nove PDFs |
-| `/contato/` | E-mail e perfis profissionais |
+| `/experiencia/` | 04 — Cargos, períodos e atividades da trajetória |
+| `/competencias/` | 05 — Conhecimentos e relações documentadas com projetos |
+| `/formacao/` | 06 — Formação, cursos, filtros e certificados |
+| `/contato/` | 07 — E-mail e perfis profissionais |
 | `/curriculo/` | Currículo digital indexável e imprimível |
 | URL desconhecida | Página 404 com caminhos para continuar |
 

@@ -103,7 +103,7 @@ test("busca sem acentos, filtros e certificados", async ({ page }) => {
   await expect(page.locator(".certification-card")).toHaveCount(9);
   await page.getByLabel("Instituição", { exact: true }).selectOption("DIO");
   await expect(page.locator(".certification-card")).toHaveCount(3);
-  const trigger = page.getByRole("button", { name: "Visualizar certificado: Introdução à Análise de Dados e BI", exact: true });
+  const trigger = page.getByRole("button", { name: "Ver certificado: Introdução à Análise de Dados e BI", exact: true });
   await trigger.click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
@@ -127,7 +127,7 @@ test("novos certificados preservam dados e abrem os documentos reais", async ({ 
     for (const detail of [certificate.institution, certificate.date, certificate.workload, "Concluído"]) {
       await expect(card).toContainText(detail);
     }
-    const trigger = page.getByRole("button", { name: `Visualizar certificado: ${certificate.name}`, exact: true });
+    const trigger = page.getByRole("button", { name: `Ver certificado: ${certificate.name}`, exact: true });
     await trigger.click();
     await expect(page.getByRole("dialog").locator("iframe")).toHaveAttribute("src", certificate.url);
     await expect(page.getByRole("dialog").getByRole("link", { name: "Abrir PDF em outra aba" })).toHaveAttribute("href", certificate.url);
@@ -175,7 +175,7 @@ test("movimento reduzido e fallback sem WebGL", async ({ page }) => {
   await expect(page.locator(".nexo-experience-root")).toHaveAttribute("data-motion-enabled", "false");
   await expect(page.locator(".nexo-artwork__fallback")).toHaveCSS("opacity", "1");
   await expect(page.locator("canvas")).toHaveCount(0);
-  await page.getByRole("link", { name: "Ler portfólio completo", exact: true }).click();
+  await page.getByRole("link", { name: "Explorar trajetória", exact: true }).click();
   await expect(page.locator("#sobre")).toBeVisible();
 });
 
@@ -200,7 +200,8 @@ test("rotas, documentos e metadados publicados", async ({ page, request }) => {
     expect(await page.locator("body").innerText()).not.toMatch(/\bNEXO\b|Arquitetura das Ideias|Em Camadas|A validar|Informado no currículo|Não anexado/i);
   }
   await page.goto("/formacao/");
-  const documents = await page.locator('a[href$=".pdf"]').evaluateAll((links) => [...new Set(links.map((link) => link.getAttribute("href")!))]);
+  const documents = await page.locator('[data-certificate-url]').evaluateAll((buttons) => [...new Set(buttons.map((button) => button.getAttribute("data-certificate-url")!))]);
+  expect(documents).toHaveLength(9);
   documents.push("/curriculo-leticia-de-paula.pdf");
   for (const document of documents) {
     const response = await request.get(document);
@@ -229,7 +230,7 @@ test("conteúdo e navegação sem JavaScript", async ({ browser }) => {
   await expect(page.getByRole("navigation", { name: "Navegação sem JavaScript" })).toBeVisible();
   await page.getByRole("navigation", { name: "Navegação sem JavaScript" }).getByRole("link", { name: "Cursos", exact: true }).click();
   await expect(page.locator(".certification-card")).toHaveCount(10);
-  await expect(page.getByRole("link", { name: "Abrir PDF", exact: true })).toHaveCount(9);
+  await expect(page.getByRole("link", { name: "Abrir certificado em PDF", exact: true })).toHaveCount(9);
   await expect(page.locator(".nexo-artwork__fallback")).toHaveCount(0);
   await context.close();
 });

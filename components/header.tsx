@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useExperience } from "@/components/experience-provider";
 import { ModeControl } from "@/components/experience-navigation";
-import { phaseForSection } from "@/lib/experience-state";
+import { experiencePhases, phaseForRoute, phaseForSection } from "@/lib/experience-state";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { navItems, professional } from "@/lib/data";
 
@@ -22,6 +22,7 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const { motionEnabled, prefersReducedMotion, toggleMotion, transitionTo, activeSection } = useExperience();
+  const transitionForPath = (path: string) => experiencePhases.indexOf(phaseForRoute(path)) >= experiencePhases.indexOf(phaseForRoute(pathname)) ? ["nav-forward"] : ["nav-back"];
   const isActivePath = (path: string) =>
     pathname === path || (path === "/projetos/" && pathname.startsWith("/projetos/"));
   const handlePortalNavigation = (href: string) => {
@@ -34,7 +35,7 @@ export function Header() {
   return (
     <header className="nexo-header">
       <div className="nexo-header__inner">
-        <Link className="nexo-brand personal-brand focusable" href="/#portal" prefetch={false} onClick={() => transitionTo("portal")}>
+        <Link className="nexo-brand personal-brand focusable" href="/#portal" prefetch={false} transitionTypes={["nav-back"]} onClick={() => transitionTo("portal")}>
           <span className="nexo-brand__wordmark">
             <strong>Letícia <em>de Paula</em></strong>
           </span>
@@ -46,6 +47,7 @@ export function Header() {
               aria-current={link.href.includes("#") ? pathname === "/" && activeSection === link.href.split("#")[1] ? "location" : undefined : isActivePath(link.path) ? "page" : undefined}
               className="nexo-nav-link focusable"
               href={link.href}
+              transitionTypes={transitionForPath(link.path)}
               key={link.href}
               onClick={() => handlePortalNavigation(link.href)}
             >
@@ -55,6 +57,7 @@ export function Header() {
         </nav>
 
         <div className="nexo-header__actions">
+          <Link className="nexo-resume-link focusable" href="/curriculo/">Currículo</Link>
           <ThemeToggle />
           <button
             aria-label={
@@ -108,6 +111,7 @@ export function Header() {
                 <nav className="nexo-mobile-nav" aria-label="Navegação compacta">
                   <Link
                     href="/#portal"
+                    transitionTypes={transitionForPath("/")}
                     onClick={() => {
                       setOpen(false);
                       handlePortalNavigation("/#portal");
@@ -116,13 +120,12 @@ export function Header() {
                     Início
                   </Link>
                   {navItems
-                    .filter((item) => item.id !== "inicio")
+                    .filter((item) => item.id !== "inicio" && item.id !== "certificacoes")
                     .map((item) => (
                       <Link
-                        aria-current={
-                          item.id !== "certificacoes" && isActivePath(item.path) ? "page" : undefined
-                        }
+                        aria-current={isActivePath(item.path) ? "page" : undefined}
                         href={item.href}
+                        transitionTypes={transitionForPath(item.path)}
                         key={item.id}
                         onClick={() => {
                           setOpen(false);
@@ -134,6 +137,7 @@ export function Header() {
                     ))}
                   <Link
                     href="/curriculo/"
+                    transitionTypes={transitionForPath("/curriculo/")}
                     onClick={() => {
                       setOpen(false);
                       transitionTo("convergence");

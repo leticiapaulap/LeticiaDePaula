@@ -28,7 +28,7 @@
 }
 
 .nexo-experience-root {
-  padding-bottom: 0;
+  padding-bottom: calc(84px + env(safe-area-inset-bottom));
 }
 
 .nexo-experience-nav {
@@ -40,6 +40,165 @@
   margin-top: 28px;
   box-shadow: none;
   transform: none;
+}
+
+.chapter-navigation {
+  position: fixed;
+  z-index: 35;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  left: 50%;
+  display: flex;
+  width: min(760px, calc(100% - 40px));
+  min-height: 60px;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border));
+  background: color-mix(in srgb, var(--background) 94%, transparent);
+  padding: 6px 10px;
+  color: var(--foreground);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  transform: translateX(-50%);
+}
+
+.chapter-navigation__progress {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: 2px;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+}
+
+.chapter-navigation__progress::-webkit-progress-bar {
+  background: transparent;
+}
+
+.chapter-navigation__progress::-webkit-progress-value {
+  background: var(--accent);
+  transition: width 520ms cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+
+.chapter-navigation__progress::-moz-progress-bar {
+  background: var(--accent);
+  transition: width 520ms cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+
+.chapter-navigation__arrow {
+  display: inline-grid;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--border);
+  color: var(--accent-strong);
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.chapter-navigation__arrow:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+.chapter-navigation__arrow--disabled {
+  opacity: 0.38;
+}
+
+.chapter-navigation__status {
+  display: grid;
+  min-width: 130px;
+  flex: 1 1 auto;
+  gap: 3px;
+  text-align: center;
+}
+
+.chapter-navigation__status span {
+  color: var(--accent-strong);
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+}
+
+.chapter-navigation__status strong {
+  overflow: hidden;
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chapter-navigation__menu {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-strong);
+}
+
+.chapter-navigation__menu select {
+  width: clamp(150px, 20vw, 230px);
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--background);
+  padding: 6px 9px;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.72rem;
+}
+
+.nexo-resume-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--nexo-text);
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.nexo-resume-link:hover {
+  color: var(--nexo-bronze-light);
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(.chapter-forward) {
+  animation: 180ms ease-in both chapter-leave-forward;
+}
+
+::view-transition-new(.chapter-forward) {
+  animation: 620ms cubic-bezier(0.22, 0.7, 0.2, 1) both chapter-arrive-forward;
+}
+
+::view-transition-old(.chapter-back) {
+  animation: 180ms ease-in both chapter-leave-back;
+}
+
+::view-transition-new(.chapter-back) {
+  animation: 620ms cubic-bezier(0.22, 0.7, 0.2, 1) both chapter-arrive-back;
+}
+
+@keyframes chapter-leave-forward {
+  to { opacity: 0; transform: translateX(-18px) scale(0.992); filter: blur(2px); }
+}
+
+@keyframes chapter-arrive-forward {
+  from { opacity: 0; transform: translateX(28px) scale(0.99); filter: blur(2px); }
+  to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+
+@keyframes chapter-leave-back {
+  to { opacity: 0; transform: translateX(18px) scale(0.992); filter: blur(2px); }
+}
+
+@keyframes chapter-arrive-back {
+  from { opacity: 0; transform: translateX(-28px) scale(0.99); filter: blur(2px); }
+  to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
 }
 
 .nexo-portal__content {
@@ -423,13 +582,17 @@
 }
 
 .skill-category > summary::after {
-  content: "+";
-  color: var(--accent);
-  font-size: 1.5rem;
+  content: none;
 }
 
-.skill-category[open] > summary::after {
-  content: "−";
+.skill-category__chevron {
+  flex: 0 0 auto;
+  color: var(--accent-strong);
+  transition: transform 200ms ease;
+}
+
+.skill-category[open] .skill-category__chevron {
+  transform: rotate(180deg);
 }
 
 .skill-category > summary h3 {
@@ -445,7 +608,7 @@
   margin-left: auto;
   white-space: nowrap;
   color: var(--muted-strong);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
 }
 
 .skill-category .skill-list {
@@ -530,8 +693,8 @@
 .certification-card .nexo-certificate-actions a,
 .certification-card .nexo-certificate-actions button {
   min-height: 44px;
-  padding: 8px 10px;
-  font-size: 0.7rem;
+  padding: 10px 14px;
+  font-size: 0.85rem;
 }
 
 @media (max-width: 1099px) {
@@ -593,12 +756,18 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .route-hero-scene,
   .section-heading .section-scene,
   .project-case-scene,
   .contact-scene,
   .exploration-scene-row .scene-accent {
     display: none;
+  }
+
+  .route-hero-scene {
+    display: block;
+    width: min(220px, 50vw);
+    height: 150px;
+    justify-self: end;
   }
 
   .nexo-direct .section-heading {
@@ -622,7 +791,7 @@
     gap: 12px;
   }
 
-  .skill-category > summary > svg {
+  .skill-category > summary > svg:not(.skill-category__chevron) {
     display: none;
   }
 
@@ -631,7 +800,7 @@
   }
 
   .skill-category__count {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
   }
 
   .project-showcase__media {
@@ -649,7 +818,387 @@
   }
 }
 
+.home-overview {
+  scroll-margin-top: var(--nexo-header-height);
+}
+
+.home-overview__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 248px;
+  gap: clamp(48px, 7vw, 100px);
+  align-items: start;
+}
+
+.home-overview__chapters {
+  min-width: 0;
+}
+
+.home-chapter {
+  padding-block: clamp(36px, 5vw, 64px);
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 20px;
+}
+
+.home-chapter:last-child {
+  border-bottom: 0;
+  padding-bottom: 80px;
+}
+
+.home-chapter__heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.home-chapter__heading h2 {
+  font-size: clamp(2rem, 3.3vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.home-chapter__heading .eyebrow {
+  margin: 0 0 12px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.home-chapter > p,
+.home-featured-project > p {
+  max-width: 68ch;
+  color: var(--muted-strong);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.home-read-more {
+  width: fit-content;
+  min-height: 44px;
+  margin-top: 20px;
+}
+
+.home-featured-project {
+  margin-block: 0 12px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.home-featured-project__image {
+  display: block;
+  margin-bottom: 24px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.home-featured-project__image img {
+  transition: filter 200ms ease;
+}
+
+.home-featured-project__image:is(:hover, :focus-visible) img {
+  filter: brightness(1.08);
+}
+
+.home-featured-project h3,
+.home-education-preview h3 {
+  margin-block: 12px;
+  font-size: clamp(1.7rem, 2.5vw, 2.4rem);
+  line-height: 1.2;
+}
+
+.home-featured-project .tag-list {
+  margin-top: 20px;
+}
+
+.home-career-preview,
+.home-skill-preview {
+  display: grid;
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+}
+
+.home-career-preview li {
+  display: grid;
+  gap: 6px;
+  padding: 16px 0 16px 20px;
+  border-left: 1px solid var(--accent);
+}
+
+.home-career-preview li + li {
+  border-top: 1px solid var(--border);
+}
+
+.home-career-preview strong,
+.home-skill-preview strong {
+  font-weight: 600;
+}
+
+.home-career-preview span,
+.home-career-preview small,
+.home-skill-preview span,
+.home-education-preview :is(p, span) {
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.home-skill-preview {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.home-skill-preview li {
+  display: grid;
+  gap: 10px;
+}
+
+.journey-companion {
+  position: sticky;
+  top: calc(var(--nexo-header-height) + 48px);
+  display: grid;
+  gap: 18px;
+  margin-block: 40px;
+  padding-block: 24px;
+  border-block: 1px solid var(--border);
+}
+
+.journey-companion__eyebrow,
+.journey-companion__hint {
+  margin: 0;
+  color: var(--muted-strong);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.journey-companion__eyebrow {
+  letter-spacing: 0.09em;
+}
+
+.journey-companion .scene-accent {
+  height: 260px;
+}
+
+.journey-companion .scene-accent__caption {
+  display: none;
+}
+
+.journey-companion__caption strong {
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.journey-companion__caption p {
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.home-chapter__mark {
+  display: none;
+}
+
+.nexo-experience-root[data-mode="direct"] .journey-companion {
+  display: none;
+}
+
+.nexo-experience-root[data-mode="direct"] .home-overview__layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.nexo-experience-root[data-mode="direct"] .home-overview__chapters {
+  width: min(100%, 880px);
+}
+
+.project-showcase__thumbnail {
+  width: 96px;
+  height: 68px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--border);
+}
+
+.project-showcase__tab small,
+.project-window-bar small,
+.certificate-title .context-label,
+.nexo-direct .nexo-skill-node em {
+  font-size: 0.8rem;
+}
+
+.project-showcase__feature[data-project-category="Portfólio"] .project-showcase__media {
+  box-shadow: 0 16px 36px -20px var(--accent);
+}
+
+.nexo-direct .skill-category > summary {
+  padding: 24px 16px;
+}
+
+.skill-category .skill-list {
+  padding-inline: 16px;
+}
+
+.nexo-direct .skill-category > summary:hover,
+.nexo-direct .skill-category[open] > summary {
+  background: var(--accent-soft);
+}
+
+.nexo-direct .skill-category > summary p,
+.nexo-direct .skill-list small {
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.nexo-direct .nexo-skill-node {
+  padding: 16px 12px;
+}
+
+@media (max-width: 1099px) {
+  .home-overview__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .journey-companion {
+    display: none;
+  }
+
+  .home-chapter__heading {
+    grid-template-columns: minmax(0, 1fr) 96px;
+  }
+
+  .home-chapter__mark {
+    display: block;
+    height: 96px;
+  }
+
+  .home-chapter__mark .scene-accent__caption {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .nexo-experience-root {
+    padding-bottom: calc(76px + env(safe-area-inset-bottom));
+  }
+
+  .chapter-navigation {
+    bottom: max(8px, env(safe-area-inset-bottom));
+    width: calc(100% - 24px);
+    min-height: 54px;
+    gap: 4px;
+    padding: 5px 6px;
+  }
+
+  .chapter-navigation__arrow {
+    width: 40px;
+    height: 42px;
+  }
+
+  .chapter-navigation__status {
+    min-width: 40px;
+  }
+
+  .chapter-navigation__status strong {
+    font-size: 0.64rem;
+  }
+
+  .chapter-navigation__menu {
+    gap: 5px;
+  }
+
+  .chapter-navigation__menu select {
+    width: clamp(78px, 27vw, 120px);
+    min-height: 42px;
+    padding-inline: 5px;
+    font-size: 0.62rem;
+    text-overflow: ellipsis;
+  }
+
+  .nexo-resume-link {
+    display: none;
+  }
+
+  .home-chapter__heading .eyebrow {
+    font-size: 0.68rem;
+  }
+
+  .home-chapter > p,
+  .home-featured-project > p {
+    font-size: 0.95rem;
+  }
+
+  .home-skill-preview {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .project-showcase__thumbnail {
+    width: 64px;
+    height: 48px;
+  }
+
+  .skill-category > summary {
+    flex-wrap: wrap;
+  }
+
+  .skill-category > summary > div {
+    flex: 1 1 100%;
+  }
+
+  .skill-category__count {
+    margin-left: 0;
+  }
+
+  .skill-category__chevron {
+    margin-left: auto;
+  }
+
+  .nexo-direct .skill-category > summary p {
+    display: block;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .chapter-navigation__menu > svg {
+    display: none;
+  }
+
+  .chapter-navigation__status {
+    min-width: 38px;
+  }
+
+  .chapter-navigation__status strong {
+    font-size: 0.58rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  .chapter-navigation__progress::-webkit-progress-value,
+  .chapter-navigation__progress::-moz-progress-bar {
+    transition: none;
+  }
+
+  .chapter-navigation__arrow {
+    transition: none;
+  }
+
+  .skill-category__chevron,
+  .home-featured-project__image img {
+    transition: none;
+  }
+}
+
 @media print {
+  .journey-companion,
   .scene-accent,
   .project-showcase__selection,
   .professional-portrait__depth {

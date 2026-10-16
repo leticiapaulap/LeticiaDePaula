@@ -41,21 +41,21 @@ test("cena percorre as fases e se recupera da perda de contexto", async ({ page 
   const surface = page.locator(".nexo-scene-surface");
   await expect(surface).toHaveAttribute("data-ready", "true", { timeout: 20000 });
   for (const phase of ["nucleus", "projects", "experience", "competencies", "education", "convergence"]) {
-    await page.getByRole("combobox", { name: "Ir diretamente a uma área" }).selectOption(phase);
+    await page.getByRole("combobox", { name: "Ir diretamente a um capítulo" }).selectOption(phase);
     await expect(page.locator(".nexo-experience-root")).toHaveAttribute("data-experience-state", phase);
   }
   await page.screenshot({ path: testInfo.outputPath("convergencia.png") });
   await page.locator("canvas").evaluate((element) => element.dispatchEvent(new Event("webglcontextlost", { cancelable: true })));
   await expect(surface).toHaveAttribute("data-ready", "false");
   await expect(page.locator("canvas")).toHaveCount(0);
-  await expect(page.getByRole("combobox", { name: "Ir diretamente a uma área" })).toBeVisible();
+  await expect(page.getByRole("combobox", { name: "Ir diretamente a um capítulo" })).toBeVisible();
 });
 
 test("certificado permanece acessível em altura reduzida", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 768, height: 320 });
   await page.addInitScript(() => localStorage.setItem("nexo-mode", "direct"));
   await page.goto("/formacao/");
-  await page.getByRole("button", { name: "Visualizar certificado: Fundamentos da Lei Geral de Proteção de Dados (LGPD)" }).click();
+  await page.getByRole("button", { name: "Ver certificado: Fundamentos da Lei Geral de Proteção de Dados (LGPD)" }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByRole("button", { name: "Fechar certificado" })).toBeVisible();
   await dialog.getByRole("link", { name: "Abrir PDF em outra aba" }).scrollIntoViewIfNeeded();

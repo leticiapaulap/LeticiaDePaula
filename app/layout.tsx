@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ExperienceProvider } from "@/components/experience-provider";
+import { ChapterNavigation } from "@/components/experience-navigation";
 import { SculptureLoader } from "@/components/portal/sculpture-loader";
 import { StructuredData } from "@/components/structured-data";
 import { pageMetadata } from "@/lib/metadata";
@@ -64,12 +65,13 @@ export default function RootLayout({
                 {navItems.map((item) => <a href={item.href} key={item.id}>{item.label}</a>)}
                 <a href="/curriculo/">Currículo digital</a>
               </nav>
-              <style>{`button,input,select,.nexo-experience-stage,.nexo-header__actions,.nexo-experience-nav,.filter-bar,.filter-group,.nexo-certification-search,.nexo-project-selection,.nexo-gallery-tabs,.nexo-career-navigation,.nexo-certificate-dialog{display:none!important}.nexo-artwork__fallback{opacity:1!important}.nexo-experience-root{padding-bottom:0}`}</style>
+              <style>{`button,input,select,.nexo-experience-stage,.nexo-header__actions,.nexo-experience-nav,.chapter-navigation,.filter-bar,.filter-group,.nexo-certification-search,.nexo-project-selection,.nexo-gallery-tabs,.nexo-career-navigation,.nexo-certificate-dialog{display:none!important}.nexo-artwork__fallback{opacity:1!important}.nexo-experience-root{padding-bottom:0}`}</style>
             </noscript>
             <div className="nexo-experience-stage" aria-hidden="true">
               <SculptureLoader />
             </div>
             <main id="conteudo" tabIndex={-1}>{children}</main>
+            <ChapterNavigation />
             <Footer />
             <StructuredData />
           </ExperienceProvider>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import Link from "next/link";
 import { EditorialPage } from "@/components/editorial-page";
 import { ProfileSection } from "@/components/profile-section";
@@ -8,6 +9,7 @@ export const metadata: Metadata = pageMetadata("Sobre mim", "Conheça Letícia d
 
 export default function AboutPage() {
   return (
+    <ViewTransition enter={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} exit={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} default="none">
     <EditorialPage
       eyebrow="Sobre"
       title="Pessoas, contexto e tecnologia."
@@ -32,5 +34,6 @@ export default function AboutPage() {
         </div>
       </section>
     </EditorialPage>
+    </ViewTransition>
   );
 }

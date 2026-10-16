@@ -5,17 +5,11 @@ for (const width of [375, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.addInitScript(() => localStorage.setItem("nexo-mode", "direct"));
     await page.goto("/");
-    const navigation = page.getByRole("navigation", { name: "Explorar a trajetória" });
-    await navigation.scrollIntoViewIfNeeded();
-    expect(await navigation.evaluate((element) => getComputedStyle(element).position)).not.toBe("fixed");
-    const flow = await navigation.evaluate((element) => {
-      const bounds = element.getBoundingClientRect();
-      const parent = element.closest(".nexo-exploration")!.getBoundingClientRect();
-      return bounds.top >= parent.top && bounds.bottom <= parent.bottom;
-    });
-    expect(flow).toBe(true);
+    const navigation = page.getByRole("navigation", { name: "Navegação entre capítulos" });
+    await expect(navigation.getByLabel("Ir diretamente a um capítulo").locator("option")).toHaveCount(7);
+    expect(await navigation.evaluate((element) => getComputedStyle(element).position)).toBe("fixed");
     await page.goto("/projetos/");
-    await expect(navigation).toHaveCount(0);
+    await expect(navigation.getByLabel("Ir diretamente a um capítulo")).toHaveValue("projects");
     await expect(page.locator(".project-showcase__feature")).toHaveCount(1);
     await expect(page.locator(".project-showcase__media img")).toHaveAttribute("src", "/projects/festa-fantasia-home.webp");
     await expect(page.getByRole("link", { name: "Ver aplicação", exact: true })).toHaveAttribute("href", "https://festa-fantasia.vercel.app/");
@@ -23,8 +17,8 @@ for (const width of [375, 1440]) {
     await expect(page.locator(".certification-card")).toHaveCount(10);
     const ongoing = page.locator(".certification-card").filter({ has: page.getByRole("heading", { name: "Databases for Developers: Foundations" }) });
     await expect(ongoing).toContainText("Em andamento");
-    await expect(ongoing.getByRole("button", { name: /Visualizar certificado/ })).toHaveCount(0);
-    await expect(ongoing.getByRole("link", { name: "Abrir PDF", exact: true })).toHaveCount(0);
+    await expect(ongoing.getByRole("button", { name: /Ver certificado/ })).toHaveCount(0);
+    await expect(ongoing.getByRole("link", { name: "Abrir certificado em PDF", exact: true })).toHaveCount(0);
     await expect(page.getByRole("button", { name: "A validar", exact: true })).toHaveCount(0);
     await page.goto("/sobre/");
     await expect(page.locator(".professional-portrait")).toHaveCount(0);
