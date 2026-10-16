@@ -3,12 +3,9 @@ import Link from "next/link";
 import { EditorialPage } from "@/components/editorial-page";
 import { ProfileSection } from "@/components/profile-section";
 import { contentAudit } from "@/lib/data";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Sobre mim",
-  description: "Apresentação, formação informada e fontes de conteúdo do portfólio profissional de Letícia de Paula.",
-  alternates: { canonical: "/sobre/" }
-};
+export const metadata: Metadata = pageMetadata("Sobre mim", "Apresentação, formação informada e fontes de conteúdo do portfólio profissional de Letícia de Paula.", "/sobre/");
 
 export default function AboutPage() {
   return (

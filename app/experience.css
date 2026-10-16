@@ -1,0 +1,937 @@
+.nexo-experience-root[data-experience-state] .nexo-experience-stage {
+  top: calc(var(--nexo-header-height) + 12vh);
+  right: max(24px, calc((100vw - var(--nexo-content-width)) / 2));
+  width: min(54vw, 760px);
+  height: min(72vh, 640px);
+  mix-blend-mode: normal;
+  transition: opacity 320ms ease;
+}
+
+.nexo-experience-root[data-mode="direct"] .nexo-experience-stage {
+  visibility: hidden;
+}
+
+.nexo-experience-root[data-experience-state="portal"] .nexo-experience-stage:not([data-anchored="true"]) {
+  visibility: hidden;
+}
+
+.nexo-experience-root[data-mode="immersive"][data-scene-ready="true"] .nexo-artwork__fallback {
+  opacity: 0;
+}
+
+.nexo-experience-root[data-mode="direct"] .nexo-artwork__fallback {
+  opacity: 1;
+}
+
+.nexo-scene-surface,
+.nexo-scene-surface[data-ready="true"] {
+  opacity: 1;
+}
+
+.nexo-scene-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.nexo-scene-fallback path {
+  transition: opacity 320ms ease;
+}
+
+.nexo-scene-surface[data-ready="true"] .nexo-scene-fallback {
+  opacity: 0;
+}
+
+.nexo-mode-control {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid var(--nexo-line-strong);
+  background: transparent;
+  padding: 8px 12px;
+  color: #dfc8a5;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.nexo-mode-control:hover {
+  border-color: #b9a382;
+  background: rgba(185, 163, 130, 0.09);
+}
+
+.nexo-experience-nav {
+  position: fixed;
+  z-index: 35;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 50%;
+  display: flex;
+  max-width: calc(100% - 24px);
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(185, 163, 130, 0.38);
+  border-radius: 4px;
+  background: rgba(12, 16, 21, 0.97);
+  padding: 4px 10px 4px 4px;
+  color: #f2f0ea;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.16);
+  transform: translateX(-50%);
+}
+
+.nexo-experience-nav__back {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-right: 1px solid rgba(185, 163, 130, 0.25);
+  color: #dfc8a5;
+}
+
+.nexo-area-select {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  color: #dfc8a5;
+}
+
+.nexo-area-select select {
+  min-height: 44px;
+  width: 174px;
+  border: 0;
+  border-radius: 0;
+  background: #0c1015;
+  color: #f2f0ea;
+  font: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+.nexo-experience-nav__mode {
+  margin-inline: 10px;
+  color: #b9a382;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+}
+
+.nexo-experience-root {
+  padding-bottom: 80px;
+  --nexo-interaction-duration: 240ms;
+}
+
+.nexo-gallery-stage {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-block: 14px 30px;
+  touch-action: pan-y pinch-zoom;
+}
+
+.nexo-gallery-focus {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  animation: nexo-focus-in var(--nexo-interaction-duration) ease both;
+}
+
+.nexo-gallery-focus > .nexo-project-visual {
+  height: 100%;
+  min-height: 310px;
+  border: 0;
+}
+
+.nexo-gallery-info {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  padding: clamp(20px, 3vw, 36px);
+}
+
+.nexo-gallery-info h3,
+.nexo-connection-map h3,
+.nexo-map-detail h4 {
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.nexo-gallery-info p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.nexo-gallery-info small {
+  color: var(--muted);
+  font-size: 0.65rem;
+}
+
+.nexo-gallery-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+}
+
+.nexo-gallery-tabs button {
+  min-height: 48px;
+  flex: 1 1 130px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  cursor: pointer;
+  transition: color var(--nexo-interaction-duration), border-color var(--nexo-interaction-duration);
+}
+
+.nexo-gallery-tabs button[aria-pressed="true"] {
+  border-bottom-color: var(--accent);
+  color: var(--foreground);
+}
+
+.nexo-project-preview {
+  min-width: 0;
+  margin: 0;
+  background: #0c1015;
+}
+
+.nexo-project-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: top;
+}
+
+.nexo-project-preview figcaption {
+  padding: 10px 16px;
+  color: #b9a382;
+  font-size: 0.64rem;
+  line-height: 1.6;
+}
+
+.nexo-connection-map {
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+  padding: clamp(18px, 3vw, 32px);
+  background: color-mix(in srgb, var(--foreground) 2%, transparent);
+}
+
+.nexo-connection-map__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.nexo-connection-map > p,
+.nexo-map-detail > p {
+  color: var(--muted-strong);
+  font-size: 0.8rem;
+  line-height: 1.8;
+}
+
+.nexo-connection-map__graph {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(60px, 1.1fr) minmax(0, 1fr);
+  margin-block: 26px;
+}
+
+.nexo-map-groups {
+  display: grid;
+  grid-template-rows: repeat(6, 60px);
+}
+
+.nexo-map-group {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  transition: color var(--nexo-interaction-duration);
+}
+
+.nexo-map-group strong {
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.nexo-map-group small {
+  font-size: 0.6rem;
+}
+
+.nexo-map-group[data-connected="true"] {
+  color: var(--foreground);
+}
+
+.nexo-map-curves {
+  display: block;
+  width: 100%;
+  height: 360px;
+  overflow: visible;
+}
+
+.nexo-map-curves path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  opacity: 0.12;
+  transition: opacity var(--nexo-interaction-duration);
+}
+
+.nexo-map-curves path[data-connected="true"] {
+  opacity: 0.8;
+}
+
+.nexo-map-projects {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.nexo-map-project {
+  display: grid;
+  min-height: 85px;
+  gap: 6px;
+  align-content: center;
+  border: 1px solid var(--border);
+  background: transparent;
+  padding: 12px 16px;
+  color: var(--muted);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--nexo-interaction-duration), background-color var(--nexo-interaction-duration);
+}
+
+.nexo-map-project[data-connected="true"] {
+  border-color: var(--accent);
+  color: var(--foreground);
+}
+
+.nexo-map-project[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: inset 3px 0 var(--accent);
+}
+
+.nexo-map-project span {
+  color: var(--accent);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+}
+
+.nexo-map-project strong {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.nexo-map-project small {
+  font-size: 0.63rem;
+}
+
+.nexo-map-detail {
+  border-top: 1px solid var(--border);
+  padding-top: 22px;
+}
+
+.nexo-map-detail h4 {
+  font-size: 1.7rem;
+  overflow-wrap: anywhere;
+}
+
+.nexo-map-case-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 18px;
+}
+
+.nexo-map-empty {
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
+}
+
+.nexo-career-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid var(--border);
+  padding-block: 22px;
+}
+
+.nexo-career-navigation__current {
+  display: grid;
+  gap: 8px;
+}
+
+.nexo-career-navigation__current span {
+  color: var(--accent);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+}
+
+.nexo-career-navigation__current strong {
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.nexo-career-navigation__current small {
+  color: var(--muted-strong);
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.nexo-career-navigation__controls {
+  display: flex;
+  gap: 8px;
+}
+
+.nexo-career-stops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-bottom: 22px;
+}
+
+.nexo-career-stops a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.nexo-career-stops a[aria-current="step"] {
+  border-color: var(--accent);
+  color: var(--foreground);
+}
+
+.nexo-career-stops a span {
+  color: var(--accent);
+  font-size: 0.6rem;
+}
+
+.nexo-experience-entry {
+  position: relative;
+  scroll-margin-top: 120px;
+  transition: background-color var(--nexo-interaction-duration), border-color var(--nexo-interaction-duration);
+}
+
+.nexo-experience-entry[data-selected="true"]::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -12px;
+  width: 2px;
+  background: var(--accent);
+  content: "";
+}
+
+.nexo-project-selection__arrow,
+.nexo-project-focus,
+.nexo-experience-select,
+.nexo-skill-node {
+  min-width: 44px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.nexo-skill-node {
+  color: inherit;
+}
+
+.nexo-skill-node small {
+  color: var(--muted-strong);
+  line-height: 1.6;
+}
+
+.nexo-institution {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  padding: 8px 0;
+  color: var(--muted-strong);
+  text-align: left;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--border);
+}
+
+.nexo-institution:hover {
+  text-decoration-color: var(--accent);
+}
+
+.nexo-archive-details summary {
+  display: list-item;
+  min-height: 44px;
+  padding-block: 12px;
+  color: var(--muted-strong);
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.nexo-archive-details[open] > :not(summary) {
+  animation: nexo-focus-in var(--nexo-interaction-duration) ease;
+}
+
+.nexo-certificate-overlay {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.nexo-certificate-dialog {
+  position: fixed;
+  z-index: 81;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  width: min(1000px, calc(100vw - 32px));
+  height: min(850px, calc(100svh - 48px));
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 16px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 20px;
+  color: var(--foreground);
+  transform: translate(-50%, -50%);
+}
+
+.nexo-certificate-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.nexo-certificate-dialog__header h2 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.nexo-certificate-dialog__header p {
+  color: var(--muted-strong);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.nexo-certificate-dialog iframe {
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.nexo-experience-root[data-experience-state="portal"] .nexo-experience-stage[data-anchored="true"] {
+  top: 0;
+  left: 0;
+  right: auto;
+  width: var(--scene-width);
+  height: var(--scene-height);
+  transform: translate3d(var(--scene-left), var(--scene-top), 0);
+}
+
+.nexo-mobile-scene-action {
+  display: none;
+}
+
+.nexo-experience-root[data-experience-state="portal"] .nexo-scene-surface:not([data-ready="true"]) {
+  opacity: 0;
+}
+
+.nexo-experience-root:not([data-experience-state="portal"]) .nexo-experience-stage {
+  opacity: 0.045;
+}
+
+.nexo-menu-trigger.nexo-menu-trigger--all {
+  display: inline-grid;
+}
+
+.nexo-header :is(.nexo-icon-button, .nexo-menu-trigger),
+.nexo-menu-close,
+.nexo-socials > a {
+  width: 44px;
+  height: 44px;
+}
+
+.nexo-nav-link[aria-current] {
+  color: var(--nexo-bronze-light);
+}
+
+.nexo-nav-link[aria-current]::after {
+  transform: scaleX(1);
+}
+
+.filter-chip,
+.nexo-scroll-cue,
+.nexo-brand,
+.site-footer .brand,
+.nexo-skill-project,
+.nexo-route__back,
+.nexo-return-link,
+.nexo-exploration__direct,
+.footer-inner nav a,
+.footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.filter-chip {
+  padding-block: 8px;
+}
+
+.nexo-direct .skill-list li {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.nexo-direct .skill-list strong,
+.nexo-direct .skill-list small,
+.nexo-direct .nexo-institution,
+.nexo-direct .nexo-experience-entry__facts :is(dt, dd),
+.nexo-direct .nexo-experience-responsibilities {
+  font-size: 0.85rem;
+}
+
+.nexo-direct .nexo-skill-project {
+  font-size: 0.76rem;
+}
+
+.nexo-project-visual__caption,
+.nexo-project-visual__footer,
+.nexo-project-visual__entry span,
+.nexo-project-node > span {
+  font-size: 0.65rem;
+}
+
+.nexo-direct .nexo-certification-input {
+  font-size: 1rem;
+}
+
+.nexo-direct .section-heading h2,
+.contact-band h2 {
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+@media (min-width: 1101px) {
+  .project-grid > .project-card:only-child,
+  .project-grid:has(> .featured) > .project-card:last-child:nth-child(even) {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+    grid-template-rows: 1fr;
+  }
+}
+
+:is(a, button, input, select, summary):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  scroll-margin-block: 110px;
+}
+
+.nexo-menu-panel :is(a, button):focus-visible,
+.nexo-experience-nav :is(a, select):focus-visible {
+  outline-color: #dfc8a5;
+}
+
+.nexo-certificate-dialog__header > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.nexo-certificate-dialog .nexo-menu-close {
+  color: var(--foreground);
+}
+
+.nexo-certificate-dialog > a {
+  flex-shrink: 0;
+  padding-block: 12px;
+}
+
+.nexo-not-found-actions,
+.nexo-noscript-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-block: 32px;
+}
+
+.nexo-noscript-nav {
+  padding-inline: 20px;
+}
+
+.nexo-noscript-nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  text-decoration: underline;
+}
+
+@media (max-width: 420px) {
+  .nexo-portal__actions {
+    flex-wrap: wrap;
+  }
+
+  .nexo-project-visual__nodes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nexo-project-node {
+    min-height: 64px;
+    padding: 10px 12px;
+  }
+
+  .nexo-project-node strong {
+    font-size: 0.8rem;
+  }
+
+  .nexo-project-node small {
+    font-size: 0.72rem;
+  }
+}
+
+.nexo-direct .section-heading {
+  position: relative;
+}
+
+.nexo-direct .section-heading::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -16px;
+  width: 2px;
+  background: var(--accent);
+  content: "";
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--nexo-interaction-duration) ease;
+}
+
+.nexo-experience-root[data-experience-state="projects"] #projetos .section-heading::before,
+.nexo-experience-root[data-experience-state="experience"] #experiencia .section-heading::before,
+.nexo-experience-root[data-experience-state="competencies"] #competencias .section-heading::before,
+.nexo-experience-root[data-experience-state="education"] #formacao .section-heading::before,
+.nexo-experience-root[data-experience-state="education"] #certificacoes .section-heading::before,
+.nexo-experience-root[data-experience-state="convergence"] #contato .section-heading::before {
+  transform: scaleY(1);
+}
+
+.nexo-direct .filter-chip {
+  border-color: var(--border);
+  color: var(--muted-strong);
+}
+
+.nexo-direct .filter-chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+.nexo-direct .nexo-results-count,
+.nexo-direct .nexo-experience-entry__note,
+.nexo-direct .nexo-experience-responsibilities,
+.nexo-direct .nexo-experience-entry__company p,
+.nexo-direct .nexo-experience-entry__company span,
+.nexo-direct .nexo-experience-entry__facts dt {
+  color: var(--muted-strong);
+}
+
+.nexo-direct .nexo-project-selection__current strong,
+.nexo-direct .nexo-experience-entry__company h3 {
+  color: var(--foreground);
+}
+
+.nexo-direct .nexo-project-focus,
+.nexo-direct .nexo-experience-select,
+.nexo-direct .nexo-project-selection__arrow,
+.nexo-direct .nexo-skill-node em,
+.nexo-direct .nexo-evidence-status {
+  color: var(--accent);
+}
+
+.nexo-direct .nexo-skill-node:is(:hover, [aria-pressed="true"]) strong,
+.nexo-direct .nexo-skill-project {
+  color: var(--accent-strong);
+}
+
+.nexo-direct .nexo-skill-project[data-connected="true"] {
+  border-color: var(--accent);
+  color: var(--foreground);
+}
+
+html:has(.nexo-experience-root[data-motion-enabled="false"]) {
+  scroll-behavior: auto !important;
+}
+
+:is(.nexo-mode-control, .nexo-map-project, .nexo-gallery-tabs button, .nexo-project-focus, .nexo-experience-select):active {
+  background-color: color-mix(in srgb, var(--accent) 17%, transparent);
+}
+
+@keyframes nexo-focus-in {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 1099px) {
+  .nexo-experience-root[data-experience-state] .nexo-experience-stage {
+    width: 44vw;
+    height: 58vh;
+  }
+}
+
+@media (max-width: 767px) {
+  .nexo-experience-entry__facts > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+
+  .nexo-experience-entry__facts dt {
+    font-weight: 600;
+  }
+
+  .nexo-mobile-scene-action {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-self: end;
+    border: 1px solid var(--nexo-line-strong);
+    margin: 8px 0 0;
+    background: #0c1015;
+    padding: 10px 14px;
+    color: #dfc8a5;
+    font-size: 0.72rem;
+  }
+
+  .nexo-mode-desktop {
+    display: none;
+  }
+
+  .nexo-experience-root[data-experience-state] .nexo-experience-stage {
+    top: 50svh;
+    right: 0;
+    width: 100vw;
+    height: 36svh;
+  }
+
+  .nexo-gallery-focus {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nexo-gallery-focus > .nexo-project-visual {
+    min-height: 240px;
+  }
+
+  .nexo-connection-map__graph {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .nexo-map-groups {
+    display: none;
+  }
+
+  .nexo-map-curves {
+    display: none;
+  }
+
+  .nexo-map-projects {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .nexo-map-project {
+    min-width: 0;
+    flex: 1;
+    padding: 12px;
+  }
+
+  .nexo-map-project small {
+    line-height: 1.6;
+  }
+
+  .nexo-certificate-dialog {
+    width: calc(100vw - 16px);
+    height: calc(100svh - 24px);
+    padding: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .nexo-experience-nav__mode {
+    display: none;
+  }
+
+  .nexo-map-projects {
+    flex-direction: column;
+  }
+}
+
+.nexo-experience-root[data-motion-enabled="false"] *,
+body:has(.nexo-experience-root[data-motion-enabled="false"]) .nexo-certificate-dialog {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nexo-experience-root *,
+  .nexo-certificate-dialog {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media print {
+  .nexo-header,
+  .nexo-experience-nav,
+  .nexo-experience-stage,
+  .nexo-gallery-stage,
+  .nexo-career-navigation,
+  .nexo-career-stops {
+    display: none !important;
+  }
+
+  .nexo-experience-root {
+    padding-bottom: 0;
+  }
+
+  .resume-page {
+    --foreground: #111;
+    --muted: #444;
+    --muted-strong: #222;
+    --accent-strong: #503c24;
+    --surface: #fff;
+    background: #fff;
+    color: #111;
+  }
+
+  .resume-grid {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .resume-main article {
+    break-inside: avoid;
+  }
+}

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useMemo, useRef, type KeyboardEvent, type PointerEvent } from "react";
 import type { ProjectCategory } from "@/lib/types";
 import { ProjectVisual } from "@/components/project-visual";
-import { useExperience } from "@/components/experience-provider";
+import { useExperienceSelection } from "@/components/experience-provider";
 import { projectCategories, projects, type Project } from "@/lib/data";
 import { projectsForSkill } from "@/lib/skill-relations";
 
@@ -17,7 +17,7 @@ const projectCounts = (category: ProjectCategory | "Todos") =>
 
 function ProjectLink({ project, onSelect }: { project: Project; onSelect: (slug: string) => void }) {
   const pathname = usePathname();
-  const { rememberGallery } = useExperience();
+  const { rememberGallery } = useExperienceSelection();
   const caseLink = project.links.find((link) => link.type === "case");
 
   if (!caseLink) {
@@ -33,7 +33,7 @@ function ProjectLink({ project, onSelect }: { project: Project; onSelect: (slug:
 }
 
 export function ProjectExplorer() {
-  const { projectCategory, setProjectCategory, selectedProjectSlug, selectedSkillName, selectProject } = useExperience();
+  const { projectCategory, setProjectCategory, selectedProjectSlug, selectedSkillName, selectProject } = useExperienceSelection();
   const activeCategory = projectCategory as ActiveCategory;
   const touchStart = useRef<{ horizontal: number; vertical: number } | null>(null);
 

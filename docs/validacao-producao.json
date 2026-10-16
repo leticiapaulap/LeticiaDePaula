@@ -1,0 +1,262 @@
+{
+  "date": "2026-10-16",
+  "host": "Windows, Node.js 24.13.0, npm 11.6.2, Chromium 153 headless",
+  "versions": {
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "typescript": "6.0.3",
+    "@playwright/test": "1.64.1",
+    "axe-core": "4.14.0",
+    "lighthouse": "13.5.0"
+  },
+  "tests": {
+    "startTime": "2026-10-16T12:42:47.685Z",
+    "duration": 197808.457,
+    "expected": 120,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "widths": [
+    320,
+    375,
+    430,
+    768,
+    1024,
+    1280,
+    1440,
+    1920
+  ],
+  "baseline": {
+    "samples": 1,
+    "performance": 54,
+    "lcpMs": 3370.777,
+    "cls": 0,
+    "tbtMs": 1939.259,
+    "jsDecodedBytes": 1720111,
+    "transferBytes": 606072
+  },
+  "lighthouse": {
+    "mobile": {
+      "settings": {
+        "formFactor": "mobile",
+        "screen": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        }
+      },
+      "runs": [
+        {
+          "fetchTime": "2026-10-16T12:47:19.567Z",
+          "performance": 93,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 2929.929,
+          "cls": 0,
+          "tbtMs": 130,
+          "transferBytes": 314586,
+          "jsDecodedBytes": 629542
+        },
+        {
+          "fetchTime": "2026-10-16T12:47:30.895Z",
+          "performance": 79,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 3219.13645,
+          "cls": 0,
+          "tbtMs": 419.9999999999998,
+          "transferBytes": 314586,
+          "jsDecodedBytes": 629542
+        },
+        {
+          "fetchTime": "2026-10-16T12:47:42.298Z",
+          "performance": 92,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 2944.8413499999997,
+          "cls": 0,
+          "tbtMs": 180,
+          "transferBytes": 314586,
+          "jsDecodedBytes": 629542
+        }
+      ],
+      "median": {
+        "performance": 92,
+        "accessibility": 100,
+        "seo": 100,
+        "lcpMs": 2944.8413499999997,
+        "cls": 0,
+        "tbtMs": 180,
+        "transferBytes": 314586,
+        "jsDecodedBytes": 629542
+      }
+    },
+    "desktop": {
+      "settings": {
+        "formFactor": "desktop",
+        "screen": {
+          "mobile": false,
+          "width": 1350,
+          "height": 940,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "throttling": {
+          "rttMs": 40,
+          "throughputKbps": 10240,
+          "requestLatencyMs": 0,
+          "downloadThroughputKbps": 0,
+          "uploadThroughputKbps": 0,
+          "cpuSlowdownMultiplier": 1
+        }
+      },
+      "runs": [
+        {
+          "fetchTime": "2026-10-16T12:47:53.161Z",
+          "performance": 99,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 647.1235,
+          "cls": 0,
+          "tbtMs": 71.5,
+          "transferBytes": 582782,
+          "jsDecodedBytes": 1587801
+        },
+        {
+          "fetchTime": "2026-10-16T12:48:05.281Z",
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 591.242,
+          "cls": 0,
+          "tbtMs": 18.5,
+          "transferBytes": 582782,
+          "jsDecodedBytes": 1587801
+        },
+        {
+          "fetchTime": "2026-10-16T12:48:17.001Z",
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 610.7819999999999,
+          "cls": 0,
+          "tbtMs": 56.5,
+          "transferBytes": 582782,
+          "jsDecodedBytes": 1587801
+        }
+      ],
+      "median": {
+        "performance": 100,
+        "accessibility": 100,
+        "seo": 100,
+        "lcpMs": 610.7819999999999,
+        "cls": 0,
+        "tbtMs": 56.5,
+        "transferBytes": 582782,
+        "jsDecodedBytes": 1587801
+      }
+    }
+  },
+  "runtime": [
+    {
+      "width": 1440,
+      "mode": "direct",
+      "idleDrawsPerSecond": 0,
+      "pausedDrawsPerSecond": 0,
+      "probes": 0,
+      "draws": 0,
+      "triangles": [],
+      "scriptsDecodedBytes": 651165,
+      "scriptsTransferBytes": 202906,
+      "largestScriptBytes": 229820,
+      "maximumEventDurationMs": 72
+    },
+    {
+      "width": 1440,
+      "mode": "immersive",
+      "idleDrawsPerSecond": 31,
+      "pausedDrawsPerSecond": 0,
+      "probes": 2,
+      "draws": 112,
+      "triangles": [
+        2304
+      ],
+      "scriptsDecodedBytes": 1587801,
+      "scriptsTransferBytes": 452109,
+      "largestScriptBytes": 922789,
+      "maximumEventDurationMs": 64
+    },
+    {
+      "width": 375,
+      "mode": "immersive",
+      "idleDrawsPerSecond": 0,
+      "pausedDrawsPerSecond": 0,
+      "probes": 2,
+      "draws": 26,
+      "triangles": [
+        512
+      ],
+      "scriptsDecodedBytes": 1566178,
+      "scriptsTransferBytes": 444879,
+      "largestScriptBytes": 922789,
+      "maximumEventDurationMs": 72
+    }
+  ],
+  "inp": {
+    "fieldMeasured": false,
+    "note": "Event Timing local de um fluxo não é INP de campo."
+  },
+  "links": {
+    "internalLinks": 44,
+    "paths": 20,
+    "invalid": [],
+    "download": "curriculo-leticia-de-paula.pdf"
+  },
+  "dependencyAudit": {
+    "vulnerabilities": 0
+  },
+  "deployment": {
+    "performed": false
+  },
+  "documents": {
+    "courses": 19,
+    "certificates": 9,
+    "status": {
+      "Concluído": 9,
+      "A validar": 9,
+      "Em andamento": 1
+    },
+    "pdfsInspected": 10,
+    "pagesInspected": 15,
+    "javascriptActionsFound": false,
+    "attachmentsFound": false,
+    "newCertificates": [
+      {
+        "name": "Desenvolvedor Profissional",
+        "institution": "Versátil TI",
+        "completionDate": "30/04/2026",
+        "workload": "240 h",
+        "certificateUrl": "/certificates/versatil-desenvolvedor-profissional.pdf"
+      },
+      {
+        "name": "Introdução à Análise de Dados — Microsoft Power BI",
+        "institution": "Fundação Bradesco",
+        "completionDate": "17/09/2026",
+        "workload": "5 h",
+        "certificateUrl": "/certificates/bradesco-introducao-analise-dados-power-bi.pdf"
+      }
+    ],
+    "privacy": "A cópia pública da Fundação Bradesco não inclui o texto do rodapé com o endereço e os parâmetros de impressão do portal; código de autenticidade e QR preservados. Originais não modificados."
+  }
+}

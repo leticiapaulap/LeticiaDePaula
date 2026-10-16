@@ -61,13 +61,13 @@ export const certifications: Certification[] = [
     institution: "DIO",
     area: "Desenvolvimento",
     workload: "1 h",
-    completionDate: "11/02/2026",
+    completionDate: "01/04/2026",
     status: "Concluído",
     certificateUrl: "/certificates/dio-projeto-open-source-github.pdf",
     priority: 6
   },
   {
-    name: "Introdução ao Excel e Power BI Dashboards com a Klabin",
+    name: "Introdução ao Excel e Power BI Dashboards com a Klabin 2026",
     institution: "Klabin · DIO",
     area: "Dados e BI",
     workload: "1 h",
@@ -81,9 +81,22 @@ export const certifications: Certification[] = [
     institution: "Versátil TI",
     area: "Desenvolvimento",
     workload: "240 h",
-    status: "A validar",
-    note: curriculumNote,
+    completionDate: "30/04/2026",
+    status: "Concluído",
+    certificateUrl: "/certificates/versatil-desenvolvedor-profissional.pdf",
+    note: "Certificado anexado; curso realizado de 16/05/2025 a 30/04/2026, com emissão em 12/05/2026.",
     priority: 8
+  },
+  {
+    name: "Introdução à Análise de Dados — Microsoft Power BI",
+    institution: "Fundação Bradesco",
+    area: "Dados e BI",
+    workload: "5 h",
+    completionDate: "17/09/2026",
+    status: "Concluído",
+    certificateUrl: "/certificates/bradesco-introducao-analise-dados-power-bi.pdf",
+    note: "Certificado da Escola Virtual anexado; cópia pública sem o endereço de impressão do portal.",
+    priority: 9
   },
   {
     name: "Full Stack Developer",
@@ -91,7 +104,7 @@ export const certifications: Certification[] = [
     area: "Desenvolvimento",
     status: "A validar",
     note: curriculumNote,
-    priority: 9
+    priority: 10
   },
   {
     name: "Master Java",
@@ -99,7 +112,7 @@ export const certifications: Certification[] = [
     area: "Desenvolvimento",
     status: "A validar",
     note: curriculumNote,
-    priority: 10
+    priority: 11
   },
   {
     name: "Linguagem Python",
@@ -107,7 +120,7 @@ export const certifications: Certification[] = [
     area: "Desenvolvimento",
     status: "A validar",
     note: curriculumNote,
-    priority: 11
+    priority: 12
   },
   {
     name: "Spring Boot e Angular 17+",
@@ -116,7 +129,7 @@ export const certifications: Certification[] = [
     workload: "91 h",
     status: "A validar",
     note: curriculumNote,
-    priority: 12
+    priority: 13
   },
   {
     name: "Desenvolvimento Java",
@@ -125,7 +138,7 @@ export const certifications: Certification[] = [
     workload: "13 h",
     status: "A validar",
     note: curriculumNote,
-    priority: 13
+    priority: 14
   },
   {
     name: "Simplifica Python Express",
@@ -134,7 +147,7 @@ export const certifications: Certification[] = [
     workload: "10 h",
     status: "A validar",
     note: curriculumNote,
-    priority: 14
+    priority: 15
   },
   {
     name: "GenAI & Dados",
@@ -143,7 +156,7 @@ export const certifications: Certification[] = [
     workload: "52 h",
     status: "A validar",
     note: curriculumNote,
-    priority: 15
+    priority: 16
   },
   {
     name: "Trilha Banco de Dados",
@@ -152,7 +165,7 @@ export const certifications: Certification[] = [
     workload: "38 h",
     status: "A validar",
     note: curriculumNote,
-    priority: 16
+    priority: 17
   },
   {
     name: "Excel",
@@ -161,7 +174,7 @@ export const certifications: Certification[] = [
     workload: "11,5 h",
     status: "A validar",
     note: curriculumNote,
-    priority: 17
+    priority: 18
   },
   {
     name: "Databases for Developers: Foundations",
@@ -169,7 +182,7 @@ export const certifications: Certification[] = [
     area: "Banco de Dados",
     status: "Em andamento",
     note: "Curso informado como em andamento no currículo; sem certificado de conclusão.",
-    priority: 18
+    priority: 19
   }
 ];
 

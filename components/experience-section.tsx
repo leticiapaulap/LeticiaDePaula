@@ -1,12 +1,12 @@
 "use client";
 
 import { ArrowLeft, ArrowRight, FileText } from "lucide-react";
-import { useExperience } from "@/components/experience-provider";
+import { useExperienceSelection } from "@/components/experience-provider";
 import { SectionShell } from "@/components/section-shell";
 import { experiences } from "@/lib/data";
 
 export function ExperienceSection() {
-  const { selectedExperienceId, selectExperience } = useExperience();
+  const { selectedExperienceId, selectExperience } = useExperienceSelection();
   const selectedIndex = Math.max(0, experiences.findIndex((experience) => experience.id === selectedExperienceId));
   const selected = experiences[selectedIndex];
   const selectAt = (index: number) => {

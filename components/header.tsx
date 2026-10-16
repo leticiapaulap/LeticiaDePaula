@@ -34,7 +34,7 @@ export function Header() {
   return (
     <header className="nexo-header">
       <div className="nexo-header__inner">
-        <Link className="nexo-brand focusable" href="/#portal" aria-label="NEXO, início do portfólio de Letícia de Paula">
+        <Link className="nexo-brand focusable" href="/#portal" prefetch={false}>
           <span className="nexo-brand__symbol" aria-hidden="true">
             <svg viewBox="0 0 34 34" fill="none">
               <path d="M6 26V8l22 18V8" />
@@ -89,7 +89,7 @@ export function Header() {
           <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild>
               <button
-                className="nexo-menu-trigger focusable"
+                className="nexo-menu-trigger nexo-menu-trigger--all focusable"
                 type="button"
                 aria-label={open ? "Fechar menu" : "Abrir menu"}
                 aria-expanded={open}

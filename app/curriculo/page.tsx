@@ -1,21 +1,9 @@
 import type { Metadata } from "next";
 import { PrintActions } from "@/components/print-actions";
 import { education, experiences, professional, projects, skillGroups } from "@/lib/data";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Currículo Digital",
-  description:
-    "Currículo digital de Letícia de Paula, com apresentação profissional, projetos documentados e informações de formação.",
-  alternates: {
-    canonical: "/curriculo/"
-  },
-  openGraph: {
-    title: "Currículo Digital | Letícia de Paula",
-    description:
-      "Resumo profissional, experiências, competências e projetos públicos de Letícia de Paula.",
-    url: "/curriculo/"
-  }
-};
+export const metadata: Metadata = pageMetadata("Currículo Digital", "Currículo digital de Letícia de Paula, com apresentação profissional, projetos documentados e informações de formação.", "/curriculo/");
 
 export default function CurriculoPage() {
   return (

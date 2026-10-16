@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import { EditorialPage } from "@/components/editorial-page";
 import { ProjectsSection } from "@/components/projects-section";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Projetos",
-  description: "Estudos de caso de projetos documentados publicamente e conteúdos profissionais verificados.",
-  alternates: { canonical: "/projetos/" }
-};
+export const metadata: Metadata = pageMetadata("Projetos", "Estudos de caso de projetos documentados publicamente e conteúdos profissionais verificados.", "/projetos/");
 
 export default function ProjectsPage() {
   return (

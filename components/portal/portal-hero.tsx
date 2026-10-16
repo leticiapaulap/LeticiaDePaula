@@ -5,7 +5,7 @@ import { useExperience } from "@/components/experience-provider";
 import { professional } from "@/lib/profile";
 
 export function PortalHero() {
-  const { transitionTo, phase, setMode } = useExperience();
+  const { transitionTo, phase, setMode, mode, sceneStatus, sceneRequested, requestScene } = useExperience();
 
   return (
     <section className="nexo-portal" id="portal" aria-labelledby="portal-title" data-experience-state={phase}>
@@ -122,9 +122,18 @@ export function PortalHero() {
             <span>CONEXÃO / FORMA / MOVIMENTO</span>
           </div>
         </div>
+        {mode === "immersive" ? (
+          sceneStatus === "ready" || sceneStatus === "unavailable" ? (
+            <p className="nexo-mobile-scene-action" role="status">{sceneStatus === "ready" ? "Cena 3D ativa" : "Ilustração vetorial disponível"}</p>
+          ) : (
+            <button className="nexo-mobile-scene-action focusable" type="button" onClick={requestScene} disabled={sceneRequested}>
+              {sceneRequested ? "Preparando cena 3D…" : "Ativar cena 3D"}
+            </button>
+          )
+        ) : null}
       </div>
 
-      <a className="nexo-scroll-cue focusable" href="#exploracao" aria-label="Descer para a primeira área de exploração">
+      <a className="nexo-scroll-cue focusable" href="#exploracao" aria-label="Continue a explorar — primeira área de exploração">
         <span>CONTINUE A EXPLORAR</span>
         <ArrowDown size={15} aria-hidden="true" />
       </a>

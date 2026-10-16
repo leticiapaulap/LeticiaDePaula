@@ -4,14 +4,14 @@ import { BadgeCheck, ChartNoAxesCombined, ClipboardList, Code2, Database, Server
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionShell } from "@/components/section-shell";
-import { useExperience } from "@/components/experience-provider";
+import { useExperienceSelection } from "@/components/experience-provider";
 import { SkillConnectionMap } from "@/components/skill-connection-map";
 import { projects, skillEvidenceLabels, skillGroups } from "@/lib/data";
 
 const icons = [Code2, Server, Database, ChartNoAxesCombined, Wrench, ClipboardList];
 
 export function SkillsSection() {
-  const { selectedProjectSlug, selectedSkillName, selectSkill, selectProject } = useExperience();
+  const { selectedProjectSlug, selectedSkillName, selectSkill, selectProject } = useExperienceSelection();
 
   return (
     <SectionShell
@@ -31,7 +31,7 @@ export function SkillsSection() {
           const Icon = icons[index % icons.length] ?? BadgeCheck;
 
           return (
-            <Reveal className="skill-card" delay={index * 0.04} key={group.id}>
+            <Reveal className="skill-card" key={group.id}>
               <div className="skill-heading">
                 <Icon size={24} aria-hidden="true" />
                 <div>
@@ -57,6 +57,7 @@ export function SkillsSection() {
                         <small>{item.context}</small>
                         <em>{skillEvidenceLabels[item.evidence]}</em>
                       </button>
+                      <noscript><div className="nexo-skill-static"><strong>{item.name}</strong><small>{item.context}</small><em>{skillEvidenceLabels[item.evidence]}</em></div></noscript>
                       {item.projectSlugs?.length ? (
                         <div className="nexo-skill-projects" aria-label={`Projetos relacionados a ${item.name}`}>
                           {item.projectSlugs.map((slug) => {

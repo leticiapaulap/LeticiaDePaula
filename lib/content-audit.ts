@@ -20,8 +20,8 @@ export const contentAudit: ContentAuditItem[] = [
   },
   {
     topic: "Portfólio NEXO",
-    status: "Em desenvolvimento",
-    detail: "Código disponível neste workspace. O repositório GitHub informado está vazio na data desta auditoria.",
+    status: "Código público",
+    detail: "O repositório público contém a base do portfólio. A experiência imersiva e os refinamentos desta entrega estão disponíveis no workspace e aguardam publicação.",
     href: "https://github.com/leticiapaulap/LeticiaDePaula"
   },
   {
@@ -37,7 +37,7 @@ export const contentAudit: ContentAuditItem[] = [
   {
     topic: "Cursos e certificados",
     status: "Parcial",
-    detail: "Sete certificados reais estão anexados. Outros cursos constam somente no currículo e permanecem como informação a validar; Oracle Dev Gym está informado como em andamento."
+    detail: "Nove certificados reais estão anexados, incluindo Desenvolvedor Profissional (Versátil TI) e Introdução à Análise de Dados — Microsoft Power BI (Fundação Bradesco). Outros cursos constam somente no currículo e permanecem como informação a validar; Oracle Dev Gym está informado como em andamento."
   },
   {
     topic: "Currículo para download",

@@ -15,6 +15,7 @@ type AreaFilter = CertificationArea | "Todas";
 type StatusFilter = CertificationStatus | "Todos";
 
 const statusFilters: StatusFilter[] = ["Todos", "Concluído", "Em andamento", "A validar"];
+const normalizeSearch = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-BR");
 const statusClasses: Record<CertificationStatus, string> = {
   Concluído: "status-complete",
   "Em andamento": "status-progress",
@@ -45,9 +46,8 @@ export function CertificationExplorer() {
           activeInstitution === "Todas as instituições" || certification.institution === activeInstitution
       )
       .filter((certification) =>
-        `${certification.name} ${certification.institution} ${certification.area}`
-          .toLocaleLowerCase("pt-BR")
-          .includes(query.trim().toLocaleLowerCase("pt-BR"))
+        normalizeSearch(`${certification.name} ${certification.institution} ${certification.area}`)
+          .includes(normalizeSearch(query.trim()))
       )
       .sort((a, b) => a.priority - b.priority);
   }, [activeArea, activeInstitution, activeStatus, query]);
@@ -70,6 +70,7 @@ export function CertificationExplorer() {
         <label className="nexo-certification-query">
           <span>Instituição</span>
           <select
+            aria-label="Instituição"
             className="nexo-certification-input"
             onChange={(event) => setActiveInstitution(event.target.value)}
             value={activeInstitution}

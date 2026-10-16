@@ -2,6 +2,7 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
+import { usePathname } from "next/navigation";
 import * as THREE from "three";
 import { useExperience } from "@/components/experience-provider";
 import { createRibbonGeometry } from "@/components/portal/create-ribbon-geometry";
@@ -13,6 +14,7 @@ import { skillConnections, skills } from "@/lib/skill-relations";
 const resolutions: Record<SceneQuality, [number, number]> = { desktop: [144, 8], tablet: [100, 6], mobile: [64, 4] };
 
 function SceneRig({ active, quality }: { active: boolean; quality: SceneQuality }) {
+  const pathname = usePathname();
   const { phase, motionEnabled, transitionId, selectedProjectSlug, selectedSkillName, selectedExperienceId, visited } = useExperience();
   const { camera, invalidate } = useThree();
   const mesh = useRef<THREE.Mesh>(null);
@@ -145,10 +147,10 @@ function SceneRig({ active, quality }: { active: boolean; quality: SceneQuality 
   }, [active, camera, geometry, invalidate, motionEnabled, quality, transitionId]);
 
   useEffect(() => {
-    if (!active || !motionEnabled || quality !== "desktop" || !["portal", "nucleus"].includes(phase)) return;
+    if (!active || pathname !== "/" || !motionEnabled || quality !== "desktop" || !["portal", "nucleus"].includes(phase)) return;
     const timer = window.setInterval(() => invalidate(), 1000 / 30);
     return () => window.clearInterval(timer);
-  }, [active, invalidate, motionEnabled, phase, quality]);
+  }, [active, invalidate, motionEnabled, pathname, phase, quality]);
 
   const goals = useMemo(() => {
     const state = experienceSceneStates[phase];
@@ -201,11 +203,11 @@ function SceneRig({ active, quality }: { active: boolean; quality: SceneQuality 
     if (graph.current) graph.current.visible = (graphMaterial.current?.opacity ?? 0) > 0.005;
     if (branchLines.current) branchLines.current.visible = (branchMaterial.current?.opacity ?? 0) > 0.005;
     if (visitedNodes.current) visitedNodes.current.visible = (nodeMaterial.current?.opacity ?? 0) > 0.005;
-    if (motionEnabled && quality === "desktop" && ["portal", "nucleus"].includes(phase) && amount === 1) {
+    if (motionEnabled && pathname === "/" && quality === "desktop" && ["portal", "nucleus"].includes(phase) && amount === 1) {
       idleTime.current += Math.min(delta, 0.05);
       group.current.rotation.y += Math.sin(idleTime.current * 0.3) * 0.025;
     }
-    if (amount < 1) invalidate();
+    if (active && amount < 1) invalidate();
   });
 
   return (

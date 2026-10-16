@@ -1,3 +1,5 @@
+import { siteUrl } from "@/lib/site";
+
 export const professional = {
   name: "Letícia de Paula",
   monogram: "LP",
@@ -12,7 +14,7 @@ export const professional = {
   github: "https://github.com/leticiapaulap",
   linkedin: "https://www.linkedin.com/in/let%C3%ADcia-de-paulap/",
   avatar: "https://avatars.githubusercontent.com/u/121705864?v=4",
-  siteUrl: "https://leticia-paula-portfolio.usoiabensafins.chatgpt.site",
+  siteUrl,
   resumePdfPath: "/curriculo-leticia-de-paula.pdf" as string | null,
   resumePdfLabel: "Baixar currículo em PDF",
   about: [

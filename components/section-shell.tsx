@@ -1,5 +1,4 @@
 import { Reveal } from "@/components/reveal";
-import { cn } from "@/lib/utils";
 
 export function SectionShell({
   id,
@@ -17,7 +16,7 @@ export function SectionShell({
   alt?: boolean;
 }) {
   return (
-    <section className={cn("section", alt && "alt")} data-section id={id}>
+    <section className={alt ? "section alt" : "section"} data-section id={id}>
       <div className="container">
         <Reveal className="section-heading">
           <div>

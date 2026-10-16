@@ -4,7 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectVisual } from "@/components/project-visual";
 import { ProjectReturnLink } from "@/components/project-return-link";
-import { getProjectBySlug, professional, projects } from "@/lib/data";
+import { getProjectBySlug, projects } from "@/lib/data";
+import { pageMetadata } from "@/lib/metadata";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -26,26 +27,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     return {};
   }
 
-  return {
-    title: project.title,
-    description: project.summary,
-    alternates: {
-      canonical: `/projetos/${project.slug}/`
-    },
-    openGraph: {
-      title: `${project.title} | ${professional.name}`,
-      description: project.summary,
-      url: `/projetos/${project.slug}/`,
-      images: [
-        {
-          url: "/og-leticia.svg",
-          width: 1200,
-          height: 630,
-          alt: "Prévia visual do portfólio profissional de Letícia de Paula"
-        }
-      ]
-    }
-  };
+  return pageMetadata(project.title, project.summary, `/projetos/${project.slug}/`);
 }
 
 export const dynamicParams = false;
@@ -203,7 +185,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <div className="nexo-case-screenshots__grid">
               {project.screenshots.map((screenshot) => (
                 <figure key={screenshot.src}>
-                  <img src={screenshot.src} alt={screenshot.alt} loading="lazy" />
+                  <img src={screenshot.src} alt={screenshot.alt} loading="lazy" decoding="async" width={1440} height={960} />
                   <figcaption>{screenshot.caption}</figcaption>
                 </figure>
               ))}

@@ -106,8 +106,7 @@ export const projects: Project[] = [
       "Three.js",
       "React Three Fiber",
       "Radix UI",
-      "Lucide React",
-      "Framer Motion"
+      "Lucide React"
     ],
     highlights: [
       "Portal e seções profissionais separados das fontes de conteúdo tipadas.",
@@ -121,7 +120,7 @@ export const projects: Project[] = [
       "Páginas profissionais, navegação direta e menu responsivo.",
       "Fallback 2D para a escultura e funcionamento sem WebGL.",
       "Filtros funcionais de projetos e certificações.",
-      "Currículo digital imprimível e estado honesto sem PDF."
+      "Currículo digital imprimível e download de PDF público."
     ],
     architecture: [
       "app: rotas principais, currículo digital, sitemap, robots e páginas dinâmicas de projetos.",
@@ -140,6 +139,11 @@ export const projects: Project[] = [
         label: "Estudo de caso",
         href: "/projetos/portfolio-leticia-de-paula/",
         type: "case"
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/leticiapaulap/LeticiaDePaula",
+        type: "github"
       }
     ],
     media: {
@@ -149,14 +153,15 @@ export const projects: Project[] = [
     },
     screenshots: [
       {
-        src: "/projects/nexo-portal.png",
+        src: "/projects/nexo-portal.webp",
         alt: "Captura real do portal NEXO com apresentação de Letícia de Paula e a fita metálica procedural",
         caption: "Captura real do portal NEXO — build local da etapa 3, em 1440 × 960 px."
       }
     ],
     evidence: {
-      level: "informado",
-      sourceLabel: "Código disponível neste workspace; repositório remoto sem código"
+      level: "publico",
+      sourceLabel: "Base em repositório público; refinamentos disponíveis neste workspace",
+      href: "https://github.com/leticiapaulap/LeticiaDePaula"
     }
   }
 ];

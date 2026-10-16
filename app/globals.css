@@ -22,7 +22,8 @@
   --muted-strong: #c9cdd0;
   --border: #33404a;
   --accent: #b9a382;
-  --accent-strong: #765d3f;
+  --accent-strong: #dfc8a5;
+  --action-background: #765d3f;
   --accent-soft: #29271f;
   --warm: #d7b782;
   --berry: #ba8176;
@@ -67,7 +68,8 @@
   --muted-strong: #c9cdd0;
   --border: #33404a;
   --accent: #b9a382;
-  --accent-strong: #765d3f;
+  --accent-strong: #dfc8a5;
+  --action-background: #765d3f;
   --accent-soft: #29271f;
   --warm: #d7b782;
   --berry: #ba8176;
@@ -87,9 +89,10 @@
   --border: #d4cfc5;
   --accent: #80684a;
   --accent-strong: #6d5538;
+  --action-background: #6d5538;
   --accent-soft: #eee5d8;
-  --warm: #8a6b40;
-  --berry: #9a5d54;
+  --warm: #6d502c;
+  --berry: #7c3f38;
   --shadow: 0 24px 80px rgba(23, 26, 23, 0.12);
   --ring: 0 0 0 3px rgba(112, 85, 53, 0.23);
   color-scheme: light;
@@ -102,6 +105,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
+  scroll-padding-bottom: 100px;
 }
 
 body {
@@ -304,8 +308,8 @@ button:focus-visible {
 }
 
 .primary-action {
-  border: 1px solid var(--accent-strong);
-  background: var(--accent-strong);
+  border: 1px solid var(--action-background);
+  background: var(--action-background);
   color: #ffffff;
   padding: 0 18px;
 }
@@ -1438,7 +1442,7 @@ button:focus-visible {
   line-height: 0.98;
 }
 
-.project-detail-hero p {
+.project-detail-hero > div > p {
   color: var(--muted-strong);
   font-size: 1.1rem;
   line-height: 1.7;
@@ -2011,7 +2015,6 @@ button:focus-visible {
   position: relative;
   z-index: 2;
   max-width: 600px;
-  animation: nexo-copy-enter 820ms 100ms ease both;
 }
 
 .nexo-portal__eyebrow,
@@ -2180,7 +2183,6 @@ button:focus-visible {
   min-height: min(660px, 74svh);
   place-items: center;
   isolation: isolate;
-  animation: nexo-artwork-enter 1.1s 180ms cubic-bezier(0.2, 0.75, 0.35, 1) both;
 }
 
 .nexo-portal__artwork::before {
@@ -2514,14 +2516,23 @@ button:focus-visible {
   --muted: #59636b;
   --muted-strong: #39434b;
   --border: #d7d1c7;
-  --accent: #80684a;
+  --accent: #735b3f;
   --accent-strong: #6d5538;
+  --action-background: #6d5538;
   --accent-soft: #eee5d8;
-  --warm: #8a6b40;
-  --berry: #985c54;
+  --warm: #6d502c;
+  --berry: #7c3f38;
   --shadow: 0 24px 68px rgba(30, 33, 33, 0.11);
+  --nexo-text: var(--foreground);
+  --nexo-paper: var(--foreground);
+  --nexo-muted: var(--muted);
+  --nexo-bronze: var(--accent);
+  --nexo-bronze-light: var(--accent-strong);
+  --nexo-line: var(--border);
+  --nexo-line-strong: var(--border);
+  color-scheme: light;
   position: relative;
-  background: var(--nexo-paper);
+  background: var(--background);
   color: #1a2128;
 }
 
@@ -2603,33 +2614,9 @@ button:focus-visible {
 .nexo-exploration :is(a, button):focus-visible,
 .nexo-header :is(a, button):focus-visible,
 .nexo-direct :is(a, button):focus-visible {
-  outline: 2px solid var(--nexo-bronze-light);
+  outline: 2px solid var(--nexo-bronze);
   outline-offset: 4px;
   box-shadow: none;
-}
-
-@keyframes nexo-copy-enter {
-  from {
-    transform: translateY(16px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes nexo-artwork-enter {
-  from {
-    transform: scale(0.975);
-    opacity: 0;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
 }
 
 @keyframes nexo-fallback-drift {
@@ -3038,12 +3025,15 @@ button:focus-visible {
   --muted-strong: #c9cdd0;
   --border: #33404a;
   --accent: #b9a382;
-  --accent-strong: #80684a;
+  --accent-strong: #dfc8a5;
+  --action-background: #765d3f;
   --accent-soft: #29271f;
   --warm: #d7b782;
+  --berry: #cf9b91;
   --nexo-paper: #f2f0ea;
   background: #0c1015;
   color: #f2f0ea;
+  color-scheme: dark;
 }
 
 .nexo-route__body.nexo-direct .section {
@@ -3175,7 +3165,7 @@ button:focus-visible {
 }
 
 .profile-grid .editorial-copy p {
-  color: #d6d9d8;
+  color: var(--muted-strong);
   font-size: clamp(1rem, 1.5vw, 1.13rem);
   line-height: 1.9;
 }
@@ -3316,7 +3306,7 @@ button:focus-visible {
 
 .nexo-experience-entry__facts dd {
   margin: 0;
-  color: #dadddc;
+  color: var(--muted-strong);
   font-size: 0.76rem;
 }
 
@@ -3349,7 +3339,7 @@ button:focus-visible {
   min-width: 0;
   border: 0;
   border-radius: 0;
-  background: #11181f;
+  background: var(--surface);
   padding: clamp(18px, 3vw, 29px);
 }
 
@@ -3390,7 +3380,7 @@ button:focus-visible {
 }
 
 .skill-list strong {
-  color: #e2e1dc;
+  color: var(--foreground);
   font-size: 0.79rem;
 }
 
@@ -3445,10 +3435,10 @@ button:focus-visible {
   min-height: 45px;
   border: 1px solid var(--nexo-line-strong);
   border-radius: var(--nexo-radius-sm);
-  background: #11181f;
+  background: var(--surface);
   padding: 0 12px;
-  color: var(--nexo-paper);
-  color-scheme: dark;
+  color: var(--foreground);
+  color-scheme: inherit;
 }
 
 .nexo-certification-input::placeholder {
@@ -3509,7 +3499,7 @@ button:focus-visible {
   min-height: 100%;
   border-color: var(--nexo-line);
   border-radius: 0;
-  background: #11181f;
+  background: var(--surface);
   box-shadow: none;
 }
 
@@ -3545,7 +3535,7 @@ button:focus-visible {
   align-items: start;
   border: 1px solid var(--nexo-line);
   border-radius: 0;
-  background: #11181f;
+  background: var(--surface);
   padding: clamp(22px, 5vw, 42px);
 }
 
@@ -3584,7 +3574,7 @@ button:focus-visible {
     linear-gradient(rgba(194, 201, 202, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(194, 201, 202, 0.035) 1px, transparent 1px),
     radial-gradient(ellipse at 50% 40%, rgba(185, 163, 130, 0.13), transparent 62%),
-    #10171d;
+    var(--surface-soft);
   background-size: 34px 34px, 34px 34px, auto, auto;
   padding: clamp(18px, 3vw, 30px);
 }
@@ -3620,7 +3610,7 @@ button:focus-visible {
   gap: 7px;
   border: 1px solid rgba(185, 163, 130, 0.48);
   margin-inline: auto;
-  background: rgba(12, 16, 21, 0.83);
+  background: var(--surface);
   padding: 12px 15px;
 }
 
@@ -3664,7 +3654,7 @@ button:focus-visible {
   align-content: center;
   gap: 5px;
   border: 1px solid var(--nexo-line-strong);
-  background: rgba(12, 16, 21, 0.88);
+  background: var(--surface);
   padding: 9px;
 }
 
@@ -3699,7 +3689,7 @@ button:focus-visible {
 .nexo-unpublished-note {
   border-color: var(--nexo-line);
   border-radius: 0;
-  background: #10161c;
+  background: var(--surface);
 }
 
 .nexo-unpublished-note h3 {
@@ -3826,6 +3816,8 @@ button:focus-visible {
   --nexo-text: #1a2128;
   --nexo-muted: #59636b;
   --nexo-paper: #1a2128;
+  --nexo-bronze: #735b3f;
+  --nexo-bronze-light: #6d5538;
   --nexo-line: rgba(34, 43, 49, 0.14);
   --nexo-line-strong: rgba(34, 43, 49, 0.24);
   background: #f2f0ea;
@@ -3852,13 +3844,15 @@ button:focus-visible {
   --muted: #59636b;
   --muted-strong: #37414a;
   --border: #d4cfc5;
-  --accent: #80684a;
+  --accent: #735b3f;
   --accent-strong: #6d5538;
   --accent-soft: #eee5d8;
-  --warm: #8a6b40;
+  --warm: #6d502c;
+  --berry: #7c3f38;
   --nexo-paper: #1a2128;
   background: #f2f0ea;
   color: #1a2128;
+  color-scheme: light;
 }
 
 :root:not(.dark) .nexo-route__body.nexo-direct .section {

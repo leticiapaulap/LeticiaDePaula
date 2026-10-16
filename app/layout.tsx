@@ -7,6 +7,8 @@ import { ExperienceProvider } from "@/components/experience-provider";
 import { ExperienceNavigation } from "@/components/experience-navigation";
 import { SculptureLoader } from "@/components/portal/sculpture-loader";
 import { StructuredData } from "@/components/structured-data";
+import { pageMetadata } from "@/lib/metadata";
+import { navItems } from "@/lib/navigation";
 import "./globals.css";
 import "./experience.css";
 
@@ -25,37 +27,10 @@ const editorialFont = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://leticia-paula-portfolio.usoiabensafins.chatgpt.site"),
+  ...pageMetadata("NEXO — A Arquitetura das Ideias", "Ideias que ganham forma. Portfólio profissional de Letícia de Paula, com aplicações web e documentação de projetos.", "/"),
   title: {
     default: "NEXO — A Arquitetura das Ideias | Letícia de Paula",
     template: "%s | Letícia de Paula"
-  },
-  description:
-    "Ideias que ganham forma. Portfólio profissional de Letícia de Paula, com aplicações web e documentação de projetos.",
-  alternates: {
-    canonical: "/"
-  },
-  openGraph: {
-    title: "NEXO — A Arquitetura das Ideias",
-    description:
-      "O universo profissional de Letícia de Paula: desenvolvimento web, estudos de caso e conteúdo verificável.",
-    type: "website",
-    locale: "pt_BR",
-    url: "/",
-    images: [
-      {
-        url: "/og-leticia.svg",
-        width: 1200,
-        height: 630,
-        alt: "Letícia de Paula - Portfólio Profissional"
-      }
-    ]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "NEXO — A Arquitetura das Ideias",
-    description: "Portfólio profissional de Letícia de Paula: desenvolvimento web, projetos e conteúdo verificável.",
-    images: ["/og-leticia.svg"]
   }
 };
 
@@ -83,10 +58,17 @@ export default function RootLayout({
               Ir para o conteúdo
             </a>
             <Header />
+            <noscript>
+              <nav className="nexo-noscript-nav" aria-label="Navegação sem JavaScript">
+                {navItems.map((item) => <a href={item.href} key={item.id}>{item.label}</a>)}
+                <a href="/curriculo/">Currículo digital</a>
+              </nav>
+              <style>{`button,input,select,.nexo-experience-stage,.nexo-header__actions,.nexo-experience-nav,.filter-bar,.filter-group,.nexo-certification-search,.nexo-project-selection,.nexo-gallery-tabs,.nexo-career-navigation,.nexo-certificate-dialog{display:none!important}.nexo-artwork__fallback{opacity:1!important}.nexo-experience-root{padding-bottom:0}`}</style>
+            </noscript>
             <div className="nexo-experience-stage" aria-hidden="true">
               <SculptureLoader />
             </div>
-            <main id="conteudo">{children}</main>
+            <main id="conteudo" tabIndex={-1}>{children}</main>
             <Footer />
             <ExperienceNavigation />
             <StructuredData />

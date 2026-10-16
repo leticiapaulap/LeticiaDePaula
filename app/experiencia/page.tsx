@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
 import { EditorialPage } from "@/components/editorial-page";
 import { ExperienceSection } from "@/components/experience-section";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Experiência",
-  description: "Organizações informadas e validação transparente do histórico profissional de Letícia de Paula.",
-  alternates: { canonical: "/experiencia/" }
-};
+export const metadata: Metadata = pageMetadata("Experiência", "Trajetória de Letícia de Paula em tecnologia, dados e suporte, conforme o currículo fornecido.", "/experiencia/");
 
 export default function ExperiencePage() {
   return (
     <EditorialPage
       eyebrow="Experiência"
-      title="Vínculos, sem datas presumidas."
-      description="Os nomes das organizações foram informados. Sem currículo atualizado, apresento o estado de validação — não atribuo cargos, tarefas, tecnologias ou resultados."
+      title="Uma trajetória que conecta contextos."
+      description="Experiências em tecnologia, dados geoespaciais e suporte. Cargos, períodos e atividades apresentados conforme o currículo fornecido."
     >
       <ExperienceSection />
     </EditorialPage>

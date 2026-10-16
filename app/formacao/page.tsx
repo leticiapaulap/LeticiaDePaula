@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { CertificationsSection } from "@/components/certifications-section";
 import { EducationSection } from "@/components/education-section";
 import { EditorialPage } from "@/components/editorial-page";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Formação e cursos",
-  description: "Formação informada, curso em andamento e estado verificável dos documentos.",
-  alternates: { canonical: "/formacao/" }
-};
+export const metadata: Metadata = pageMetadata("Formação e cursos", "Formação acadêmica, cursos e nove certificados disponíveis de Letícia de Paula.", "/formacao/");
 
 export default function EducationPage() {
   return (

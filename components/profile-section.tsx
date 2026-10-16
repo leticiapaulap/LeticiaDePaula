@@ -17,7 +17,7 @@ export function ProfileSection() {
           ))}
         </Reveal>
 
-        <Reveal className="workflow-list" delay={0.08}>
+        <Reveal className="workflow-list">
           {professional.principles.map((item) => (
             <article className="workflow-item" key={item.title}>
               <strong>{item.title}</strong>
