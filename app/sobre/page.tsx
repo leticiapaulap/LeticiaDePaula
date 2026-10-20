@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ViewTransition } from "react";
+import { ChapterTransition } from "@/components/chapter-transition";
 import Link from "next/link";
 import { EditorialPage } from "@/components/editorial-page";
 import { ProfileSection } from "@/components/profile-section";
@@ -9,8 +9,9 @@ export const metadata: Metadata = pageMetadata("Sobre mim", "Conheça Letícia d
 
 export default function AboutPage() {
   return (
-    <ViewTransition enter={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} exit={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} default="none">
+    <ChapterTransition phase="nucleus">
     <EditorialPage
+      phase="nucleus"
       eyebrow="Sobre"
       title="Pessoas, contexto e tecnologia."
       description="Uma trajetória construída entre desenvolvimento, dados e aprendizado. Conheça minha forma de pensar e de transformar ideias em soluções."
@@ -34,6 +35,6 @@ export default function AboutPage() {
         </div>
       </section>
     </EditorialPage>
-    </ViewTransition>
+    </ChapterTransition>
   );
 }

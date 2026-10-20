@@ -1,0 +1,417 @@
+.nexo-portal {
+  background: radial-gradient(ellipse at 80% 44%, rgba(185, 163, 130, 0.08), transparent 44%), #0c1015;
+}
+
+.nexo-portal::before,
+.nexo-portal::after {
+  content: none;
+}
+
+.nexo-portal__content {
+  width: min(var(--nexo-content-width), calc(100% - 80px));
+  min-height: 0;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(32px, 5vw, 80px);
+  margin: 0 auto;
+  padding-block: clamp(48px, 7vh, 84px);
+}
+
+.nexo-portal__title {
+  font-size: clamp(4rem, 7.2vw, 7rem);
+}
+
+.nexo-portal__statement {
+  margin-top: 26px;
+}
+
+.nexo-portal__introduction {
+  max-width: 440px;
+  margin-top: 18px;
+  line-height: 1.8;
+}
+
+.nexo-portal__actions {
+  gap: 12px 18px;
+  margin-top: 28px;
+}
+
+.hero-gallery {
+  min-width: 0;
+  width: 100%;
+  color: #f2f0ea;
+}
+
+.hero-gallery__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hero-gallery__heading p {
+  margin: 0;
+  color: #dfc8a5;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.hero-gallery__heading > span {
+  color: #a8afb7;
+  font-size: 0.68rem;
+}
+
+.hero-gallery .nexo-portal__artwork {
+  position: relative;
+  width: 100%;
+  height: clamp(310px, 31vw, 410px);
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-gallery .nexo-portal__artwork::before {
+  content: none;
+}
+
+.hero-gallery__fallback {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--gallery-look-x, 0deg)) rotateY(var(--gallery-look-y, 0deg));
+  transition: transform 600ms ease, opacity 180ms ease;
+}
+
+.hero-gallery__screen {
+  position: absolute;
+  width: 80%;
+  border: 1px solid #b8a789;
+  border-radius: 3px;
+  background: #161c23;
+  padding: 4px;
+  cursor: pointer;
+  box-shadow: 1px 2px 0 #8a7a61, 5px 7px 0 #252b33, 0 22px 38px -14px rgba(0, 0, 0, 0.75);
+  transition: transform 650ms cubic-bezier(0.22, 0.7, 0.2, 1), opacity 400ms ease, width 650ms ease, top 650ms ease, left 650ms ease, right 650ms ease;
+}
+
+.hero-gallery__screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1px;
+}
+
+.hero-gallery__screen--1 {
+  z-index: 2;
+  top: 28%;
+  left: 0;
+  transform: rotateX(2deg) rotateY(12deg) rotateZ(-2deg);
+}
+
+.hero-gallery__screen--2 {
+  z-index: 1;
+  top: 8%;
+  right: 0;
+  width: 60%;
+  transform: translateZ(-70px) rotateX(-3deg) rotateY(-20deg) rotateZ(3deg);
+}
+
+.hero-gallery__screen-edge {
+  position: absolute;
+  z-index: -1;
+  inset: -2px -5px -7px 0;
+  border-radius: 3px;
+  border-right: 3px solid #252b33;
+  border-bottom: 4px solid #1d242d;
+}
+
+.hero-gallery__glass {
+  position: absolute;
+  inset: 4px;
+  border-radius: 2px;
+  background: linear-gradient(145deg, rgba(255, 244, 220, 0.06), transparent 35%, transparent 75%, rgba(255, 244, 220, 0.025));
+  pointer-events: none;
+}
+
+.hero-gallery__floor {
+  position: absolute;
+  z-index: -1;
+  right: 4%;
+  bottom: 10%;
+  left: 3%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #b9a38255, transparent);
+  box-shadow: 0 15px 45px 10px rgba(0, 0, 0, 0.35);
+}
+
+.hero-gallery[data-gallery-focus="festa-fantasia"] .hero-gallery__screen--1 {
+  top: 20%;
+  left: 7%;
+  width: 85%;
+  transform: translateZ(30px) rotateY(-3deg);
+}
+
+.hero-gallery[data-gallery-focus="festa-fantasia"] .hero-gallery__screen--2,
+.hero-gallery[data-gallery-focus="portfolio-leticia-de-paula"] .hero-gallery__screen--1 {
+  opacity: 0.45;
+}
+
+.hero-gallery[data-gallery-focus="portfolio-leticia-de-paula"] .hero-gallery__screen--2 {
+  z-index: 3;
+  top: 8%;
+  right: 12%;
+  width: 76%;
+  transform: translateZ(30px) rotateY(-3deg);
+}
+
+.hero-gallery__selection {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  border-bottom: 1px solid var(--nexo-line-strong);
+}
+
+.hero-gallery__project {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  padding: 12px 0;
+  color: #c9cdd0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hero-gallery__project > span {
+  color: #b9a382;
+  font-size: 0.65rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-gallery__project strong {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.hero-gallery__project:hover,
+.hero-gallery__project[aria-pressed="true"] {
+  border-bottom-color: #dfc8a5;
+  color: #f2f0ea;
+}
+
+.hero-gallery__details {
+  display: flex;
+  min-height: 88px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 12px;
+}
+
+.hero-gallery__project-name {
+  margin: 0;
+  color: #f2f0ea;
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: 1.45rem;
+}
+
+.hero-gallery__technologies {
+  max-width: 360px;
+  margin: 7px 0 0;
+  color: #a8afb7;
+  font-size: 0.7rem;
+  line-height: 1.7;
+}
+
+.hero-gallery__case {
+  display: inline-flex;
+  min-height: 44px;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  color: #dfc8a5;
+  font-size: 0.72rem;
+}
+
+.hero-gallery__reset {
+  min-height: 44px;
+}
+
+.hero-gallery__reset > p {
+  margin: 0;
+  padding-block: 12px;
+  color: #a8afb7;
+  font-size: 0.7rem;
+  line-height: 1.7;
+}
+
+.hero-gallery__reset > button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #dfc8a5;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.professional-portrait {
+  perspective: 1400px;
+}
+
+.professional-portrait__frame {
+  transform: rotateY(-6deg) rotateX(2deg);
+  transform-style: preserve-3d;
+  transition: transform 600ms cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+
+.professional-portrait:hover .professional-portrait__frame {
+  transform: rotateY(-2deg);
+}
+
+.professional-portrait__surface {
+  position: relative;
+  transform: translateZ(12px);
+}
+
+.professional-portrait__light {
+  position: absolute;
+  inset: 0;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: inset 0 0 20px color-mix(in srgb, var(--accent) 8%, transparent);
+  pointer-events: none;
+  transform: translateZ(15px);
+}
+
+@media (min-width: 768px) {
+  .hero-gallery[data-renderer="webgl"] .hero-gallery__fallback {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nexo-experience-root[data-experience-state="portal"]:has(.hero-gallery[data-renderer="webgl"]) .nexo-experience-stage {
+    pointer-events: auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1099px) {
+  .nexo-portal__content {
+    width: calc(100% - 56px);
+    gap: 28px;
+  }
+
+  .nexo-portal__title {
+    font-size: clamp(3.8rem, 8vw, 6rem);
+  }
+
+  .hero-gallery__details {
+    align-items: start;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 767px) {
+  .nexo-portal__content {
+    width: calc(100% - 40px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+    padding-block: 36px 24px;
+  }
+
+  .nexo-portal__title {
+    font-size: clamp(3.6rem, 16vw, 5.6rem);
+  }
+
+  .nexo-portal__eyebrow {
+    margin-top: 0;
+  }
+
+  .nexo-portal__statement {
+    font-size: 1.5rem;
+  }
+
+  .hero-gallery .nexo-portal__artwork {
+    height: clamp(180px, 55vw, 290px);
+  }
+
+  .hero-gallery__screen,
+  .hero-gallery[data-gallery-focus] .hero-gallery__screen--1,
+  .hero-gallery[data-gallery-focus] .hero-gallery__screen--2 {
+    top: 20px;
+    right: auto;
+    left: 2%;
+    width: 96%;
+    transform: none;
+    opacity: 1;
+  }
+
+  .hero-gallery__screen--2,
+  .hero-gallery[data-gallery-focus="portfolio-leticia-de-paula"] .hero-gallery__screen--1 {
+    display: none;
+  }
+
+  .hero-gallery[data-gallery-focus="portfolio-leticia-de-paula"] .hero-gallery__screen--2 {
+    display: block;
+  }
+
+  .hero-gallery__fallback {
+    transform: none;
+  }
+
+  .nexo-experience-root[data-experience-state="portal"] .nexo-experience-stage {
+    visibility: hidden;
+  }
+
+  .hero-gallery__selection {
+    gap: 12px;
+  }
+
+  .hero-gallery__project {
+    gap: 8px;
+  }
+
+  .hero-gallery__project strong {
+    font-size: 0.74rem;
+  }
+
+  .hero-gallery__details {
+    align-items: start;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 18px;
+  }
+
+  .hero-gallery__technologies {
+    font-size: 0.74rem;
+  }
+
+  .professional-portrait__frame {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-gallery__fallback,
+  .hero-gallery__screen,
+  .professional-portrait__frame,
+  .professional-portrait__surface,
+  .professional-portrait__light {
+    transform: none !important;
+    transition: none;
+  }
+}
+
+@media print {
+  .hero-gallery,
+  .professional-portrait__light {
+    display: none;
+  }
+}

@@ -405,7 +405,7 @@
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: center;
-  animation: nexo-focus-in 220ms ease both;
+  animation: chapter-body-arrive 450ms ease both;
 }
 
 .project-showcase__media {
@@ -492,7 +492,7 @@
   background: var(--accent-soft);
 }
 
-.project-showcase__tab span:nth-child(2) {
+.project-showcase__tab > span {
   display: grid;
   gap: 4px;
 }

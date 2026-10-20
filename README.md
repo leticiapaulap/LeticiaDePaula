@@ -1,8 +1,8 @@
 # Letícia de Paula — Portfólio profissional
 
-Portfólio profissional de Letícia de Paula. A composição editorial conecta trajetória, projetos, competências e formação a uma escultura procedural em 3D. Grafite, marfim e dourado, tipografia editorial e navegação acessível formam a identidade visual. A única marca pública é o nome profissional. O conteúdo é HTML estático e pode ser consultado por URL, mecanismos de busca e sem WebGL.
+Portfólio profissional de Letícia de Paula. A abertura apresenta uma galeria 3D de projetos reais, com capturas de suas interfaces e acesso aos estudos de caso. Os capítulos conectam trajetória, competências e formação. Grafite, marfim e champanhe, tipografia editorial e navegação acessível formam a identidade visual. A única marca pública é o nome profissional. O conteúdo é HTML estático e pode ser consultado por URL, mecanismos de busca e sem WebGL.
 
-Esta entrega evolui a implementação existente, sem reconstrução. A rodada mais recente está documentada em [docs/pos-revisao.md](docs/pos-revisao.md); a revisão anterior permanece em [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). Pendências e fontes de conteúdo ficam em [docs/conteudo-interno.md](docs/conteudo-interno.md), não na interface. Os relatórios anteriores preservam os resultados das versões que mediram.
+Esta entrega evolui a implementação existente, sem reconstrução. A hero e os controles atuais estão documentados em [docs/hero-galeria-projetos.md](docs/hero-galeria-projetos.md). As revisões anteriores permanecem em [docs/navegacao-capitulos.md](docs/navegacao-capitulos.md), [docs/pos-revisao.md](docs/pos-revisao.md) e [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). Pendências e fontes de conteúdo ficam em [docs/conteudo-interno.md](docs/conteudo-interno.md), não na interface. Os relatórios anteriores preservam os resultados das versões que mediram.
 
 ## Tecnologias
 
@@ -53,10 +53,16 @@ app/                       Rotas, layout, metadados, sitemap, robots e 404
   globals.css              Tokens e estilos editoriais
   experience.css           Interação, responsividade, foco e impressão
   refinements.css          Acabamento visual e navegação por capítulos
+  chapters.css             Composições, transições e controles dos capítulos
+  hero.css                 Galeria de projetos, composição inicial e moldura do retrato
 components/                Seções profissionais e controles
+  chapter-transition.tsx   Transições de rota com React ViewTransition
   experience-navigation.tsx Navegação entre capítulos e modo de leitura
   portal/                  Portal, SVG, carregador e cena 3D
+    hero-project-gallery.tsx Capturas, seleção acessível e links da abertura
+    project-gallery-scene.tsx Telas reais em perspectiva no canvas compartilhado
 lib/                       Conteúdo tipado, relações e máquina de estados
+  chapters.ts              Ordem, URLs, títulos e motivos dos sete capítulos
 public/                    Imagens públicas, currículo e nove certificados
 scripts/                   Preview, normalização, imagens e Lighthouse
 tests/                     Testes de rotas, acessibilidade e experiência
@@ -66,9 +72,11 @@ vercel.json                Build, diretório público, cache e cabeçalhos
 
 Server Components e dados tipados geram as páginas HTML no build. Client Components atendem filtros, pesquisa, preferências e navegação imersiva. `ExperienceProvider` coordena fases e seleções; um contexto separado de seleções evita atualizar as listas quando só a cena ou as preferências mudam. O renderizador não controla a disponibilidade do conteúdo.
 
-A escultura tem sete estados: Apresentação, Sobre, Projetos, Experiência, Competências, Formação e Contato. Os alvos compartilham topologia e são interpolados na GPU. Uma única cena acompanha as rotas; no celular, usa SVG e só carrega WebGL após solicitação explícita. Uma visita em modo direto não carrega o renderizador. Movimento reduzido desativa as transições espaciais, sem eliminar conteúdo.
+Um único canvas acompanha as rotas. Na abertura, ele exibe duas telas de projetos com capturas reais, molduras físicas, iluminação e seleção por clique. A escultura anterior permanece como apoio nas páginas internas, com alvos que compartilham topologia e são interpolados na GPU; ela não é renderizada na hero, nem como fallback. No celular, a galeria usa uma captura por vez em HTML e não inicia WebGL. Modo direto e movimento reduzido também mantêm a galeria em HTML.
 
 Cada capítulo é uma rota HTML independente, carregável e compartilhável. A navegação mantém entradas reais no histórico do navegador, inclui anterior/próximo, seleção direta, teclado e gesto horizontal opcional no mobile. A rolagem não é capturada: timelines, galerias, competências e documentos extensos permanecem acessíveis em fluxo natural.
+
+Os controles ficam em uma linha discreta de 56 px no fluxo abaixo do header, com número, nome atual, progresso fino, anterior e próximo com o nome do destino. O último capítulo oferece retorno ao início. Não há dropdown nem chamada separada de próximo capítulo. O menu principal contém os sete links diretos. Setas e gestos entre capítulos ficam desativados em controles internos, diálogos, galerias, estudos de caso e currículo. O foco acompanha o título após navegar; Escape no menu restaura o foco ao botão. As transições usam Next.js 16.4 e React 19.3, com dissolução no histórico e animações simplificadas no celular. Pausa e movimento reduzido desativam também as animações dos snapshots de navegação.
 
 | Rota | Conteúdo |
 | --- | --- |
@@ -76,6 +84,9 @@ Cada capítulo é uma rota HTML independente, carregável e compartilhável. A n
 | `/sobre/` | 02 — Sobre mim, princípios e fotografia opcional |
 | `/projetos/` | 03 — Galeria, filtros e estados vazios |
 | `/projetos/festa-fantasia/` | Estudo de caso do projeto público |
+| `/projetos/organizador-de-tarefas/` | Finanzy, versão atual do organizador pessoal |
+| `/projetos/senappen-recebimentos/` | Visão geral do portal privado da SENAPPEN |
+| `/projetos/dio-lab-open-source/` | Fork educacional do laboratório da DIO |
 | `/projetos/portfolio-leticia-de-paula/` | Estudo de caso do portfólio pessoal |
 | `/experiencia/` | 04 — Cargos, períodos e atividades da trajetória |
 | `/competencias/` | 05 — Conhecimentos e relações documentadas com projetos |
@@ -99,6 +110,8 @@ Os arquivos em `lib/` são a fonte da interface. Preserve a diferença entre inf
 
 Categorias sem projetos têm estados vazios reais. Não publique fluxos, nomes de sistemas, resultados ou código corporativo sem autorização.
 
+Os três projetos adicionais foram incluídos a pedido da autora, com fontes e limites registrados em [docs/projetos-adicionais.md](docs/projetos-adicionais.md). Projetos não públicos não recebem botões de repositório ou demo. Sem uma captura autorizada, cada projeto mostra um diagrama editorial próprio; não são simuladas interfaces. A galeria 3D da abertura continua usando apenas as duas capturas reais já disponíveis.
+
 ### Certificações e formação
 
 Edite `lib/certifications.ts`: nome, instituição, área, carga horária, data de conclusão, status e prioridade. Somente um documento real deve receber `certificateUrl`, apontando para `public/certificates/`. Estudos em curso usam `Em andamento`, sem botão de visualização. Cursos cuja conclusão ainda não está confirmada ficam em `docs/conteudo-interno.md`, não recebem status de concluídos e não aparecem como pendências na biblioteca pública.
@@ -119,21 +132,21 @@ Atualize os perfis em `lib/profile.ts` e `lib/social-links.ts`, mantendo-os cons
 
 O conteúdo relevante permanece fora do canvas. Há links de salto, landmarks, headings, labels, foco visível, navegação por teclado, alvos maiores, contraste por superfície e suporte a `prefers-reduced-motion`. Menu e certificados têm contenção e restauração de foco, fechamento por Escape e acesso direto aos PDFs.
 
-O modo direto evita inicializar WebGL em uma visita nova. A indisponibilidade de WebGL, falha do renderizador ou perda de contexto mantém o fallback SVG e a navegação. Sem JavaScript, uma navegação HTML adicional e os links de documentos continuam disponíveis; filtros e controles que exigem scripts ficam ocultos.
+O modo direto evita inicializar WebGL em uma visita nova. Indisponibilidade de WebGL, falha do renderizador ou perda de contexto preservam as capturas HTML na abertura e o SVG nas páginas internas. Sem JavaScript, uma navegação HTML adicional, capturas, estudos de caso e links de documentos continuam disponíveis; filtros e controles que exigem scripts ficam ocultos.
 
 Axe testa critérios automatizáveis de WCAG 2.2 AA. Isso não é certificação de conformidade: ainda é recomendada uma revisão humana com leitor de tela e aparelhos reais. Quatro certificados DIO/Klabin são PDFs de imagem; nome, instituição, data e carga horária também estão disponíveis no HTML.
 
 ## Performance e imagens
 
 - Exportação estática e divisão de código por rota.
-- Importação separada de WebGL, após restauração de preferências, visibilidade e tempo ocioso. No portal mobile, o SVG aparece imediatamente e o botão “Ativar cena 3D” permite optar pelo renderizador; entrar na exploração também o habilita.
-- Renderização sob demanda, pausa de aba oculta e de modo direto; movimento contínuo somente no portal/núcleo da home em desktop, limitado a aproximadamente 30 atualizações por segundo. Páginas internas só mantêm uma cena já ativada ou a carregam por escolha explícita do visitante.
+- Importação separada de WebGL, após restauração de preferências, visibilidade e tempo ocioso. A abertura mobile usa as capturas HTML e não carrega o renderizador.
+- Renderização sob demanda, com pausa em aba oculta, fora da área visível e no modo direto; a galeria desktop é limitada a aproximadamente 24 atualizações por segundo. Os capítulos internos preservam seus estados da escultura e a ativação mobile explícita pelo modo imersivo. Movimento reduzido usa imagens HTML ou SVG sem iniciar WebGL.
 - Geometria e pixel ratio por dispositivo; sem texturas remotas nem pós-processamento.
-- SVG imediato, texto sem animação de entrada e dimensões explícitas nas capturas.
+- Capturas HTML imediatas na abertura, SVG nas páginas internas e dimensões explícitas nas imagens. Animações de entrada do corpo preservam opacidade e contraste dos textos e ações.
 - Capturas reais em WebP, imagens abaixo da dobra com lazy loading e fontes locais após o build.
 - Cache imutável somente para arquivos versionados em `/_next/static/`; documentos de nome estável podem ser atualizados a cada publicação.
 
-`npm run assets` recria `public/og-leticia.png` a partir do SVG e `public/projects/nexo-portal.webp` a partir do PNG original. Os originais são fontes do processamento e foram preservados.
+`npm run assets` recria a imagem social PNG e as capturas WebP a partir das fontes preservadas em `public/`. A captura atual do Festa Fantasia foi fornecida por Letícia de Paula e o mapa de competências foi capturado do próprio portfólio, sem simular interfaces. A imagem antiga `nexo-portal` permanece como fonte histórica e não aparece na hero.
 
 Metas: LCP ≤ 2,5 s; CLS ≤ 0,1; INP ≤ 200 ms. Consulte as medições reais e suas condições em [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). TBT de Lighthouse não é INP; métricas de campo precisam de tráfego real.
 
@@ -147,7 +160,7 @@ npm run test:report
 npm audit
 ```
 
-Playwright serve `out/` e verifica dez rotas em 320, 375, 430, 768, 1024, 1280, 1440 e 1920 px; testa contraste nos dois temas, menu, foco, filtros, busca, estados vazios, documentos, SEO, 404 e fallback. Os testes imersivos conferem a posição da arte, fases e perda de contexto. Screenshots e traces ficam em `test-results/`; o relatório HTML fica em `playwright-report/`.
+Playwright serve `out/` e verifica treze rotas em 320, 375, 430, 768, 1024, 1280, 1440 e 1920 px; testa contraste nos dois temas, menu, foco, filtros, busca, estados vazios, documentos, SEO, 404 e fallback. Os testes imersivos conferem a posição da arte, fases e perda de contexto. O catálogo também tem testes específicos de acesso, histórico, seleção, privacidade, atribuição do fork e diagramas. Screenshots e traces ficam em `test-results/`; o relatório HTML fica em `playwright-report/`.
 
 Se precisar usar um Chromium existente, defina `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` com o caminho absoluto do executável. Esse ajuste é opcional e não é incluído no bundle.
 
@@ -187,4 +200,4 @@ O LinkedIn informado precisa de conferência manual. A demonstração de Festa F
 
 `components/professional-portrait.tsx` está integrado à seção Sobre de forma opcional. Configure `portrait` em `lib/portrait.ts` somente após receber uma fotografia real e autorizada: `src`, texto alternativo, `width`, `height` e legenda opcional. Use um caminho local em `public/` e as dimensões verdadeiras da imagem. Com `null`, não há espaço vazio, imagem substituta nem download remoto.
 
-A fotografia usa largura fluida, altura automática e `object-fit: contain`, sem recorte, filtros de rosto, rotação da pessoa ou alteração de proporções. A profundidade é criada apenas pela moldura e pelas sombras, sem simular um modelo 3D interativo. O retrato complementa a apresentação em Sobre, não disputa a abertura com a escultura. Conferir pose, rosto, tatuagens, roupa, acessórios e enquadramento com a proprietária antes de publicar.
+A fotografia usa largura fluida, altura automática e `object-fit: contain`, sem recorte, filtros de rosto ou alteração de proporções. A profundidade é criada pela moldura com perspectiva CSS, luz discreta e sombras, preservando integralmente os pixels da fotografia. No mobile e com movimento reduzido, o tratamento espacial é simplificado. Nenhuma fotografia foi criada ou alterada nesta revisão; `portrait` permanece `null` até o recebimento do arquivo autorizado. Conferir pose, rosto, tatuagens, roupa, acessórios e enquadramento com a proprietária antes de publicar.

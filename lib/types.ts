@@ -20,6 +20,12 @@ export type ProjectMedia = {
   kind: "technical";
   alt: string;
   tone: "teal" | "warm" | "berry";
+  nodes: [ProjectDiagramNode, ProjectDiagramNode, ProjectDiagramNode];
+};
+
+type ProjectDiagramNode = {
+  title: string;
+  detail: string;
 };
 
 export type Project = {
@@ -29,7 +35,7 @@ export type Project = {
   shortTitle: string;
   category: ProjectCategory;
   featured: boolean;
-  publicationStatus: "Publicado" | "Em desenvolvimento";
+  publicationStatus: "Publicado" | "Em desenvolvimento" | "Repositório privado";
   status: string;
   summary: string;
   description: string;
@@ -46,6 +52,8 @@ export type Project = {
     src: string;
     alt: string;
     caption: string;
+    width?: number;
+    height?: number;
   }>;
   evidence: {
     level: EvidenceLevel;

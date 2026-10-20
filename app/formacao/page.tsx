@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ViewTransition } from "react";
+import { ChapterTransition } from "@/components/chapter-transition";
 import { CertificationsSection } from "@/components/certifications-section";
 import { EducationSection } from "@/components/education-section";
 import { EditorialPage } from "@/components/editorial-page";
@@ -9,8 +9,9 @@ export const metadata: Metadata = pageMetadata("Formação e cursos", "Formaçã
 
 export default function EducationPage() {
   return (
-    <ViewTransition enter={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} exit={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} default="none">
+    <ChapterTransition phase="education">
     <EditorialPage
+      phase="education"
       eyebrow="Formação e cursos"
       title="Aprendizado que abre caminhos."
       description="Formação acadêmica e cursos que ampliam meu repertório em desenvolvimento, dados e tecnologia."
@@ -18,6 +19,6 @@ export default function EducationPage() {
       <EducationSection />
       <CertificationsSection />
     </EditorialPage>
-    </ViewTransition>
+    </ChapterTransition>
   );
 }

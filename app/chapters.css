@@ -1,0 +1,535 @@
+.nexo-experience-root {
+  padding-bottom: 0;
+}
+
+html:has(.chapter-navigation) {
+  scroll-padding-top: calc(var(--nexo-header-height) + 72px);
+  scroll-padding-bottom: 24px;
+}
+
+.chapter-header-caption {
+  margin: 0;
+  color: var(--nexo-muted);
+  font-size: 0.72rem;
+}
+
+.nexo-menu-trigger.nexo-menu-trigger--all {
+  display: inline-flex;
+  width: auto;
+  gap: 9px;
+  padding-inline: 12px;
+  font-size: 0.75rem;
+}
+
+.nexo-mobile-nav a {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+}
+
+.chapter-menu-number {
+  color: var(--nexo-bronze-light);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.chapter-navigation {
+  position: sticky;
+  z-index: 60;
+  top: var(--nexo-header-height);
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  display: block;
+  min-height: 56px;
+  border: 0;
+  padding: 0;
+  background: var(--background);
+  box-shadow: none;
+  transform: none;
+}
+
+.chapter-navigation__inner {
+  display: flex;
+  width: min(var(--nexo-content-width), calc(100% - 64px));
+  min-height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-inline: auto;
+}
+
+.chapter-navigation__actions {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 20px;
+}
+
+.chapter-navigation__progress {
+  top: auto;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+}
+
+.chapter-navigation__arrow {
+  display: inline-flex;
+  width: auto;
+  min-width: 44px;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  padding-inline: 12px;
+  font-size: 0.74rem;
+}
+
+.chapter-navigation__arrow:last-child {
+  flex-direction: row;
+}
+
+.chapter-navigation__status {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: start;
+  gap: 9px;
+  text-align: left;
+}
+
+.chapter-navigation__status span {
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.chapter-navigation__status strong {
+  white-space: normal;
+  text-wrap: balance;
+}
+
+.nexo-experience-root:has(.chapter-navigation) main {
+  min-height: calc(100svh - var(--nexo-header-height) - 56px);
+}
+
+.nexo-experience-root:has(.chapter-navigation) :is(.site-footer nav, .footer-socials) {
+  display: none;
+}
+
+.nexo-experience-root:has(.chapter-navigation) .site-footer {
+  padding-block: 22px;
+}
+
+.nexo-experience-root:has(.chapter-navigation) .footer-inner {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.nexo-experience-root:has(.chapter-navigation) .footer-inner > div:first-child {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.nexo-experience-root:has(.chapter-navigation) .footer-inner p {
+  margin: 0;
+}
+
+.nexo-portal {
+  min-height: max(600px, calc(100svh - var(--nexo-header-height) - 56px));
+}
+
+.chapter {
+  min-height: calc(100svh - var(--nexo-header-height) - 56px);
+  --chapter-enter-distance: 16px;
+}
+
+.chapter .nexo-route__hero {
+  overflow: visible;
+  background: radial-gradient(ellipse at 85% 20%, rgba(185, 163, 130, 0.09), transparent 45%), #0e1319;
+}
+
+.chapter .nexo-route__hero-inner {
+  width: min(var(--nexo-content-width), calc(100% - 64px));
+  grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.6fr);
+  padding-block: clamp(28px, 4vw, 56px);
+}
+
+.chapter .nexo-route__eyebrow {
+  margin-top: 28px;
+  color: var(--nexo-bronze-light);
+  font-size: 0.68rem;
+  line-height: 1.7;
+}
+
+.chapter .nexo-route__hero h1 {
+  max-width: 820px;
+  font-size: clamp(2.5rem, 4.8vw, 4.8rem);
+  line-height: 1.06;
+}
+
+main h1:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 8px;
+}
+
+.chapter .nexo-route__description {
+  max-width: 620px;
+  font-size: 0.94rem;
+}
+
+.chapter-motif {
+  margin: 26px 0 0;
+  color: var(--nexo-bronze-light);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+
+.chapter-artwork {
+  position: relative;
+  min-width: 0;
+}
+
+.chapter-artwork__number {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  color: rgba(185, 163, 130, 0.13);
+  font-family: var(--font-nexo-editorial), Georgia, serif;
+  font-size: clamp(8rem, 15vw, 14rem);
+  line-height: 1;
+}
+
+.chapter .route-hero-scene {
+  height: clamp(180px, 20vw, 280px);
+}
+
+.chapter .scene-accent__caption {
+  color: var(--nexo-bronze-light);
+  font-size: 0.58rem;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.chapter .nexo-route__body > .section {
+  padding-block: clamp(36px, 5vw, 72px);
+}
+
+.chapter .section-heading {
+  margin-bottom: 32px;
+  padding-right: 0;
+}
+
+.chapter .section-heading h2 {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+}
+
+.chapter .section-scene {
+  display: none;
+}
+
+.chapter--nucleus .nexo-route__hero-inner {
+  grid-template-columns: minmax(0, 1.15fr) minmax(200px, 0.85fr);
+}
+
+.chapter--nucleus .chapter-artwork {
+  border-left: 1px solid var(--nexo-line-strong);
+  padding-left: 24px;
+}
+
+.chapter--nucleus .workflow-list {
+  border-top: 1px solid var(--border);
+}
+
+.chapter--projects .nexo-route__hero-inner {
+  grid-template-columns: minmax(0, 1fr) 200px;
+  padding-block: 24px 32px;
+}
+
+.chapter--projects .route-hero-scene {
+  height: 180px;
+}
+
+.chapter--projects .scene-accent__orbit {
+  border-radius: 0;
+  transform: rotate(-12deg) scaleY(0.75);
+}
+
+.chapter--experience .nexo-route__hero {
+  background: linear-gradient(90deg, transparent 78%, var(--nexo-line) 78%, transparent calc(78% + 1px)), #0e1319;
+}
+
+.chapter--experience .route-hero-scene {
+  height: 300px;
+}
+
+.chapter--experience .scene-accent__orbit {
+  inset: 0 50%;
+  border-radius: 0;
+  transform: none;
+}
+
+.chapter--competencies .nexo-route__hero {
+  background: radial-gradient(ellipse at 80% 50%, rgba(185, 163, 130, 0.13), transparent 40%), #0e1319;
+}
+
+.chapter--competencies .scene-accent__orbit {
+  inset: 9%;
+  border-style: dashed;
+  transform: none;
+}
+
+.chapter--education .chapter-artwork {
+  border-block: 1px solid var(--nexo-line-strong);
+}
+
+.chapter--education .scene-accent__orbit {
+  inset: 23% 15%;
+  border-radius: 0;
+  transform: rotate(-9deg);
+}
+
+.chapter--convergence .nexo-route__hero-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.8fr);
+}
+
+.chapter--convergence .nexo-route__hero h1 {
+  max-width: 600px;
+  font-size: clamp(3.4rem, 6vw, 6rem);
+}
+
+.chapter--convergence .contact-band {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.chapter--convergence .contact-scene {
+  display: none;
+}
+
+.chapter--convergence .contact-actions {
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+}
+
+.chapter-reveal {
+  animation: chapter-content-arrive 650ms cubic-bezier(0.22, 0.7, 0.2, 1) both;
+}
+
+.chapter-reveal--body {
+  animation-name: chapter-body-arrive;
+  animation-delay: 100ms;
+}
+
+@keyframes chapter-content-arrive {
+  from { opacity: 0; transform: translateY(var(--chapter-enter-distance)); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes chapter-body-arrive {
+  from { transform: translateY(var(--chapter-enter-distance)); }
+  to { transform: none; }
+}
+
+::view-transition-new(.chapter-projects) {
+  animation-name: chapter-gallery-arrive;
+}
+
+::view-transition-new(.chapter-experience) {
+  animation-name: chapter-trajectory-arrive;
+}
+
+::view-transition-new(.chapter-competencies) {
+  animation-name: chapter-connections-arrive;
+}
+
+::view-transition-new(.chapter-education) {
+  animation-name: chapter-library-arrive;
+}
+
+::view-transition-new(.chapter-convergence),
+::view-transition-new(.chapter-portal),
+::view-transition-new(.chapter-fade) {
+  animation: 600ms ease both chapter-dissolve;
+}
+
+::view-transition-old(.chapter-fade) {
+  animation: 180ms ease both chapter-dissolve reverse;
+}
+
+::view-transition-new(.chapter-back) {
+  --chapter-direction: -1;
+}
+
+@keyframes chapter-gallery-arrive {
+  from { opacity: 0; transform: translateX(calc(24px * var(--chapter-direction, 1))) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes chapter-trajectory-arrive {
+  from { opacity: 0; transform: translateY(calc(24px * var(--chapter-direction, 1))); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes chapter-connections-arrive {
+  from { opacity: 0; transform: scale(1.025); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes chapter-library-arrive {
+  from { opacity: 0; transform: translateY(18px) scale(0.995); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes chapter-dissolve {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+html:has(.nexo-experience-root[data-motion-enabled="false"])::view-transition-old(*),
+html:has(.nexo-experience-root[data-motion-enabled="false"])::view-transition-new(*),
+html:has(.nexo-experience-root[data-motion-enabled="false"])::view-transition-group(*) {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}
+
+@media (max-width: 1099px) {
+  .chapter-header-caption {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .chapter-navigation {
+    min-height: 56px;
+    padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+  }
+
+  .chapter-navigation__inner {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .chapter-navigation__actions {
+    flex: 0 1 auto;
+    gap: 4px;
+  }
+
+  .chapter-navigation__arrow {
+    width: auto;
+    min-height: 44px;
+    height: auto;
+    gap: 6px;
+    padding: 6px;
+    font-size: 0.7rem;
+    line-height: 1.4;
+  }
+
+  .chapter-navigation__previous span,
+  .chapter-navigation__status > span:nth-child(2) {
+    display: none;
+  }
+
+  .chapter-navigation__status {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    flex: 1;
+    gap: 6px;
+    padding: 0;
+  }
+
+  .chapter-navigation__status strong {
+    display: block;
+    font-size: 0.7rem;
+    line-height: 1.4;
+  }
+
+  .chapter-navigation__next {
+    max-width: 145px;
+  }
+
+  .chapter-navigation__next svg {
+    flex: 0 0 auto;
+  }
+
+  .nexo-menu-trigger.nexo-menu-trigger--all {
+    gap: 6px;
+    padding-inline: 8px;
+  }
+
+  .nexo-menu-trigger > span {
+    display: none;
+  }
+
+  .chapter .nexo-route__hero-inner {
+    position: relative;
+    width: calc(100% - 40px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    padding-block: 24px 30px;
+  }
+
+  .chapter .nexo-route__hero h1 {
+    font-size: clamp(2.5rem, 10vw, 3.6rem);
+  }
+
+  .chapter .nexo-route__eyebrow {
+    margin-top: 22px;
+  }
+
+  .chapter-motif {
+    margin-top: 20px;
+  }
+
+  .chapter-artwork {
+    width: min(100%, 280px);
+    justify-self: end;
+  }
+
+  .chapter .route-hero-scene {
+    width: 100%;
+    height: 160px;
+  }
+
+  .chapter-artwork__number {
+    top: -16px;
+    font-size: 9rem;
+  }
+
+  .chapter--experience .route-hero-scene {
+    height: 190px;
+  }
+
+  .chapter .nexo-route__body .container {
+    width: calc(100% - 40px);
+  }
+
+  .nexo-experience-root:has(.chapter-navigation) .footer-inner > div:first-child {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  ::view-transition-new(.chapter-forward),
+  ::view-transition-new(.chapter-back) {
+    animation: 450ms ease both chapter-dissolve;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-reveal {
+    animation: none;
+  }
+}
+
+@media print {
+  .chapter-navigation,
+  .chapter-artwork,
+  .chapter-header-caption {
+    display: none;
+  }
+}

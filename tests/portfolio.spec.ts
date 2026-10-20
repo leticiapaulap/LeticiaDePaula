@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { projects } from "../lib/projects";
 
-const routes = ["/", "/sobre/", "/projetos/", "/experiencia/", "/competencias/", "/formacao/", "/contato/", "/curriculo/", "/projetos/festa-fantasia/", "/projetos/portfolio-leticia-de-paula/"];
+const routes = ["/", "/sobre/", "/projetos/", "/experiencia/", "/competencias/", "/formacao/", "/contato/", "/curriculo/", ...projects.map((project) => `/projetos/${project.slug}/`)];
 const widths = [320, 375, 430, 768, 1024, 1280, 1440, 1920];
 
 test.beforeEach(async ({ page }) => {
@@ -29,7 +30,7 @@ for (const width of widths) {
       expect(overflow).toEqual({ page: false, elements: [] });
       expect(errors).toEqual([]);
       if ([375, 1440].includes(width)) {
-        for (const preview of await page.locator("main img").all()) {
+        for (const preview of await page.locator("main img:visible").all()) {
           await preview.scrollIntoViewIfNeeded();
           await expect(preview).toHaveJSProperty("complete", true);
           expect(await preview.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
@@ -68,7 +69,7 @@ test("menu completo por teclado e recuperação de foco", async ({ page }) => {
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
   await trigger.click();
-  await dialog.getByRole("link", { name: "Experiência", exact: true }).click();
+  await dialog.getByRole("link", { name: "Experiências profissionais", exact: true }).click();
   await expect(page).toHaveURL(/\/experiencia\/$/);
   await expect(dialog).toHaveCount(0);
 });
@@ -76,14 +77,14 @@ test("menu completo por teclado e recuperação de foco", async ({ page }) => {
 test("filtros, galeria e retorno preservam a seleção", async ({ page }) => {
   await page.goto("/projetos/");
   await page.getByRole("button", { name: "Dados, 0", exact: true }).click();
-  await expect(page.getByText("Nenhum projeto público nesta categoria.")).toBeVisible();
+  await expect(page.getByText("Nenhum projeto nesta categoria.")).toBeVisible();
   await page.getByRole("button", { name: "Portfólio, 1", exact: true }).click();
   const gallery = page.getByRole("group", { name: "Galeria em foco. Use as setas para mudar de projeto." });
   await gallery.getByRole("link", { name: "Ver detalhes" }).click();
   await expect(page).toHaveURL(/portfolio-leticia-de-paula\/$/);
   await page.getByRole("link", { name: "Voltar aos projetos" }).click();
   await expect(page.getByRole("button", { name: "Portfólio, 1", exact: true })).toHaveAttribute("aria-pressed", "true");
-  await page.getByRole("button", { name: "Todos os projetos, 2" }).click();
+  await page.getByRole("button", { name: "Todos os projetos, 5" }).click();
   await gallery.focus();
   await page.keyboard.press("Home");
   await expect(page.locator(".nexo-gallery-info h3")).toContainText("Festa Fantasia");
@@ -143,9 +144,9 @@ test("timeline e mapa preservam conexões verificáveis", async ({ page }) => {
   await page.goto("/competencias/");
   await page.locator(".skill-category").filter({ has: page.getByRole("heading", { name: "Automação", exact: true }) }).locator("summary").click();
   await page.locator(".nexo-skill-node").filter({ has: page.getByText("Python", { exact: true }) }).click();
-  await expect(page.locator(".nexo-map-empty")).toContainText("Nenhum projeto público associado a Python");
+  await expect(page.locator(".nexo-map-empty")).toContainText("Nenhum projeto associado a Python");
   await page.getByRole("button", { name: "Ver todas as conexões" }).click();
-  await expect(page.locator(".nexo-map-case-links a")).toHaveCount(2);
+  await expect(page.locator(".nexo-map-case-links a")).toHaveCount(5);
 });
 
 test("tema, modo direto e pausa persistem", async ({ page }) => {
@@ -173,7 +174,8 @@ test("movimento reduzido e fallback sem WebGL", async ({ page }) => {
   });
   await page.goto("/");
   await expect(page.locator(".nexo-experience-root")).toHaveAttribute("data-motion-enabled", "false");
-  await expect(page.locator(".nexo-artwork__fallback")).toHaveCSS("opacity", "1");
+  await expect(page.locator(".hero-gallery")).toHaveAttribute("data-renderer", "fallback");
+  await expect(page.locator(".hero-gallery__screen--1 img")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
   await page.getByRole("link", { name: "Explorar trajetória", exact: true }).click();
   await expect(page.locator("#sobre")).toBeVisible();
@@ -228,7 +230,7 @@ test("conteúdo e navegação sem JavaScript", async ({ browser }) => {
   const page = await context.newPage();
   await page.goto("/");
   await expect(page.getByRole("navigation", { name: "Navegação sem JavaScript" })).toBeVisible();
-  await page.getByRole("navigation", { name: "Navegação sem JavaScript" }).getByRole("link", { name: "Cursos", exact: true }).click();
+  await page.getByRole("navigation", { name: "Navegação sem JavaScript" }).getByRole("link", { name: "Formação e certificações", exact: true }).click();
   await expect(page.locator(".certification-card")).toHaveCount(10);
   await expect(page.getByRole("link", { name: "Abrir certificado em PDF", exact: true })).toHaveCount(9);
   await expect(page.locator(".nexo-artwork__fallback")).toHaveCount(0);

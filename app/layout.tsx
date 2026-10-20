@@ -12,6 +12,8 @@ import { navItems } from "@/lib/navigation";
 import "./globals.css";
 import "./experience.css";
 import "./refinements.css";
+import "./chapters.css";
+import "./hero.css";
 
 const interfaceFont = Manrope({
   subsets: ["latin"],
@@ -70,8 +72,8 @@ export default function RootLayout({
             <div className="nexo-experience-stage" aria-hidden="true">
               <SculptureLoader />
             </div>
-            <main id="conteudo" tabIndex={-1}>{children}</main>
             <ChapterNavigation />
+            <main id="conteudo" tabIndex={-1}>{children}</main>
             <Footer />
             <StructuredData />
           </ExperienceProvider>

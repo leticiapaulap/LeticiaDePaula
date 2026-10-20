@@ -1,4 +1,5 @@
-import { GitBranch, Mail, Network, Send } from "lucide-react";
+import { ArrowUpRight, Download, GitBranch, Mail, Network, Send } from "lucide-react";
+import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { professional } from "@/lib/data";
 import { SceneAccent } from "@/components/scene-accent";
@@ -25,6 +26,12 @@ export function ContactSection() {
                 <Send size={17} />
                 Enviar e-mail
               </a>
+              <Link className="secondary-action focusable" href="/curriculo/">
+                Currículo digital <ArrowUpRight size={17} aria-hidden="true" />
+              </Link>
+              {professional.resumePdfPath ? <a className="text-action focusable" href={professional.resumePdfPath} download>
+                <Download size={17} aria-hidden="true" />{professional.resumePdfLabel}
+              </a> : null}
             </div>
             <div className="contact-socials">
               <a className="focusable" href={professional.github} target="_blank" rel="noreferrer" aria-label="GitHub">

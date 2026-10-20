@@ -4,57 +4,32 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Menu, Pause, Play, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useExperience } from "@/components/experience-provider";
 import { ModeControl } from "@/components/experience-navigation";
-import { experiencePhases, phaseForRoute, phaseForSection } from "@/lib/experience-state";
+import { chapters, chapterForPath, chapterTransitionType } from "@/lib/chapters";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { navItems, professional } from "@/lib/data";
-
-const portalLinks = [
-  { label: "Início", href: "/#portal", path: "/" },
-  { label: "Sobre", href: "/sobre/", path: "/sobre/" },
-  { label: "Projetos", href: "/projetos/", path: "/projetos/" },
-  { label: "Contato", href: "/contato/", path: "/contato/" }
-] as const;
+import { professional } from "@/lib/data";
 
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const { motionEnabled, prefersReducedMotion, toggleMotion, transitionTo, activeSection } = useExperience();
-  const transitionForPath = (path: string) => experiencePhases.indexOf(phaseForRoute(path)) >= experiencePhases.indexOf(phaseForRoute(pathname)) ? ["nav-forward"] : ["nav-back"];
-  const isActivePath = (path: string) =>
-    pathname === path || (path === "/projetos/" && pathname.startsWith("/projetos/"));
-  const handlePortalNavigation = (href: string) => {
-    if (href.includes("#")) transitionTo(href.includes("exploracao") ? "nucleus" : "portal");
-  };
-  const handleSectionNavigation = (id: string) => {
-    transitionTo(phaseForSection(id) ?? (id === "inicio" ? "portal" : "nucleus"));
+  const navigating = useRef(false);
+  const current = chapterForPath(pathname);
+  const { motionEnabled, prefersReducedMotion, toggleMotion } = useExperience();
+  const closeForNavigation = (destination: string) => {
+    navigating.current = pathname.replace(/\/$/, "") !== destination.replace(/\/$/, "");
+    setOpen(false);
   };
 
   return (
     <header className="nexo-header">
       <div className="nexo-header__inner">
-        <Link className="nexo-brand personal-brand focusable" href="/#portal" prefetch={false} transitionTypes={["nav-back"]} onClick={() => transitionTo("portal")}>
+        <Link className="nexo-brand personal-brand focusable" href="/" transitionTypes={["nav-back"]}>
           <span className="nexo-brand__wordmark">
             <strong>Letícia <em>de Paula</em></strong>
           </span>
         </Link>
-
-        <nav className="nexo-desktop-nav" aria-label="Navegação principal">
-          {portalLinks.map((link) => (
-            <Link
-              aria-current={link.href.includes("#") ? pathname === "/" && activeSection === link.href.split("#")[1] ? "location" : undefined : isActivePath(link.path) ? "page" : undefined}
-              className="nexo-nav-link focusable"
-              href={link.href}
-              transitionTypes={transitionForPath(link.path)}
-              key={link.href}
-              onClick={() => handlePortalNavigation(link.href)}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
 
         <div className="nexo-header__actions">
           <Link className="nexo-resume-link focusable" href="/curriculo/">Currículo</Link>
@@ -87,19 +62,25 @@ export function Header() {
               <button
                 className="nexo-menu-trigger nexo-menu-trigger--all focusable"
                 type="button"
-                aria-label={open ? "Fechar menu" : "Abrir menu"}
+                aria-label={open ? "Fechar menu de capítulos" : "Abrir menu de capítulos"}
                 aria-expanded={open}
               >
                 <Menu size={19} aria-hidden="true" />
+                <span>Capítulos</span>
               </button>
             </Dialog.Trigger>
             <Dialog.Portal>
               <Dialog.Overlay className="nexo-menu-overlay" />
-              <Dialog.Content className="nexo-menu-panel">
+              <Dialog.Content className="nexo-menu-panel" onCloseAutoFocus={(event) => {
+                if (navigating.current) {
+                  event.preventDefault();
+                  navigating.current = false;
+                }
+              }}>
                 <div className="nexo-menu-panel__heading">
                   <Dialog.Title className="nexo-menu-panel__title">Navegar</Dialog.Title>
                   <Dialog.Description className="nexo-visually-hidden">
-                    Acesse diretamente cada página profissional ou retorne à experiência inicial.
+                    Sete capítulos, no seu ritmo. Escolha por onde começar. Use as setas esquerda e direita fora dos controles para avançar ou voltar.
                   </Dialog.Description>
                   <Dialog.Close asChild>
                     <button className="nexo-menu-close focusable" type="button" aria-label="Fechar menu">
@@ -109,39 +90,21 @@ export function Header() {
                 </div>
 
                 <nav className="nexo-mobile-nav" aria-label="Navegação compacta">
-                  <Link
-                    href="/#portal"
-                    transitionTypes={transitionForPath("/")}
-                    onClick={() => {
-                      setOpen(false);
-                      handlePortalNavigation("/#portal");
-                    }}
-                  >
-                    Início
-                  </Link>
-                  {navItems
-                    .filter((item) => item.id !== "inicio" && item.id !== "certificacoes")
-                    .map((item) => (
+                  {chapters.map((chapter) => (
                       <Link
-                        aria-current={isActivePath(item.path) ? "page" : undefined}
-                        href={item.href}
-                        transitionTypes={transitionForPath(item.path)}
-                        key={item.id}
-                        onClick={() => {
-                          setOpen(false);
-                          handleSectionNavigation(item.id);
-                        }}
+                        aria-current={current?.phase === chapter.phase ? "page" : undefined}
+                        href={chapter.href}
+                        transitionTypes={[chapterTransitionType(pathname, chapter.href)]}
+                        key={chapter.phase}
+                        onNavigate={() => closeForNavigation(chapter.href)}
                       >
-                        {item.label}
+                        <span className="chapter-menu-number" aria-hidden="true">{chapter.number}</span>
+                        {chapter.label}
                       </Link>
                     ))}
                   <Link
                     href="/curriculo/"
-                    transitionTypes={transitionForPath("/curriculo/")}
-                    onClick={() => {
-                      setOpen(false);
-                      transitionTo("convergence");
-                    }}
+                    onNavigate={() => closeForNavigation("/curriculo/")}
                   >
                     Currículo digital
                   </Link>

@@ -8,6 +8,7 @@ Este documento é de manutenção e não é uma página pública do portfólio. 
 - Histórico profissional, cargos, atividades e períodos: currículo fornecido pela proprietária. SENAPPEN: jul/2025–atual; TCB Brasília: nov/2024–jun/2025; Age Fibra: set/2024–nov/2024. Confirmar o vínculo atual antes de mudar a data. Não foram inferidos resultados quantitativos, tecnologias corporativas ou localidades ausentes.
 - Formação: Análise e Desenvolvimento de Sistemas, UDF, cursando, previsão de conclusão no segundo semestre de 2026. Não presumir diploma emitido, semestre de ingresso ou disciplinas.
 - Projetos corporativos: não publicar nomes, fluxos, arquivos, ferramentas ou imagens sem autorização documental.
+- Inclusão solicitada pela proprietária em 20/10/2026: organizador pessoal/Finanzy, apresentação resumida do portal privado da SENAPPEN e fork educacional DIO Lab. Fontes, limites e arquivos em [projetos-adicionais.md](projetos-adicionais.md); a autorização não inclui código, dados internos, documentos ou acesso aos repositórios privados.
 - LinkedIn: endereço fornecido pela proprietária, sujeito a bloqueio de consulta automatizada; conferência manual ainda recomendada.
 - Currículo público: telefone pessoal e referência antiga removidos na etapa anterior; endereço profissional mantido. Não substituir pela cópia privada.
 - Fotografia: nenhum arquivo pessoal local foi encontrado na auditoria. Aguardar imagem real autorizada; não usar avatar remoto ou imagem gerada como se fosse retrato fornecido.

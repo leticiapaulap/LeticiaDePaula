@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ViewTransition } from "react";
+import { ChapterTransition } from "@/components/chapter-transition";
 import { EditorialPage } from "@/components/editorial-page";
 import { ProjectsSection } from "@/components/projects-section";
 import { pageMetadata } from "@/lib/metadata";
@@ -8,14 +8,15 @@ export const metadata: Metadata = pageMetadata("Projetos", "Aplicações web de 
 
 export default function ProjectsPage() {
   return (
-    <ViewTransition enter={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} exit={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "none" }} default="none">
+    <ChapterTransition phase="projects">
     <EditorialPage
+      phase="projects"
       eyebrow="Projetos"
       title="Da ideia à experiência."
       description="Aplicações que aproximam interface, dados e propósito. Veja os projetos em detalhe e conheça as escolhas por trás de cada solução."
     >
       <ProjectsSection compact />
     </EditorialPage>
-    </ViewTransition>
+    </ChapterTransition>
   );
 }

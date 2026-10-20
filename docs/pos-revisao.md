@@ -17,6 +17,8 @@ Base: commit `8e43116`, em 16/10/2026. A aplicação mantém Next.js 16.4, React
 - Metadados e documentação dos diretórios locais de projetos pessoais foram inspecionados. O gerenciador financeiro possui implementação local, mas não aparece na lista pública. Sua inclusão depende de autorização, solicitada à autora. Nenhum dado financeiro, credencial ou código corporativo será copiado.
 - Repositórios locais de terceiros e aplicações corporativas não serão expostos para aumentar artificialmente a galeria.
 
+Atualização posterior, em 20/10/2026: a autora solicitou expressamente a inclusão do organizador pessoal, do projeto privado da SENAPPEN e do DIO Lab. A inclusão mantém o fork identificado como educacional e os projetos não públicos sem código ou dados restritos. Consulte [projetos-adicionais.md](projetos-adicionais.md). As observações anteriores registram a decisão antes dessa autorização.
+
 ## Validação
 
 Os resultados desta rodada serão registrados depois da execução. As medições da rodada anterior não representam automaticamente esta versão.

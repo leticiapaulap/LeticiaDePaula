@@ -1,11 +1,12 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import { usePathname } from "next/navigation";
 import * as THREE from "three";
 import { useExperience } from "@/components/experience-provider";
 import { createRibbonGeometry } from "@/components/portal/create-ribbon-geometry";
+import { ProjectGalleryScene } from "@/components/portal/project-gallery-scene";
 import { experiencePhases, experienceSceneStates, transitionProgress, type SceneQuality } from "@/lib/experience-state";
 import { projects } from "@/lib/projects";
 import { experiences } from "@/lib/experiences";
@@ -262,11 +263,14 @@ function SceneRenderGuard({ active, onReady, onError }: { active: boolean; onRea
 }
 
 export default function SculptureScene({ onReady, onError, active, quality }: { onReady: () => void; onError: () => void; active: boolean; quality: SceneQuality }) {
+  const pathname = usePathname();
   return (
-    <Canvas aria-hidden="true" camera={{ position: [0, 0, 4.8], fov: 42 }} dpr={quality === "mobile" ? 1 : quality === "tablet" ? 1.15 : 1.35} frameloop="demand" gl={{ alpha: true, antialias: false, powerPreference: "low-power" }}>
+    <Canvas aria-hidden="true" camera={{ position: [0, 0, 4.8], fov: 42 }} dpr={quality === "mobile" ? 1 : quality === "tablet" ? 1.15 : 1.35} frameloop="demand" gl={{ alpha: true, antialias: quality === "desktop", powerPreference: "low-power" }}>
       <ContextEvents onError={onError} />
-      <SceneRig active={active} quality={quality} />
-      <SceneRenderGuard active={active} onReady={onReady} onError={onError} />
+      <Suspense fallback={null}>
+        {pathname === "/" ? <ProjectGalleryScene active={active} quality={quality} /> : <SceneRig active={active} quality={quality} />}
+        <SceneRenderGuard active={active} onReady={onReady} onError={onError} />
+      </Suspense>
     </Canvas>
   );
 }

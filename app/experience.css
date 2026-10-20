@@ -248,7 +248,7 @@
 
 .nexo-map-groups {
   display: grid;
-  grid-template-rows: repeat(6, 60px);
+  grid-template-rows: repeat(6, minmax(60px, 1fr));
 }
 
 .nexo-map-group {
@@ -274,9 +274,16 @@
 }
 
 .nexo-map-curves {
+  position: relative;
   display: block;
   width: 100%;
-  height: 360px;
+}
+
+.nexo-map-curves svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: visible;
 }
 
@@ -293,9 +300,8 @@
 }
 
 .nexo-map-projects {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  display: grid;
+  grid-auto-rows: 1fr;
 }
 
 .nexo-map-project {
@@ -857,7 +863,7 @@ html:has(.nexo-experience-root[data-motion-enabled="false"]) {
   }
 
   .nexo-map-projects {
-    flex-direction: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
 
@@ -884,7 +890,7 @@ html:has(.nexo-experience-root[data-motion-enabled="false"]) {
   }
 
   .nexo-map-projects {
-    flex-direction: column;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

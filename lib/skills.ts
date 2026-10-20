@@ -9,19 +9,20 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "React",
         evidence: "uso-publico",
-        context: "Interfaces componentizadas em Festa Fantasia e neste portfólio.",
-        projectSlugs: ["festa-fantasia", "portfolio-leticia-de-paula"]
+        context: "Interfaces públicas em Festa Fantasia e neste portfólio; uso também documentado no portal privado da SENAPPEN.",
+        projectSlugs: ["festa-fantasia", "senappen-recebimentos", "portfolio-leticia-de-paula"]
       },
       {
         name: "TypeScript",
         evidence: "uso-publico",
-        context: "Utilizado nos dois projetos.",
-        projectSlugs: ["festa-fantasia", "portfolio-leticia-de-paula"]
+        context: "Código público em Festa Fantasia e neste portfólio; também utilizado no portal privado da SENAPPEN.",
+        projectSlugs: ["festa-fantasia", "senappen-recebimentos", "portfolio-leticia-de-paula"]
       },
       {
         name: "JavaScript",
         evidence: "experiencia-informada",
-        context: "Conhecimentos em interfaces e interações para a web."
+        context: "Interface web do Finanzy, conferida na implementação local; código não público.",
+        projectSlugs: ["organizador-de-tarefas"]
       },
       {
         name: "Vite",
@@ -38,8 +39,8 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "Next.js",
         evidence: "uso-publico",
-        context: "Rotas estáticas e estrutura deste portfólio.",
-        projectSlugs: ["portfolio-leticia-de-paula"]
+        context: "Rotas estáticas deste portfólio e aplicação no portal privado da SENAPPEN.",
+        projectSlugs: ["senappen-recebimentos", "portfolio-leticia-de-paula"]
       },
       {
         name: "Three.js · React Three Fiber",
@@ -57,8 +58,8 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "Node.js · APIs serverless",
         evidence: "uso-publico",
-        context: "API e handlers serverless de Festa Fantasia.",
-        projectSlugs: ["festa-fantasia"]
+        context: "API pública de Festa Fantasia e implementação local do Finanzy, cujo código não é público.",
+        projectSlugs: ["festa-fantasia", "organizador-de-tarefas"]
       },
       {
         name: "Java · Spring Boot",
@@ -93,8 +94,8 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "PostgreSQL",
         evidence: "uso-publico",
-        context: "Persistência de participantes, votos e configurações do concurso.",
-        projectSlugs: ["festa-fantasia"]
+        context: "Persistência pública em Festa Fantasia; também documentada nos projetos não públicos Finanzy e portal SENAPPEN.",
+        projectSlugs: ["festa-fantasia", "organizador-de-tarefas", "senappen-recebimentos"]
       },
       {
         name: "SQL · Flyway",
@@ -157,8 +158,8 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "Git · GitHub",
         evidence: "uso-publico",
-        context: "Versionamento, histórico e documentação de projetos públicos.",
-        projectSlugs: ["festa-fantasia", "portfolio-leticia-de-paula"]
+        context: "Versionamento dos projetos públicos e estudo de colaboração no fork educacional do DIO Lab.",
+        projectSlugs: ["festa-fantasia", "dio-lab-open-source", "portfolio-leticia-de-paula"]
       },
       {
         name: "Maven · Flyway",

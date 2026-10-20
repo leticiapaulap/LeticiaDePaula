@@ -3587,13 +3587,11 @@ button:focus-visible {
   background-color: #1a1713;
 }
 
-.nexo-project-visual__caption {
-  position: absolute;
-  top: 15px;
-  left: 17px;
+.nexo-project-visual .nexo-project-visual__caption {
   margin: 0;
-  color: var(--nexo-bronze-light);
+  color: var(--muted-strong);
   font-size: 0.62rem;
+  line-height: 1.6;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }

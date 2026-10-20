@@ -6,10 +6,10 @@ for (const width of [375, 1440]) {
     await page.addInitScript(() => localStorage.setItem("nexo-mode", "direct"));
     await page.goto("/");
     const navigation = page.getByRole("navigation", { name: "Navegação entre capítulos" });
-    await expect(navigation.getByLabel("Ir diretamente a um capítulo").locator("option")).toHaveCount(7);
-    expect(await navigation.evaluate((element) => getComputedStyle(element).position)).toBe("fixed");
+    await expect(navigation.locator("select")).toHaveCount(0);
+    expect(await navigation.evaluate((element) => getComputedStyle(element).position)).toBe("sticky");
     await page.goto("/projetos/");
-    await expect(navigation.getByLabel("Ir diretamente a um capítulo")).toHaveValue("projects");
+    await expect(navigation).toHaveAttribute("data-chapter", "projects");
     await expect(page.locator(".project-showcase__feature")).toHaveCount(1);
     await expect(page.locator(".project-showcase__media img")).toHaveAttribute("src", "/projects/festa-fantasia-home.webp");
     await expect(page.getByRole("link", { name: "Ver aplicação", exact: true })).toHaveAttribute("href", "https://festa-fantasia.vercel.app/");

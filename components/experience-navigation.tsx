@@ -1,21 +1,21 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Compass, Layers3 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Layers3 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useExperience } from "@/components/experience-provider";
-import { phaseForRoute, type ExperiencePhase } from "@/lib/experience-state";
+import { chapters, chapterForPath } from "@/lib/chapters";
 
-const chapters: { phase: ExperiencePhase; number: string; label: string; href: string }[] = [
-  { phase: "portal", number: "01", label: "Apresentação", href: "/" },
-  { phase: "nucleus", number: "02", label: "Sobre mim", href: "/sobre/" },
-  { phase: "projects", number: "03", label: "Projetos", href: "/projetos/" },
-  { phase: "experience", number: "04", label: "Experiências profissionais", href: "/experiencia/" },
-  { phase: "competencies", number: "05", label: "Competências", href: "/competencias/" },
-  { phase: "education", number: "06", label: "Formação e certificações", href: "/formacao/" },
-  { phase: "convergence", number: "07", label: "Contato", href: "/contato/" }
-];
+const internalControls = "a, button, input, select, textarea, summary, iframe, video, audio, [contenteditable], [role=slider], [role=dialog], [role=tablist], [data-horizontal-navigation], [data-chapter-gestures=off], .nexo-gallery-stage, .nexo-career-navigation, .filter-bar, .filter-group";
+
+function isInternalControl(target: EventTarget | null) {
+  return target instanceof Element && Boolean(target.closest(internalControls));
+}
+
+function hasOpenDialog() {
+  return Boolean(document.querySelector('[role="dialog"][data-state="open"]'));
+}
 
 export function ModeControl({ className = "" }: { className?: string }) {
   const { mode, setMode, requestScene } = useExperience();
@@ -39,27 +39,29 @@ export function ChapterNavigation() {
   const pathname = usePathname();
   const router = useRouter();
   const { transitionTo } = useExperience();
-  const currentPhase = phaseForRoute(pathname);
-  const index = chapters.findIndex((chapter) => chapter.phase === currentPhase);
-  const currentIndex = Math.max(0, index);
-  const current = chapters[currentIndex]!;
+  const current = chapterForPath(pathname);
+  const currentIndex = current ? chapters.indexOf(current) : -1;
   const previous = chapters[currentIndex - 1];
-  const next = chapters[currentIndex + 1];
+  const next = chapters[currentIndex + 1] ?? chapters[0];
+  const returnsToStart = currentIndex === chapters.length - 1;
   const previousPath = useRef(pathname);
 
   useEffect(() => {
     if (previousPath.current === pathname) return;
     previousPath.current = pathname;
-    document.querySelector<HTMLElement>("#chapter-title")?.focus({ preventScroll: true });
+    const frame = window.requestAnimationFrame(() => {
+      const heading = document.querySelector<HTMLElement>("main h1");
+      if (!heading) return;
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [pathname]);
 
   useEffect(() => {
-    const isInteractive = (target: EventTarget | null) => target instanceof HTMLElement && (
-      target.isContentEditable ||
-      Boolean(target.closest("a, button, input, select, textarea, summary, [role=slider], [role=dialog], [data-horizontal-navigation], .nexo-gallery-stage, .nexo-career-navigation, .filter-bar, .filter-group"))
-    );
+    if (!current) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || isInteractive(event.target)) return;
+      if (event.defaultPrevented || event.repeat || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || isInternalControl(event.target) || hasOpenDialog() || !window.getSelection()?.isCollapsed) return;
       if (event.key === "ArrowLeft" && previous) {
         event.preventDefault();
         transitionTo(previous.phase);
@@ -67,75 +69,77 @@ export function ChapterNavigation() {
       } else if (event.key === "ArrowRight" && next) {
         event.preventDefault();
         transitionTo(next.phase);
-        router.push(next.href, { scroll: true, transitionTypes: ["nav-forward"] });
+        router.push(next.href, { scroll: true, transitionTypes: [returnsToStart ? "nav-back" : "nav-forward"] });
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [next, previous, router, transitionTo]);
+  }, [current, next, previous, returnsToStart, router, transitionTo]);
 
   useEffect(() => {
-    let start: { x: number; y: number; target: EventTarget | null } | null = null;
+    if (!current) return;
+    const surface = document.querySelector("main");
+    if (!surface) return;
+    let start: { horizontal: number; vertical: number; timestamp: number } | null = null;
     const onTouchStart = (event: TouchEvent) => {
-      if (window.innerWidth > 767 || event.touches.length !== 1) return;
+      start = null;
+      if (window.innerWidth > 767 || event.touches.length !== 1 || isInternalControl(event.target) || hasOpenDialog()) return;
       const touch = event.touches[0];
-      if (!touch || touch.clientX < 24 || touch.clientX > window.innerWidth - 24) return;
-      start = { x: touch.clientX, y: touch.clientY, target: event.target };
+      if (!touch || touch.clientX < 32 || touch.clientX > window.innerWidth - 32) return;
+      start = { horizontal: touch.clientX, vertical: touch.clientY, timestamp: performance.now() };
+    };
+    const cancelTouch = () => { start = null; };
+    const onTouchMove = (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (event.touches.length !== 1 || (start && touch && Math.abs(touch.clientY - start.vertical) > 40)) cancelTouch();
     };
     const onTouchEnd = (event: TouchEvent) => {
       const initial = start;
       start = null;
       const touch = event.changedTouches[0];
-      if (!initial || !touch || isInteractive(initial.target)) return;
-      const deltaX = touch.clientX - initial.x;
-      const deltaY = touch.clientY - initial.y;
-      if (Math.abs(deltaX) < 80 || Math.abs(deltaY) > 60) return;
+      if (!initial || !touch || event.touches.length || hasOpenDialog() || performance.now() - initial.timestamp > 800) return;
+      const deltaX = touch.clientX - initial.horizontal;
+      const deltaY = touch.clientY - initial.vertical;
+      if (Math.abs(deltaX) < 80 || Math.abs(deltaY) > 40 || Math.abs(deltaX) < Math.abs(deltaY) * 2) return;
       const destination = deltaX < 0 ? next : previous;
       if (!destination) return;
       transitionTo(destination.phase);
-      router.push(destination.href, { scroll: true, transitionTypes: [deltaX < 0 ? "nav-forward" : "nav-back"] });
+      router.push(destination.href, { scroll: true, transitionTypes: [deltaX < 0 && !returnsToStart ? "nav-forward" : "nav-back"] });
     };
-    const isInteractive = (target: EventTarget | null) => target instanceof HTMLElement && (
-      target.isContentEditable ||
-      Boolean(target.closest("a, button, input, select, textarea, summary, [role=slider], [role=dialog], [data-horizontal-navigation], .nexo-gallery-stage, .nexo-career-navigation, .filter-bar, .filter-group"))
-    );
-    document.addEventListener("touchstart", onTouchStart, { passive: true });
-    document.addEventListener("touchend", onTouchEnd, { passive: true });
+    surface.addEventListener("touchstart", onTouchStart, { passive: true });
+    surface.addEventListener("touchmove", onTouchMove, { passive: true });
+    surface.addEventListener("touchend", onTouchEnd, { passive: true });
+    surface.addEventListener("touchcancel", cancelTouch, { passive: true });
     return () => {
-      document.removeEventListener("touchstart", onTouchStart);
-      document.removeEventListener("touchend", onTouchEnd);
+      surface.removeEventListener("touchstart", onTouchStart);
+      surface.removeEventListener("touchmove", onTouchMove);
+      surface.removeEventListener("touchend", onTouchEnd);
+      surface.removeEventListener("touchcancel", cancelTouch);
     };
-  }, [next, previous, router, transitionTo]);
+  }, [current, next, previous, returnsToStart, router, transitionTo]);
+
+  if (!current) return null;
 
   return (
-    <nav className="chapter-navigation" aria-label="Navegação entre capítulos" data-chapter={current.phase}>
+    <nav className="chapter-navigation" aria-label="Navegação entre capítulos" aria-keyshortcuts="ArrowLeft ArrowRight" data-chapter={current.phase}>
       <progress className="chapter-navigation__progress" max={chapters.length} value={currentIndex + 1} aria-label={`Progresso: capítulo ${currentIndex + 1} de ${chapters.length}`} />
-      {previous ? (
-        <Link className="chapter-navigation__arrow focusable" href={previous.href} transitionTypes={["nav-back"]} onNavigate={() => transitionTo(previous.phase)} aria-label={`Capítulo anterior: ${previous.label}`}>
-          <ArrowLeft size={18} aria-hidden="true" />
-        </Link>
-      ) : <span className="chapter-navigation__arrow chapter-navigation__arrow--disabled" aria-hidden="true"><ArrowLeft size={18} /></span>}
+      <div className="chapter-navigation__inner">
       <div className="chapter-navigation__status" aria-live="polite" aria-atomic="true">
-        <span>{current.number} / 07</span>
+        <span>{current.number}</span>
+        <span aria-hidden="true">—</span>
         <strong>{current.label}</strong>
+        <span className="nexo-visually-hidden">Capítulo {currentIndex + 1} de {chapters.length}</span>
       </div>
-      <label className="chapter-navigation__menu">
-        <Compass size={16} aria-hidden="true" />
-        <span className="nexo-visually-hidden">Ir diretamente a um capítulo</span>
-        <select aria-label="Ir diretamente a um capítulo" value={current.phase} onChange={(event) => {
-          const destination = chapters.find((chapter) => chapter.phase === event.target.value);
-          if (!destination) return;
-          transitionTo(destination.phase);
-          router.push(destination.href, { transitionTypes: [chapters.indexOf(destination) > currentIndex ? "nav-forward" : "nav-back"] });
-        }}>
-          {chapters.map((chapter) => <option key={chapter.phase} value={chapter.phase}>{chapter.number} / {chapter.label}</option>)}
-        </select>
-      </label>
-      {next ? (
-        <Link className="chapter-navigation__arrow focusable" href={next.href} transitionTypes={["nav-forward"]} onNavigate={() => transitionTo(next.phase)} aria-label={`Próximo capítulo: ${next.label}`}>
-          <ArrowRight size={18} aria-hidden="true" />
+      <div className="chapter-navigation__actions">
+        {previous ? <Link className="chapter-navigation__arrow chapter-navigation__previous focusable" href={previous.href} transitionTypes={["nav-back"]} onNavigate={() => transitionTo(previous.phase)} aria-label={`Capítulo anterior: ${previous.label}`}>
+          <ArrowLeft size={16} aria-hidden="true" /><span>Anterior</span>
+        </Link> : null}
+        <Link className="chapter-navigation__arrow chapter-navigation__next focusable" href={next.href} transitionTypes={[returnsToStart ? "nav-back" : "nav-forward"]} onNavigate={() => transitionTo(next.phase)} aria-label={returnsToStart ? "Voltar ao início: Apresentação" : `Próximo capítulo: ${next.label}`}>
+          <span>{returnsToStart ? "Voltar ao início" : next.label}</span>
+          <ArrowRight size={16} aria-hidden="true" />
         </Link>
-      ) : <span className="chapter-navigation__arrow chapter-navigation__arrow--disabled" aria-hidden="true"><ArrowRight size={18} /></span>}
+      </div>
+      </div>
     </nav>
   );
 }

@@ -29,6 +29,8 @@ function useExperienceController() {
   const [completedRevision, setCompletedRevision] = useState(0);
   const [announcement, setAnnouncement] = useState("");
   const [galleryReturnHref, rememberGallery] = useState("/projetos/#projetos");
+  const [heroProjectSlug, focusHeroProject] = useState<string | null>(null);
+  const [heroGalleryReady, setHeroGalleryReady] = useState(false);
   const motionEnabled = motionPreference && !prefersReducedMotion;
   const isTransitioning = mode === "immersive" && motionEnabled && state.revision > completedRevision;
 
@@ -38,6 +40,7 @@ function useExperienceController() {
   const selectExperience = useCallback((id: string) => dispatch({ type: "experience", id }), []);
   const setProjectCategory = useCallback((category: string) => dispatch({ type: "category", category }), []);
   const markSceneReady = useCallback(() => setSceneStatus("ready"), []);
+  const markHeroGalleryReady = useCallback(() => setHeroGalleryReady(true), []);
   const markSceneUnavailable = useCallback(() => setSceneStatus("unavailable"), []);
   const requestScene = useCallback(() => setSceneRequested(true), []);
   const setMode = useCallback((next: ExperienceMode) => {
@@ -78,7 +81,7 @@ function useExperienceController() {
     if (slug) selectProject(slug);
   }, [pathname, selectProject, transitionTo]);
 
-  return useMemo(() => ({ ...state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, rememberGallery, transitionId: state.revision, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, toggleMotion, markSceneReady, markSceneUnavailable }), [state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, toggleMotion, markSceneReady, markSceneUnavailable]);
+  return useMemo(() => ({ ...state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, rememberGallery, heroProjectSlug, focusHeroProject, heroGalleryReady, markHeroGalleryReady, transitionId: state.revision, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, toggleMotion, markSceneReady, markSceneUnavailable }), [state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, heroProjectSlug, heroGalleryReady, markHeroGalleryReady, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, toggleMotion, markSceneReady, markSceneUnavailable]);
 }
 
 export function ExperienceProvider({ children }: { children: React.ReactNode }) {

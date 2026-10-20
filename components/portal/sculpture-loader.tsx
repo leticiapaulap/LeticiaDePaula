@@ -19,7 +19,7 @@ class SceneErrorBoundary extends Component<{ children: ReactNode; onError: () =>
 
 export function SculptureLoader() {
   const pathname = usePathname();
-  const { phase, activeSection, mode, preferencesReady, sceneRequested, markSceneReady, markSceneUnavailable } = useExperience();
+  const { phase, activeSection, mode, preferencesReady, prefersReducedMotion, sceneRequested, markSceneReady, markSceneUnavailable } = useExperience();
   const surface = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [supported, setSupported] = useState(false);
@@ -28,7 +28,8 @@ export function SculptureLoader() {
   const [visible, setVisible] = useState(true);
   const [inViewport, setInViewport] = useState(false);
   const [quality, setQuality] = useState<SceneQuality>("mobile");
-  const shouldLoad = sceneRequested || (mode === "immersive" && quality !== "mobile");
+  const lightweightHero = pathname === "/" && quality === "mobile";
+  const shouldLoad = !prefersReducedMotion && !lightweightHero && (sceneRequested || (mode === "immersive" && quality !== "mobile"));
 
   const handleReady = useCallback(() => { setReady(true); markSceneReady(); }, [markSceneReady]);
   const handleError = useCallback(() => { setFailed(true); setReady(false); markSceneUnavailable(); }, [markSceneUnavailable]);
@@ -73,7 +74,12 @@ export function SculptureLoader() {
     const artwork = pathname === "/"
       ? useCompanion ? companion : document.getElementById(activeSection)?.querySelector<HTMLElement>("[data-scene-anchor]")
       : document.querySelector<HTMLElement>(".route-hero-scene, .project-case-scene");
-    const target = artwork ?? stage;
+    if (!artwork) {
+      delete stage.dataset.anchored;
+      const frame = window.requestAnimationFrame(() => setInViewport(false));
+      return () => window.cancelAnimationFrame(frame);
+    }
+    const target = artwork;
     const observer = new IntersectionObserver(([entry]) => setInViewport(entry.isIntersecting));
     observer.observe(target);
     let frame = 0;
@@ -114,20 +120,20 @@ export function SculptureLoader() {
   }, [pathname, phase, activeSection, quality]);
 
   useEffect(() => {
-    if (mode !== "immersive" || !supported || !visible || !inViewport) return;
+    if (mode !== "immersive" || !shouldLoad || !supported || !visible || !inViewport) return;
     const frame = window.requestAnimationFrame(() => setHasLoaded(true));
     return () => window.cancelAnimationFrame(frame);
-  }, [inViewport, mode, supported, visible]);
+  }, [inViewport, mode, shouldLoad, supported, visible]);
 
   return (
-    <div ref={surface} className="nexo-scene-surface" data-ready={ready && !failed} data-quality={quality} aria-hidden="true">
-      <svg className="nexo-scene-fallback" viewBox="-170 -150 340 300" fill="none">
+    <div ref={surface} className="nexo-scene-surface" data-ready={ready && !failed} data-quality={quality} data-scene-content={pathname === "/" ? "project-gallery" : "sculpture"} aria-hidden="true">
+      {pathname !== "/" ? <svg className="nexo-scene-fallback" viewBox="-170 -150 340 300" fill="none">
         <defs><linearGradient id="nexo-scene-metal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#f0ddbc" /><stop offset=".45" stopColor="#8b7659" /><stop offset=".7" stopColor="#ead4b2" /><stop offset="1" stopColor="#b9a382" /></linearGradient></defs>
         {fallbackPaths.map((entry) => <path key={entry.phase} d={entry.path} stroke="url(#nexo-scene-metal)" strokeWidth={entry.phase === "education" ? 12 : 22} strokeLinecap="round" strokeLinejoin="round" opacity={phase === entry.phase ? 1 : 0} />)}
-      </svg>
+      </svg> : null}
       {hasLoaded && supported && !failed ? (
         <SceneErrorBoundary onError={handleError}>
-          <SculptureScene active={visible && inViewport && mode === "immersive"} quality={quality} onReady={handleReady} onError={handleError} />
+          <SculptureScene active={visible && inViewport && mode === "immersive" && !prefersReducedMotion && !lightweightHero} quality={quality} onReady={handleReady} onError={handleError} />
         </SceneErrorBoundary>
       ) : null}
     </div>

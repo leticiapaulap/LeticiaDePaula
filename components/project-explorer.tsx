@@ -66,7 +66,7 @@ export function ProjectExplorer() {
               <ProjectVisual project={focusedProject} />
             </div>
             <div className="nexo-gallery-info project-showcase__info">
-              <p className="context-label">{focusedProject.category} / {String(focusedIndex + 1).padStart(2, "0")}</p>
+              <p className="context-label">{focusedProject.category} / {String(focusedIndex + 1).padStart(2, "0")} · {focusedProject.publicationStatus}</p>
               <h3>{focusedProject.title}</h3>
               <p>{focusedProject.description}</p>
               <ul className="project-showcase__highlights">{focusedProject.features.slice(0, 3).map((feature) => <li key={feature}>{feature}</li>)}</ul>
@@ -81,7 +81,7 @@ export function ProjectExplorer() {
             {visibleProjects.map((project) => <button className="project-showcase__tab focusable" type="button" key={project.slug} aria-pressed={focusedProject.slug === project.slug} onClick={() => selectProject(project.slug)}>{project.screenshots[0] ? <img className="project-showcase__thumbnail" src={project.screenshots[0].src} alt="" width={112} height={80} loading="lazy" /> : null}<span><strong>{project.shortTitle}</strong><small>{project.category}</small></span><ArrowRight size={17} aria-hidden="true" /></button>)}
           </div>
         </div>
-      ) : <div className="empty-state"><strong>Nenhum projeto público nesta categoria.</strong><span>Explore as outras categorias para conhecer meus projetos.</span></div>}
+      ) : <div className="empty-state"><strong>Nenhum projeto nesta categoria.</strong><span>Explore as outras categorias para conhecer meus projetos.</span></div>}
       <noscript><nav className="project-static-links" aria-label="Todos os estudos de caso">{projects.map((project) => <Link className="secondary-action focusable" href={`/projetos/${project.slug}/`} key={project.slug}>{project.shortTitle}<ArrowRight size={16} aria-hidden="true" /></Link>)}</nav></noscript>
     </div>
   );

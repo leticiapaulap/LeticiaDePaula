@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { navigateToChapter } from "./helpers/chapters";
 
 const chapters = [
   { value: "portal", label: "01 / Apresentação" },
@@ -17,9 +18,14 @@ test("a abertura conduz aos sete capítulos e preserva os estudos de caso", asyn
   await expect(page.locator(".nexo-portal__title")).toContainText("Letícia");
   await expect(page.locator(".home-chapter")).toHaveCount(0);
   await expect(page.getByRole("region", { name: "Explore os capítulos do portfólio" })).toHaveCount(0);
-  const menu = page.getByLabel("Ir diretamente a um capítulo");
-  await expect(menu.locator("option")).toHaveCount(7);
-  expect(await menu.locator("option").allTextContents()).toEqual(chapters.map(({ label }) => label));
+  await expect(page.locator(".chapter-navigation select")).toHaveCount(0);
+  await page.getByRole("button", { name: "Abrir menu de capítulos" }).click();
+  const menu = page.getByRole("navigation", { name: "Navegação compacta" });
+  await expect(menu.getByRole("link")).toHaveCount(8);
+  for (const [index, chapter] of chapters.entries()) {
+    await expect(menu.getByRole("link").nth(index)).toHaveAccessibleName(chapter.label.replace(/^\d+ \/ /, ""));
+  }
+  await page.keyboard.press("Escape");
   await page.getByRole("link", { name: "Explorar trajetória" }).click();
   await expect(page).toHaveURL(/\/sobre\/$/);
   await page.goto("/projetos/");
@@ -47,7 +53,7 @@ test("voltar, avançar e links de capítulo mantêm o histórico nativo", async 
   await expect(navigation.getByRole("link", { name: /Capítulo anterior/ })).toHaveCount(0);
   await navigation.getByRole("link", { name: /Próximo capítulo/ }).click();
   await expect(page).toHaveURL(/\/sobre\/$/);
-  await page.getByLabel("Ir diretamente a um capítulo").selectOption("competencies");
+  await navigateToChapter(page, "competencies");
   await expect(page).toHaveURL(/\/competencias\/$/);
   await page.goBack();
   await expect(page).toHaveURL(/\/sobre\/$/);
@@ -72,7 +78,7 @@ test("uma cena 3D persistente acompanha a mudança entre capítulos", async ({ p
     ["education", "/formacao/"],
     ["convergence", "/contato/"]
   ]) {
-    await page.getByLabel("Ir diretamente a um capítulo").selectOption(phase);
+    await navigateToChapter(page, phase);
     await expect(page).toHaveURL(new RegExp(`${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`));
     await expect(page.locator(".nexo-experience-root")).toHaveAttribute("data-experience-state", phase);
     await expect(page.locator("canvas")).toHaveCount(1);
@@ -91,7 +97,7 @@ for (const width of [375, 768, 1440]) {
     await page.setViewportSize({ width, height: 960 });
     await page.addInitScript(() => localStorage.setItem("nexo-mode", "direct"));
     await page.goto("/projetos/");
-    await expect(page.getByLabel("Ir diretamente a um capítulo")).toHaveValue("projects");
+    await expect(page.locator(".chapter-navigation")).toHaveAttribute("data-chapter", "projects");
     await expect(page.getByRole("link", { name: "Capítulo anterior: Sobre mim" })).toBeVisible();
     await expect(page.locator(".chapter-navigation__progress")).toHaveAttribute("value", "3");
     const audit = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
