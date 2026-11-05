@@ -1,6 +1,6 @@
 # Mini Letícia e acesso ao SENAPPEN
 
-A hero mantém fotografia, recorte, dimensões, textos, cores e navegação. A miniatura usa exclusivamente a arte fornecida em `Avatar 3D acenando com celular.gif`: apesar do nome do arquivo, a integração é uma imagem 2D transparente, sem modelo, Canvas ou WebGL.
+A hero mantém fotografia, recorte, dimensões, textos, cores e navegação. A miniatura usa a arte fornecida em `Avatar 3D acenando com celular.gif`: apesar do nome do arquivo, a integração é uma imagem 2D transparente, sem modelo, Canvas ou WebGL. O celular está incorporado aos quadros da personagem; para removê-lo, é necessário substituir o sprite por uma versão editada sem celular. Não há remoção por CSS.
 
 ## Arte e animação
 
@@ -14,9 +14,9 @@ node scripts/prepare-miniature.mjs "C:/Users/leticia.pereira/Downloads/Avatar 3D
 
 `HeroMiniature` carrega GSAP após a imagem. A saudação começa depois de 1,2 segundo, usa deslocamento e inclinação pequenos, reproduz os quadros uma vez, exibe o balão por alguns segundos e retorna ao repouso. Hover e foco por teclado permitem cumprimentar novamente; movimentos internos do cursor não reiniciam a sequência. Sair com o ponteiro, perder o foco ou pressionar Escape recolhe a personagem. No toque, a saudação termina mesmo se o botão continuar focado.
 
-O recorte da miniatura termina na borda superior da moldura. A fotografia e a borda frontal ocultam a parte inferior da personagem. Todas as camadas pertencem à própria moldura e acompanham seu deslocamento existente, sem mudar as dimensões da foto ou ocupar espaço no fluxo.
+O recorte da miniatura fica ao lado direito da moldura, sem cobrir a fotografia. Todas as camadas pertencem à própria moldura e acompanham seu deslocamento existente, sem mudar as dimensões da foto ou ocupar espaço no fluxo.
 
-As alturas de referência são 120 px no desktop, 102 px em tablets e 86 px no mobile. O balão só aparece a partir de 1100 px, onde há espaço acima da foto. Com movimento reduzido, o quadro do cumprimento fica estático e o balão responde sem animação. Se imagem ou módulo de animação falhar, apenas a miniatura é ocultada. Sem JavaScript, foto e links continuam disponíveis.
+As alturas de referência são 120 px no desktop, 102 px em tablets e de 56 a 72 px no mobile, conforme a largura. O balão só aparece a partir de 1100 px, onde há espaço acima da foto. Com movimento reduzido, o quadro do cumprimento fica estático e o balão responde sem animação. Se imagem ou módulo de animação falhar, apenas a miniatura é ocultada. Sem JavaScript, foto e links continuam disponíveis.
 
 ## SENAPPEN
 

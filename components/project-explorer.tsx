@@ -10,13 +10,24 @@ import { useExperienceSelection } from "@/components/experience-provider";
 import { projectCategories, projects } from "@/lib/data";
 import { projectsForSkill } from "@/lib/skill-relations";
 
+const featuredFirstProjects = [...projects].sort((first, second) => {
+  const featuredOrder = Number(second.featured) - Number(first.featured);
+  if (featuredOrder !== 0) return featuredOrder;
+  if (first.slug === "agenda-executiva") return -1;
+  if (second.slug === "agenda-executiva") return 1;
+  return 0;
+});
+
 const projectCounts = (category: ProjectCategory | "Todos") =>
   category === "Todos" ? projects.length : projects.filter((project) => project.category === category).length;
 
 export function ProjectExplorer() {
   const pathname = usePathname();
   const { projectCategory, setProjectCategory, selectedProjectSlug, selectedSkillName, selectProject, rememberGallery } = useExperienceSelection();
-  const visibleProjects = useMemo(() => projects.filter((project) => projectCategory === "Todos" || project.category === projectCategory), [projectCategory]);
+  const visibleProjects = useMemo(
+    () => featuredFirstProjects.filter((project) => projectCategory === "Todos" || project.category === projectCategory),
+    [projectCategory]
+  );
   const selectedSkillProjects = projectsForSkill(selectedSkillName).map((project) => project.slug);
   const focusedProject = visibleProjects.find((project) => project.slug === selectedProjectSlug)
     ?? visibleProjects.find((project) => selectedSkillProjects.includes(project.slug))
@@ -52,18 +63,19 @@ export function ProjectExplorer() {
           <div className="editorial-project-grid">
             {visibleProjects.map((project, index) => {
               const selected = project.slug === focusedProject.slug;
-              const systemLink = project.slug === "senappen-recebimentos"
+              const systemLink = project.slug === "senappen-recebimentos" || project.slug === "agenda-executiva"
                 ? project.links.find((link) => link.type === "demo")
                 : undefined;
               return (
                 <article className={`editorial-project-card${project.featured ? " editorial-project-card--featured" : ""}`} data-project-category={project.category} data-selected={selected} key={project.slug}>
                   <div className="editorial-project-card__media"><ProjectVisual project={project} compact /></div>
                   <div className="editorial-project-card__content">
-                    <div className="editorial-project-card__meta"><span className="context-label">{String(index + 1).padStart(2, "0")} / {project.category}</span><span className="editorial-publication">{project.publicationStatus}</span></div>
+                    <div className="editorial-project-card__meta"><span className="context-label">{project.featured ? `Projeto em destaque · ${project.category}` : `${String(index + 1).padStart(2, "0")} / ${project.category}`}</span><span className="editorial-publication">{project.publicationStatus}</span></div>
                     <h3>{project.title}</h3>
                     <p className="editorial-project-card__description">{project.summary}</p>
                     <p className="editorial-project-technologies" aria-label={`Tecnologias de ${project.shortTitle}`}>{project.technologies.slice(0, 4).join(" · ")}</p>
-                    <Link className="editorial-project-link focusable" href={`/projetos/${project.slug}/`} onNavigate={() => { rememberGallery(`${pathname}#projetos`); selectProject(project.slug); }}>Explorar projeto <ArrowUpRight size={17} aria-hidden="true" /></Link>
+                    <Link className="editorial-project-link focusable" href={`/projetos/${project.slug}/`} onNavigate={() => { rememberGallery(`${pathname}#projetos`); selectProject(project.slug); }}>{project.slug === "senappen-recebimentos" || project.slug === "agenda-executiva" ? "Conhecer projeto" : "Explorar projeto"} <ArrowUpRight size={17} aria-hidden="true" /></Link>
+                    {project.slug === "agenda-executiva" ? <span className="editorial-publication">Funcionalidades internas exigem uma conta autorizada.</span> : null}
                     {systemLink ? <a className="secondary-action focusable" href={systemLink.href} target="_blank" rel="noopener noreferrer">{systemLink.label}<ExternalLink size={16} aria-hidden="true" /></a> : null}
                   </div>
                 </article>
@@ -72,7 +84,7 @@ export function ProjectExplorer() {
           </div>
         </div>
       ) : <div className="empty-state"><strong>Nenhum projeto nesta categoria.</strong><span>Explore as outras categorias para conhecer meus projetos.</span></div>}
-      <noscript><nav className="project-static-links" aria-label="Todos os estudos de caso">{projects.map((project) => <Link className="text-action focusable" href={`/projetos/${project.slug}/`} key={project.slug}>{project.shortTitle}<ArrowUpRight size={16} aria-hidden="true" /></Link>)}</nav></noscript>
+      <noscript><nav className="project-static-links" aria-label="Todos os estudos de caso">{featuredFirstProjects.map((project) => <Link className="text-action focusable" href={`/projetos/${project.slug}/`} key={project.slug}>{project.shortTitle}<ArrowUpRight size={16} aria-hidden="true" /></Link>)}</nav></noscript>
     </div>
   );
 }

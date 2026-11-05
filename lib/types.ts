@@ -49,12 +49,21 @@ export type Project = {
   learnings: string[];
   links: ProjectLink[];
   media: ProjectMedia;
+  cover?: {
+    src: string;
+    alt: string;
+    caption: string;
+    width?: number;
+    height?: number;
+    preserveAspectRatio?: boolean;
+  };
   screenshots: Array<{
     src: string;
     alt: string;
     caption: string;
     width?: number;
     height?: number;
+    preserveAspectRatio?: boolean;
   }>;
   evidence: {
     level: EvidenceLevel;

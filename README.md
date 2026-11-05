@@ -90,6 +90,7 @@ Até 1099 px, a sidebar dá lugar a um cabeçalho compacto com o botão “Menu�
 | `/projetos/festa-fantasia/` | Estudo de caso do projeto público |
 | `/projetos/organizador-de-tarefas/` | Finanzy, versão atual do organizador pessoal |
 | `/projetos/senappen-recebimentos/` | Visão geral do portal privado da SENAPPEN |
+| `/projetos/agenda-executiva/` | Aplicação web de gestão de compromissos executivos |
 | `/projetos/dio-lab-open-source/` | Fork educacional do laboratório da DIO |
 | `/projetos/portfolio-leticia-de-paula/` | Estudo de caso do portfólio pessoal |
 | `/experiencia/` | Cargos, períodos e atividades da trajetória |
@@ -114,7 +115,7 @@ Os arquivos em `lib/` são a fonte da interface. Preserve a diferença entre inf
 
 Categorias sem projetos têm estados vazios reais. Não publique fluxos, nomes de sistemas, resultados ou código corporativo sem autorização.
 
-Os três projetos adicionais foram incluídos a pedido da autora, com fontes e limites registrados em [docs/projetos-adicionais.md](docs/projetos-adicionais.md). Projetos não públicos não recebem botões de repositório ou demo. Sem uma captura autorizada, cada projeto mostra um diagrama editorial próprio; não são simuladas interfaces. A galeria 3D da abertura continua usando apenas as duas capturas reais já disponíveis.
+Os projetos adicionais foram incluídos a pedido da autora, com fontes e limites registrados em [docs/projetos-adicionais.md](docs/projetos-adicionais.md). Projetos não públicos não recebem botões de repositório ou demo. Sem uma captura autorizada, cada projeto mostra um diagrama editorial próprio; não são simuladas interfaces. A galeria 3D da abertura continua usando apenas as duas capturas reais já disponíveis.
 
 ### Certificações e formação
 

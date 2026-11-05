@@ -26,9 +26,21 @@ export const skillGroups: SkillGroup[] = [
       },
       {
         name: "JavaScript",
-        evidence: "experiencia-informada",
-        context: "Interface web do Finanzy, conferida na implementação local; código não público.",
-        projectSlugs: ["organizador-de-tarefas"]
+        evidence: "uso-publico",
+        context: "Interfaces web da Agenda Executiva e do Finanzy.",
+        projectSlugs: ["agenda-executiva", "organizador-de-tarefas"]
+      },
+      {
+        name: "HTML",
+        evidence: "uso-publico",
+        context: "Interface web da Agenda Executiva.",
+        projectSlugs: ["agenda-executiva"]
+      },
+      {
+        name: "CSS",
+        evidence: "uso-publico",
+        context: "Estilização da interface web da Agenda Executiva.",
+        projectSlugs: ["agenda-executiva"]
       },
       {
         name: "Vite",
@@ -159,7 +171,7 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "Python",
         evidence: "uso-publico",
-        context: "Aplicativo desktop Windows da Agenda Executiva, desenvolvido em Python.",
+        context: "Aplicações web Flask e desktop da Agenda Executiva.",
         projectSlugs: ["agenda-executiva"]
       },
       {

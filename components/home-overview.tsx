@@ -1,4 +1,4 @@
-import { ArrowRight, Download, Mail } from "lucide-react";
+import { ArrowRight, Download, ExternalLink, Mail } from "lucide-react";
 import Link from "next/link";
 import { JourneyCompanion } from "@/components/journey-companion";
 import { ModeLabel } from "@/components/experience-navigation";
@@ -27,6 +27,7 @@ function ReadMore({ href, children }: { href: string; children: React.ReactNode 
 
 export function HomeOverview() {
   const featuredProject = projects.find((project) => project.featured) ?? projects[0];
+  const featuredDemo = featuredProject.links.find((link) => link.type === "demo");
   const certificateCount = certifications.filter((course) => course.certificateUrl).length;
 
   return (
@@ -48,10 +49,17 @@ export function HomeOverview() {
             <article className="home-featured-project">
               <Link className="home-featured-project__image focusable" href={`/projetos/${featuredProject.slug}/`}><ProjectVisual project={featuredProject} compact /></Link>
               <p className="context-label">PROJETO EM DESTAQUE / {featuredProject.category}</p>
-              <h3>{featuredProject.shortTitle}</h3>
+              <h3>{featuredProject.title}</h3>
               <p>{featuredProject.summary}</p>
               <div className="tag-list">{featuredProject.technologies.slice(0, 4).map((technology) => <span className="tag" key={technology}>{technology}</span>)}</div>
-              <ReadMore href={`/projetos/${featuredProject.slug}/`}>Explorar estudo de caso</ReadMore>
+              <div className="project-links home-featured-project__actions">
+                <ReadMore href={`/projetos/${featuredProject.slug}/`}>Conhecer projeto</ReadMore>
+                {featuredDemo ? (
+                  <a className="secondary-action focusable" href={featuredDemo.href} target="_blank" rel="noopener noreferrer">
+                    Acessar sistema <ExternalLink size={16} aria-hidden="true" />
+                  </a>
+                ) : null}
+              </div>
             </article>
             <ReadMore href="/projetos/">Ver todos os projetos</ReadMore>
           </Chapter>

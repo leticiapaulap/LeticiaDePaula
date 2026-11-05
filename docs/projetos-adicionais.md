@@ -42,3 +42,18 @@ A inspeção detectou e corrigiu a sobreposição da legenda dos diagramas e o c
 | Documentação | `README.md`, `docs/projetos-adicionais.md`, `docs/conteudo-interno.md`, `docs/pos-revisao.md` |
 
 As alterações anteriores da hero e da navegação por capítulos foram preservadas.
+
+## Atualização visual — 05/11/2026
+
+- `public/projects/finanzy-login.webp` registra a tela de acesso do Finanzy a partir da captura fornecida por Letícia; os campos aparecem vazios e a imagem é usada no card e no estudo de caso.
+- `public/projects/portfolio-projects.webp` registra a seção de projetos da versão atual do portfólio. O mapa de competências existente permanece como captura complementar no estudo de caso.
+- As duas imagens são servidas em WebP. Nenhum dado de usuário foi incluído e nenhum deploy foi realizado.
+
+## Agenda Executiva — versão web
+
+- O repositório público `leticiapaulap/Agenda_executiva` foi consultado na branch principal `main`. README, documentação de implantação, dependências e diretório `webapp/` confirmam uma aplicação Flask com HTML, CSS, JavaScript, autenticação Flask-Login, formulários Flask-WTF, SQLAlchemy, PostgreSQL, migrações Flask-Migrate/Alembic e Gunicorn.
+- As funcionalidades documentadas da versão web incluem painel, calendário, gestão e pesquisa de compromissos e tarefas, prioridades, filtros e acesso autenticado. O sistema publicado exige uma conta autorizada; nenhuma conta ou compromisso foi criado e nenhuma área autenticada foi consultada.
+- O endereço público `/login` respondeu com HTTP 200. `public/projects/agenda-executiva-cover.webp` é uma captura direta, sem sessão iniciada, da página de login publicada. Ela foi convertida para WebP em 1600 × 800; os campos de usuário e senha estão vazios.
+- As três capturas adicionais da página de detalhes são da aplicação desktop independente em Python, CustomTkinter e SQLite e estão identificadas como tal, com dados fictícios. A versão desktop não é apresentada como uma captura do sistema web.
+- O registro existente `agenda-executiva` foi atualizado em vez de criar um projeto duplicado. Na galeria, SENAPPEN continua em primeiro, Agenda Executiva vem logo depois, e os demais projetos são mantidos. A demonstração abre em nova aba e o repositório GitHub público é vinculado.
+- Não houve deploy.

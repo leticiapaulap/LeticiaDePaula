@@ -223,8 +223,6 @@
   pointer-events: none;
 }
 
-/* The sprite window ends at the frame's top edge. Its lower body is occluded
-   by this front rim and the original photograph, never painted over the photo. */
 .hero-portrait__rim {
   position: absolute;
   z-index: 3;
@@ -241,10 +239,12 @@
   --miniature-height: 120px;
   position: absolute;
   z-index: 2;
-  top: calc(-1 * var(--miniature-height));
-  right: 6px;
+  top: 50%;
+  right: auto;
+  left: calc(100% + 4px);
   width: calc(var(--miniature-height) * 295 / 403);
   height: var(--miniature-height);
+  transform: translateY(-50%);
 }
 .hero-miniature[data-ready="false"] { visibility: hidden; pointer-events: none; }
 .hero-miniature__trigger {
@@ -282,7 +282,7 @@
 .hero-miniature__bubble {
   position: absolute;
   z-index: 5;
-  top: 13px;
+  top: calc(-1 * (var(--miniature-height) + 60px));
   right: calc(100% - 16px);
   width: 162px;
   padding: 10px 12px;
@@ -315,7 +315,8 @@
 }
 @media (max-width: 1099px) { .hero-miniature__bubble { display: none; } }
 @media (max-width: 767px) {
-  .hero-miniature { --miniature-height: 86px; right: 0; }
+  .hero-miniature { --miniature-height: clamp(56px, 16vw, 72px); left: calc(100% + 2px); }
+  .hero-miniature__trigger { min-width: 44px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-miniature__sprite { transform: translateY(-44.444444%); }

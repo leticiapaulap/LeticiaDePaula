@@ -23,9 +23,10 @@ for (const width of [375, 1440]) {
     if (width <= 1099) await page.keyboard.press("Escape");
     await expect(page.locator(".editorial-project-card")).toHaveCount(6);
     const featured = page.locator(".editorial-project-card--featured");
-    await expect(featured.locator("img")).toHaveAttribute("src", "/projects/festa-fantasia-home.webp");
-    await featured.getByRole("link", { name: "Explorar projeto", exact: true }).click();
-    await expect(page.getByRole("link", { name: "Ver aplicação", exact: true })).toHaveAttribute("href", "https://festa-fantasia.vercel.app/");
+    await expect(featured.locator("img")).toHaveAttribute("src", "/projects/senappen-recebimentos-home.webp");
+    await expect(featured.getByRole("heading", { name: "Sistema de Recebimentos Documentais — SENAPPEN", exact: true })).toBeVisible();
+    await featured.getByRole("link", { name: "Conhecer projeto", exact: true }).click();
+    await expect(featured.getByRole("link", { name: "Acessar sistema", exact: true })).toHaveAttribute("href", "https://mjsp-recebimentos-smtp.vercel.app/");
     await page.goto("/formacao/");
     await expect(page.locator(".certification-card")).toHaveCount(10);
     await expect(page.locator(".certification-card:visible")).toHaveCount(7);

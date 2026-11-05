@@ -7,7 +7,7 @@ export const projects: Project[] = [
     title: "Festa Fantasia - Concurso de Melhor Fantasia",
     shortTitle: "Festa Fantasia",
     category: "Desenvolvimento Web",
-    featured: true,
+    featured: false,
     publicationStatus: "Publicado",
     status: "Aplicação web com código público",
     summary:
@@ -152,7 +152,15 @@ export const projects: Project[] = [
         { title: "Versão local", detail: "Java 21 · arquivos" }
       ]
     },
-    screenshots: [],
+    screenshots: [
+      {
+        src: "/projects/finanzy-login.webp",
+        alt: "Tela de acesso do Finanzy, com opções para entrar ou criar conta e campos de e-mail e senha vazios",
+        caption: "Tela de entrada do Finanzy, sem dados de usuário preenchidos.",
+        width: 1906,
+        height: 909
+      }
+    ],
     evidence: { level: "interno", sourceLabel: "Documentação e implementação local do projeto pessoal" },
     sensitiveNote:
       "O código não está disponível publicamente. Esta apresentação não inclui dados financeiros, contas de usuários ou credenciais; o diagrama é uma visão editorial, não uma captura da aplicação."
@@ -160,21 +168,21 @@ export const projects: Project[] = [
   {
     id: "senappen-recebimentos",
     slug: "senappen-recebimentos",
-    title: "SENAPPEN — Portal de Recebimentos",
+    title: "Sistema de Recebimentos Documentais — SENAPPEN",
     shortTitle: "Portal SENAPPEN",
     category: "Automação",
-    featured: false,
+    featured: true,
     publicationStatus: "Repositório privado",
     status: "Projeto institucional · apresentação resumida",
     summary:
-      "Portal institucional para organizar recebimentos de UFs e empresas, com protocolos, recibos em PDF e integração de notificações.",
+      "Sistema web desenvolvido para digitalizar e organizar o recebimento de documentos, com formulários específicos para unidades federativas e empresas, validação de informações, emissão de recibos e acompanhamento administrativo.",
     description:
-      "Projeto institucional de recebimentos da SENAPPEN, apresentado em nível geral para preservar a confidencialidade. O fluxo reúne formulários, validação, registro e emissão de comprovantes.",
+      "Sistema web desenvolvido para digitalizar e organizar o recebimento de documentos, com formulários específicos para unidades federativas e empresas, validação de informações, emissão de recibos e acompanhamento administrativo.",
     problem:
       "Organizar recebimentos institucionais demanda padronização dos registros, rastreabilidade e confirmação de envio, sem comprometer a confidencialidade dos documentos.",
     solution:
-      "O portal organiza formulários por perfil de acesso, gera protocolos e recibos e integra notificações por e-mail. O projeto também prevê armazenamento documental com SharePoint.",
-    technologies: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Neon", "SMTP", "SharePoint"],
+      "O sistema organiza os fluxos de recebimento em formulários dedicados, valida os dados informados, emite recibos e facilita o acompanhamento dos registros.",
+    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"],
     highlights: [
       "Fluxos distintos para UFs e empresas.",
       "Protocolos e comprovantes para acompanhar os recebimentos.",
@@ -183,17 +191,15 @@ export const projects: Project[] = [
     features: [
       "Formulários de recebimento para UFs e empresas.",
       "Geração de protocolo e recibo em PDF.",
-      "Notificações por e-mail e integração documental.",
-      "Controle de acesso e trilha de auditoria."
+      "Acompanhamento administrativo dos recebimentos."
     ],
     architecture: [
-      "Interface e rotas de aplicação em Next.js, React e TypeScript.",
-      "Persistência relacional com Prisma e PostgreSQL/Neon.",
-      "Serviços para emissão de PDF, envio SMTP e integração com SharePoint."
+      "Interface e rotas de aplicação em Next.js e TypeScript.",
+      "Persistência relacional com Prisma e PostgreSQL."
     ],
     learnings: [
       "Padronizar formulários e validações ajuda a manter registros consistentes.",
-      "Protocolos e comprovantes conectam envio, registro e acompanhamento.",
+      "Recibos e registros facilitam o acompanhamento dos recebimentos.",
       "Documentar um projeto institucional exige separar a apresentação profissional das informações restritas."
     ],
     links: [
@@ -210,7 +216,16 @@ export const projects: Project[] = [
         { title: "Comprovante", detail: "PDF · notificações" }
       ]
     },
-    screenshots: [],
+    screenshots: [
+      {
+        src: "/projects/senappen-recebimentos-home.webp",
+        alt: "Página pública do Portal SENAPPEN — Oficina de Trabalho Prisional, com apresentação dos fluxos para unidades federativas, oficinas de trabalho e empresas habilitadas",
+        caption: "Tela pública de apresentação do sistema SENAPPEN. Captura fornecida por Letícia de Paula.",
+        width: 1905,
+        height: 903,
+        preserveAspectRatio: true
+      }
+    ],
     evidence: { level: "interno", sourceLabel: "Documentação técnica do projeto privado" },
     sensitiveNote:
       "Repositório privado. Esta página apresenta o contexto e as tecnologias em nível geral, com acesso à página pública do sistema. Código-fonte, documentos, credenciais e dados operacionais não são publicados neste portfólio."
@@ -278,92 +293,109 @@ export const projects: Project[] = [
   {
     id: "agenda-executiva",
     slug: "agenda-executiva",
-    title: "Agenda Executiva — Organização de compromissos e tarefas",
+    title: "Agenda Executiva — Gestão de Compromissos",
     shortTitle: "Agenda Executiva",
-    category: "Aplicações Desktop",
+    category: "Desenvolvimento Web",
     featured: false,
     publicationStatus: "Publicado",
-    status: "Aplicativo Windows offline + versão web independente",
+    status: "Aplicação web com acesso autorizado; versão desktop independente",
     summary:
-      "Agenda em português para organizar compromissos e tarefas, com calendário, lembretes, busca e armazenamento local no desktop.",
+      "Aplicação web desenvolvida para apoiar a organização e o acompanhamento de compromissos executivos, centralizando informações da agenda e facilitando a rotina administrativa.",
     description:
-      "Aplicativo de produtividade com versão desktop para Windows e uma implementação web separada. No desktop, os dados permanecem em SQLite no computador; a versão web usa autenticação e PostgreSQL próprio.",
+      "A versão web da Agenda Executiva reúne agenda, compromissos e tarefas em uma interface autenticada. O sistema publicado exige uma conta autorizada pelo gestor. O repositório também mantém uma aplicação desktop independente, sem sincronização de dados com a versão web.",
     problem:
-      "Acompanhar reuniões, tarefas e prazos em diferentes telas exige uma agenda clara, rápida de atualizar e capaz de continuar funcionando sem conexão no uso diário.",
+      "A rotina administrativa de um gestor exige acompanhar compromissos e atividades sem perder de vista horários, prioridades e alterações na agenda.",
     solution:
-      "A versão desktop reúne painel, calendário e gestão de compromissos e tarefas em uma interface CustomTkinter, com persistência SQLite local, lembretes e backups. O repositório também mantém uma aplicação Flask responsiva com autenticação e PostgreSQL, independente dos dados locais.",
+      "A aplicação web usa Flask e uma interface em HTML, CSS e JavaScript para concentrar o calendário, a gestão de compromissos e as tarefas em um só lugar. A persistência é feita em PostgreSQL; uma versão desktop separada usa SQLite local e não compartilha dados com o sistema web.",
     technologies: [
-      "Python 3.14",
-      "CustomTkinter",
-      "SQLite",
+      "Python",
       "Flask",
+      "HTML",
+      "CSS",
+      "JavaScript",
       "SQLAlchemy",
       "PostgreSQL",
-      "PyInstaller"
+      "Flask-Login",
+      "Flask-WTF",
+      "Flask-Migrate · Alembic",
+      "Gunicorn"
     ],
     highlights: [
-      "Uso diário offline, sem conta ou serviço externo na versão desktop.",
-      "Calendário, filtros e ações de edição, conclusão, reagendamento, duplicação e exclusão.",
-      "Backups e restauração validados antes de substituir o banco atual.",
-      "Empacotamento para Windows em distribuição independente de pasta.",
-      "Versão web Flask separada, com login e armazenamento PostgreSQL."
+      "Painel e calendário para acompanhar compromissos executivos.",
+      "Gestão de compromissos e tarefas com pesquisa, filtros e prioridades.",
+      "Acesso autenticado; as funções internas dependem de uma conta autorizada.",
+      "Aplicação web Flask com persistência em PostgreSQL.",
+      "Versão desktop independente, com dados locais em SQLite."
     ],
     features: [
-      "Painel com compromissos do dia, próxima reunião e tarefas pendentes.",
-      "Calendário mensal com navegação por datas.",
-      "Cadastro, pesquisa, filtros, edição e reagendamento de compromissos.",
-      "Tarefas com prazo, prioridade e estado de conclusão.",
-      "Lembretes enquanto o aplicativo está aberto.",
-      "Backup e restauração do banco local, com validação e cópia de segurança.",
-      "Atalhos de teclado e menus de ações navegáveis."
+      "Painel de acompanhamento da agenda e dos compromissos.",
+      "Calendário para visualizar compromissos por data.",
+      "Cadastro, edição, reagendamento e consulta de compromissos.",
+      "Pesquisa e filtros para localizar atividades.",
+      "Tarefas com prioridades e acompanhamento de estado.",
+      "Acesso às funcionalidades internas protegido por autenticação."
     ],
     architecture: [
-      "Desktop: Python, CustomTkinter e SQLite local; o banco não é enviado para a versão web.",
-      "Persistência: repositório SQLite com migrações aditivas, integridade e cópias de segurança.",
-      "Web: aplicação Flask independente, com Flask-Login, SQLAlchemy, migrations e PostgreSQL.",
-      "Distribuição: pacote Windows criado com PyInstaller, incluindo recursos e dependências."
+      "Web: aplicação Flask com interface em HTML, CSS e JavaScript, autenticação Flask-Login e formulários Flask-WTF.",
+      "Persistência web: SQLAlchemy com PostgreSQL; migrações gerenciadas por Flask-Migrate e Alembic.",
+      "Servidor de aplicação: Gunicorn, conforme a documentação de implantação do projeto.",
+      "Desktop: aplicação independente em Python e CustomTkinter, com SQLite local; não sincroniza com a versão web."
     ],
     learnings: [
-      "Separar interface, regras de negócio e persistência deixa a aplicação mais simples de testar e manter.",
-      "Migrações aditivas e backups prévios ajudam a proteger bancos locais existentes.",
-      "Desktop offline e versão web precisam de limites explícitos para evitar sincronização ou compartilhamento de dados implícitos."
+      "Uma aplicação administrativa pode reunir calendário e tarefas sem misturar suas finalidades.",
+      "Separar as versões web e desktop evita pressupor sincronização entre bancos distintos.",
+      "A autenticação define o limite entre a apresentação pública do sistema e suas funções internas."
     ],
     links: [
+      {
+        label: "Acessar sistema",
+        href: "https://agenda-executiva.onrender.com/login",
+        type: "demo"
+      },
       {
         label: "GitHub",
         href: "https://github.com/leticiapaulap/Agenda_executiva",
         type: "github"
       }
     ],
+    sensitiveNote:
+      "A aplicação publicada exige uma conta autorizada pelo gestor; não há acesso público às funcionalidades internas. A captura da versão web mostra somente a tela pública de login, sem credenciais ou dados da agenda. As imagens adicionais são da versão desktop e usam dados fictícios.",
     media: {
       kind: "technical",
-      alt: "Captura da interface da Agenda Executiva com dados fictícios",
+      alt: "Arquitetura web da Agenda Executiva com interface Flask, banco PostgreSQL e acesso autenticado",
       tone: "teal",
       nodes: [
-        { title: "Desktop", detail: "Python · CustomTkinter" },
-        { title: "Dados locais", detail: "SQLite · offline" },
-        { title: "Web", detail: "Flask · PostgreSQL" }
+        { title: "Interface", detail: "Flask · HTML · CSS · JavaScript" },
+        { title: "Persistência", detail: "PostgreSQL · SQLAlchemy" },
+        { title: "Acesso", detail: "Flask-Login · autenticado" }
       ]
+    },
+    cover: {
+      src: "/projects/agenda-executiva-cover.webp",
+      alt: "Tela pública de login da versão web da Agenda Executiva; campos de usuário e senha vazios",
+      caption: "Tela pública de login da aplicação web. Nenhuma sessão foi iniciada.",
+      width: 1600,
+      height: 800
     },
     screenshots: [
       {
         src: "/projects/agenda-executiva-painel.webp",
-        alt: "Painel inicial da Agenda Executiva com resumo do dia e próximos compromissos",
-        caption: "Painel inicial da versão desktop. Captura de validação com dados fictícios.",
+        alt: "Painel inicial da versão desktop da Agenda Executiva com resumo do dia e próximos compromissos fictícios",
+        caption: "Painel da versão desktop. Captura de validação com dados fictícios; não representa uma tela autenticada da versão web.",
         width: 1240,
         height: 820
       },
       {
         src: "/projects/agenda-executiva-calendario.webp",
-        alt: "Calendário mensal da Agenda Executiva com os compromissos sinalizados",
-        caption: "Calendário mensal da versão desktop. Captura de validação com dados fictícios.",
+        alt: "Calendário mensal da versão desktop da Agenda Executiva com compromissos fictícios sinalizados",
+        caption: "Calendário da versão desktop. Captura de validação com dados fictícios.",
         width: 1240,
         height: 820
       },
       {
         src: "/projects/agenda-executiva-acoes.webp",
-        alt: "Lista de compromissos com filtros e menu de ações da Agenda Executiva",
-        caption: "Filtros e ações de um compromisso. Captura de validação com dados fictícios.",
+        alt: "Lista de compromissos fictícios com filtros e menu de ações da versão desktop da Agenda Executiva",
+        caption: "Filtros e ações na versão desktop. Captura de validação com dados fictícios.",
         width: 1240,
         height: 820
       }
@@ -384,9 +416,9 @@ export const projects: Project[] = [
     publicationStatus: "Em desenvolvimento",
     status: "Portfólio em desenvolvimento",
     summary:
-      "Portfólio editorial com navegação acessível por seções, estudos de caso e uma apresentação integrada de projetos e trajetória.",
+      "Portfólio profissional com abertura pessoal, navegação lateral, projetos e estudos de caso para apresentar trajetória, competências e trabalhos.",
     description:
-      "Uma experiência autoral que une apresentação pessoal, galeria editorial de projetos e caminhos diretos para conhecer meu trabalho.",
+      "Aplicação web autoral de apresentação profissional, com identidade visual editorial, navegação por seções, estudos de caso e imagens das interfaces dos projetos.",
     problem:
       "Currículos estáticos não permitem consultar estudos de caso, fontes, competências e conteúdos em evolução.",
     solution:
@@ -396,8 +428,6 @@ export const projects: Project[] = [
       "React",
       "TypeScript",
       "Tailwind CSS",
-      "Three.js",
-      "React Three Fiber",
       "Radix UI",
       "Lucide React"
     ],
@@ -450,6 +480,13 @@ export const projects: Project[] = [
       ]
     },
     screenshots: [
+      {
+        src: "/projects/portfolio-projects.webp",
+        alt: "Página atual de projetos do portfólio de Letícia de Paula, com navegação lateral e o projeto SENAPPEN em destaque",
+        caption: "Seção de projetos da versão atual do portfólio de Letícia de Paula.",
+        width: 1440,
+        height: 1000
+      },
       {
         src: "/projects/portfolio-competencias.webp",
         alt: "Captura real do mapa de competências do portfólio de Letícia de Paula, com relações entre tecnologias e projetos",

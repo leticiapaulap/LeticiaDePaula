@@ -24,7 +24,7 @@
 .editorial-project-card .editorial-project-technologies { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
 .editorial-project-link { display: inline-flex; min-height: 44px; align-items: center; gap: 12px; margin-top: auto; color: var(--accent-strong); font-size: 14px; font-weight: 600; text-underline-offset: 5px; }
 .editorial-project-link:hover { text-decoration: underline; }
-.editorial-project-card--featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; padding-bottom: 8px; }
+.editorial-project-card--featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; padding-top: 20px; padding-bottom: 8px; border-top: 1px solid color-mix(in srgb, var(--copper) 52%, var(--border)); }
 .editorial-project-card--featured .editorial-project-card__media { height: auto; aspect-ratio: auto; display: flex; align-items: center; background: transparent; }
 .editorial-project-card--featured .editorial-project-card__media .nexo-project-preview { height: auto; background: transparent; }
 .editorial-project-card--featured .editorial-project-card__media img { height: auto; }

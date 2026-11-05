@@ -82,7 +82,7 @@ test("filtros, galeria e retorno preservam a seleção", async ({ page }) => {
   await page.getByRole("button", { name: "Todos os projetos, 6" }).click();
   await gallery.focus();
   await page.keyboard.press("Home");
-  await expect(page.locator(".editorial-project-card[data-selected=true] h3")).toContainText("Festa Fantasia");
+  await expect(page.locator(".editorial-project-card[data-selected=true] h3")).toContainText("Sistema de Recebimentos Documentais — SENAPPEN");
   await page.keyboard.press("End");
   await expect(page.locator(".editorial-project-card[data-selected=true] h3")).toContainText("Letícia de Paula");
 });
@@ -156,7 +156,7 @@ test("timeline apresenta toda trajetória e competências mantêm conexões veri
   await expect(page.locator(".editorial-skill-group")).toHaveCount(6);
   await page.getByRole("button", { name: "Python", exact: true }).click();
   const detail = page.locator(".editorial-skill-group__detail");
-  await expect(detail).toContainText("Aplicativo desktop Windows da Agenda Executiva");
+  await expect(detail).toContainText("Aplicações web Flask e desktop da Agenda Executiva.");
   await expect(detail.getByRole("link", { name: "Agenda Executiva", exact: true })).toHaveAttribute("href", "/projetos/agenda-executiva/");
   await page.locator(".editorial-skills__connections > summary").click();
   await expect(page.locator(".nexo-map-empty")).toHaveCount(0);
@@ -249,7 +249,7 @@ test("conteúdo e navegação sem JavaScript", async ({ browser }) => {
   await expect(page.locator(".nexo-artwork__fallback")).toHaveCount(0);
   await page.goto("/competencias/");
   await expect(page.locator(".editorial-skill-group")).toHaveCount(6);
-  await expect(page.getByText("Aplicativo desktop Windows da Agenda Executiva, desenvolvido em Python.", { exact: true })).toBeVisible();
+  await expect(page.getByText("Aplicações web Flask e desktop da Agenda Executiva.", { exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "Agenda Executiva", exact: true }).first()).toHaveAttribute("href", "/projetos/agenda-executiva/");
   await expect(page.locator(".editorial-skills__connections")).toBeHidden();
   await context.close();

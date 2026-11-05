@@ -90,9 +90,10 @@ for (const width of [320, 375, 768, 1024, 1100, 1440]) {
     // A visible window alone is not enough: the actual art must be revealed.
     const motion = await miniature.locator(".hero-miniature__motion").boundingBox();
     expect(motion!.y - viewport!.y).toBeCloseTo(viewport!.height * .22, 0);
-    expect(viewport!.x).toBeGreaterThan(frame!.x + frame!.width / 2);
-    expect(viewport!.x + viewport!.width).toBeLessThanOrEqual(frame!.x + frame!.width + 2);
-    expect(viewport!.y + viewport!.height).toBeLessThanOrEqual(photo!.y + 2);
+    expect(viewport!.x).toBeGreaterThanOrEqual(frame!.x + frame!.width);
+    expect(viewport!.y).toBeGreaterThanOrEqual(frame!.y);
+    expect(viewport!.y + viewport!.height).toBeLessThanOrEqual(frame!.y + frame!.height);
+    expect(overlaps(viewport!, photo!)).toBe(false);
     expect(text.some((bounds) => overlaps(viewport!, bounds))).toBe(false);
     const bubble = miniature.locator(".hero-miniature__bubble");
     if (width >= 1100) {

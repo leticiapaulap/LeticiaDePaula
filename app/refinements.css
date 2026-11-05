@@ -910,6 +910,15 @@
   margin-top: 20px;
 }
 
+.home-featured-project__actions {
+  align-items: center;
+  gap: 8px 18px;
+}
+
+.home-featured-project__actions .home-read-more {
+  margin-top: 0;
+}
+
 .home-career-preview,
 .home-skill-preview {
   display: grid;
