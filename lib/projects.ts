@@ -197,6 +197,7 @@ export const projects: Project[] = [
       "Documentar um projeto institucional exige separar a apresentação profissional das informações restritas."
     ],
     links: [
+      { label: "Acessar sistema", href: "https://mjsp-recebimentos-smtp.vercel.app/", type: "demo" },
       { label: "Estudo de caso", href: "/projetos/senappen-recebimentos/", type: "case" }
     ],
     media: {
@@ -212,7 +213,7 @@ export const projects: Project[] = [
     screenshots: [],
     evidence: { level: "interno", sourceLabel: "Documentação técnica do projeto privado" },
     sensitiveNote:
-      "Repositório privado. Esta página apresenta apenas o contexto e as tecnologias em nível geral. Código-fonte, endereços de acesso, documentos, credenciais e dados operacionais não são publicados neste portfólio."
+      "Repositório privado. Esta página apresenta o contexto e as tecnologias em nível geral, com acesso à página pública do sistema. Código-fonte, documentos, credenciais e dados operacionais não são publicados neste portfólio."
   },
   {
     id: "dio-lab-open-source",
@@ -275,6 +276,105 @@ export const projects: Project[] = [
     }
   },
   {
+    id: "agenda-executiva",
+    slug: "agenda-executiva",
+    title: "Agenda Executiva — Organização de compromissos e tarefas",
+    shortTitle: "Agenda Executiva",
+    category: "Aplicações Desktop",
+    featured: false,
+    publicationStatus: "Publicado",
+    status: "Aplicativo Windows offline + versão web independente",
+    summary:
+      "Agenda em português para organizar compromissos e tarefas, com calendário, lembretes, busca e armazenamento local no desktop.",
+    description:
+      "Aplicativo de produtividade com versão desktop para Windows e uma implementação web separada. No desktop, os dados permanecem em SQLite no computador; a versão web usa autenticação e PostgreSQL próprio.",
+    problem:
+      "Acompanhar reuniões, tarefas e prazos em diferentes telas exige uma agenda clara, rápida de atualizar e capaz de continuar funcionando sem conexão no uso diário.",
+    solution:
+      "A versão desktop reúne painel, calendário e gestão de compromissos e tarefas em uma interface CustomTkinter, com persistência SQLite local, lembretes e backups. O repositório também mantém uma aplicação Flask responsiva com autenticação e PostgreSQL, independente dos dados locais.",
+    technologies: [
+      "Python 3.14",
+      "CustomTkinter",
+      "SQLite",
+      "Flask",
+      "SQLAlchemy",
+      "PostgreSQL",
+      "PyInstaller"
+    ],
+    highlights: [
+      "Uso diário offline, sem conta ou serviço externo na versão desktop.",
+      "Calendário, filtros e ações de edição, conclusão, reagendamento, duplicação e exclusão.",
+      "Backups e restauração validados antes de substituir o banco atual.",
+      "Empacotamento para Windows em distribuição independente de pasta.",
+      "Versão web Flask separada, com login e armazenamento PostgreSQL."
+    ],
+    features: [
+      "Painel com compromissos do dia, próxima reunião e tarefas pendentes.",
+      "Calendário mensal com navegação por datas.",
+      "Cadastro, pesquisa, filtros, edição e reagendamento de compromissos.",
+      "Tarefas com prazo, prioridade e estado de conclusão.",
+      "Lembretes enquanto o aplicativo está aberto.",
+      "Backup e restauração do banco local, com validação e cópia de segurança.",
+      "Atalhos de teclado e menus de ações navegáveis."
+    ],
+    architecture: [
+      "Desktop: Python, CustomTkinter e SQLite local; o banco não é enviado para a versão web.",
+      "Persistência: repositório SQLite com migrações aditivas, integridade e cópias de segurança.",
+      "Web: aplicação Flask independente, com Flask-Login, SQLAlchemy, migrations e PostgreSQL.",
+      "Distribuição: pacote Windows criado com PyInstaller, incluindo recursos e dependências."
+    ],
+    learnings: [
+      "Separar interface, regras de negócio e persistência deixa a aplicação mais simples de testar e manter.",
+      "Migrações aditivas e backups prévios ajudam a proteger bancos locais existentes.",
+      "Desktop offline e versão web precisam de limites explícitos para evitar sincronização ou compartilhamento de dados implícitos."
+    ],
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/leticiapaulap/Agenda_executiva",
+        type: "github"
+      }
+    ],
+    media: {
+      kind: "technical",
+      alt: "Captura da interface da Agenda Executiva com dados fictícios",
+      tone: "teal",
+      nodes: [
+        { title: "Desktop", detail: "Python · CustomTkinter" },
+        { title: "Dados locais", detail: "SQLite · offline" },
+        { title: "Web", detail: "Flask · PostgreSQL" }
+      ]
+    },
+    screenshots: [
+      {
+        src: "/projects/agenda-executiva-painel.webp",
+        alt: "Painel inicial da Agenda Executiva com resumo do dia e próximos compromissos",
+        caption: "Painel inicial da versão desktop. Captura de validação com dados fictícios.",
+        width: 1240,
+        height: 820
+      },
+      {
+        src: "/projects/agenda-executiva-calendario.webp",
+        alt: "Calendário mensal da Agenda Executiva com os compromissos sinalizados",
+        caption: "Calendário mensal da versão desktop. Captura de validação com dados fictícios.",
+        width: 1240,
+        height: 820
+      },
+      {
+        src: "/projects/agenda-executiva-acoes.webp",
+        alt: "Lista de compromissos com filtros e menu de ações da Agenda Executiva",
+        caption: "Filtros e ações de um compromisso. Captura de validação com dados fictícios.",
+        width: 1240,
+        height: 820
+      }
+    ],
+    evidence: {
+      level: "publico",
+      sourceLabel: "Repositório público e capturas de validação",
+      href: "https://github.com/leticiapaulap/Agenda_executiva"
+    }
+  },
+  {
     id: "nexo-portfolio",
     slug: "portfolio-leticia-de-paula",
     title: "Letícia de Paula — Portfólio profissional",
@@ -284,13 +384,13 @@ export const projects: Project[] = [
     publicationStatus: "Em desenvolvimento",
     status: "Portfólio em desenvolvimento",
     summary:
-      "Portfólio editorial com galeria 3D de projetos, navegação acessível por capítulos e uma apresentação integrada de projetos e trajetória.",
+      "Portfólio editorial com navegação acessível por seções, estudos de caso e uma apresentação integrada de projetos e trajetória.",
     description:
-      "Uma experiência autoral que une linguagem editorial, uma galeria interativa de projetos reais e caminhos diretos para conhecer meu trabalho.",
+      "Uma experiência autoral que une apresentação pessoal, galeria editorial de projetos e caminhos diretos para conhecer meu trabalho.",
     problem:
       "Currículos estáticos não permitem consultar estudos de caso, fontes, competências e conteúdos em evolução.",
     solution:
-      "A implementação combina rotas estáticas em Next.js, conteúdo tipado, uma escultura vetorial e 3D opcional, e um modo direto para navegar sem WebGL.",
+      "A implementação combina rotas estáticas em Next.js, conteúdo tipado e uma composição editorial que conecta apresentação pessoal, trajetória e estudos de caso sem depender de WebGL.",
     technologies: [
       "Next.js",
       "React",
@@ -304,20 +404,20 @@ export const projects: Project[] = [
     highlights: [
       "Portal e seções profissionais separados das fontes de conteúdo tipadas.",
       "Páginas individuais estáticas para estudos de caso documentados.",
-      "Navegação direta sem exigir a experiência imersiva.",
-      "Galeria de projetos com telas em perspectiva, capturas reais e alternativa leve em HTML.",
-      "A escultura 3D é carregada à parte; texto e links permanecem em HTML."
+      "Navegação direta com histórico nativo e menu lateral com acesso às páginas profissionais.",
+      "Galeria editorial na seção Projetos, com capturas reais, composições tipográficas e estudos de caso.",
+      "Composições e filtros acessíveis, com texto e links em HTML."
     ],
     features: [
-      "Galeria interativa na abertura e navegação em sete capítulos.",
+      "Abertura pessoal e navegação entre páginas com URLs compartilháveis.",
       "Páginas profissionais, navegação direta e menu responsivo.",
-      "Fallback 2D para a escultura e funcionamento sem WebGL.",
+      "Temas claro e azul-noturno com preferência persistente.",
       "Filtros funcionais de projetos e certificações.",
       "Currículo digital imprimível e download de PDF público."
     ],
     architecture: [
       "app: rotas principais, currículo digital, sitemap, robots e páginas dinâmicas de projetos.",
-      "components/portal: experiência inicial, sala de navegação e escultura procedural carregada sob demanda.",
+      "components/portal: abertura pessoal; estudos de cena procedural da versão anterior preservados no código, sem carregamento na interface atual.",
       "components: seções visuais, filtros client-side, header acessível e componentes de apoio.",
       "lib: dados profissionais, experiências, projetos, formação, competências, cursos e links sociais.",
       "public: imagens, currículo e certificados disponíveis para consulta."
@@ -346,7 +446,7 @@ export const projects: Project[] = [
       nodes: [
         { title: "Interface", detail: "Next.js · React" },
         { title: "Conteúdo", detail: "Módulos tipados" },
-        { title: "Cena 3D", detail: "Three.js · sob demanda" }
+        { title: "Navegação", detail: "Páginas · URLs próprias" }
       ]
     },
     screenshots: [
@@ -368,6 +468,7 @@ export const projects: Project[] = [
 
 export const projectCategories = [
   "Todos",
+  "Aplicações Desktop",
   "Desenvolvimento Web",
   "Back-end",
   "Dados",

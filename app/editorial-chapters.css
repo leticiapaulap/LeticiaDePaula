@@ -1,0 +1,136 @@
+﻿/* Open editorial compositions: content, whitespace and fine rules. */
+.nexo-direct .editorial-profile .profile-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+}
+.nexo-direct .editorial-profile .profile-grid--portrait { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+.editorial-profile .profile-grid--portrait .editorial-profile__principles { grid-column: 1 / -1; }
+.editorial-profile .profile-grid--portrait .workflow-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.nexo-direct .editorial-profile .editorial-copy { max-width: 66ch; }
+.nexo-direct .editorial-profile h2 { margin: 0 0 24px; color: var(--foreground); font-size: clamp(1.5rem, 2.4vw, 1.875rem); line-height: 1.25; letter-spacing: -.025em; }
+.nexo-direct .editorial-profile .editorial-copy p { color: var(--muted-strong); font-size: 1rem; line-height: 1.8; margin: 0 0 18px; }
+.nexo-direct .editorial-profile .editorial-profile__principles { min-width: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.nexo-direct .editorial-profile .workflow-list { border: 0; display: grid; gap: 28px; }
+.nexo-direct .editorial-profile .workflow-item { display: block; border: 0; padding: 0; background: transparent; }
+.nexo-direct .editorial-profile .workflow-item h3 { margin: 0 0 8px; font-family: var(--font-nexo-sans), sans-serif; font-size: 1rem; line-height: 1.5; font-weight: 600; color: var(--foreground); }
+.nexo-direct .editorial-profile .workflow-item p { max-width: 42ch; margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.75; }
+
+/* All professional entries are readable without selecting a milestone. */
+.nexo-direct .editorial-experience .nexo-experience-list { display: block; list-style: none; margin: 0; padding: 0; border: 0; }
+.nexo-direct .editorial-experience .nexo-experience-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 40px;
+  align-items: start;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 32px 0;
+  background: transparent;
+  box-shadow: none;
+  scroll-margin-top: 96px;
+}
+.nexo-direct .editorial-experience .nexo-experience-entry:first-child { padding-top: 0; }
+.nexo-direct .editorial-experience .nexo-experience-entry:last-child { padding-bottom: 0; border-bottom: 0; }
+.nexo-direct .editorial-experience .nexo-experience-entry::before,
+.nexo-direct .editorial-experience .nexo-experience-entry::after { content: none; }
+.nexo-direct .editorial-experience .nexo-experience-entry__company { grid-column: auto; }
+.nexo-direct .editorial-experience .nexo-experience-entry__company p { margin: 0 0 10px; color: var(--accent-strong); font-size: .75rem; line-height: 1.5; }
+.nexo-direct .editorial-experience .nexo-experience-entry__company h2 { margin: 0 0 10px; color: var(--foreground); font-family: var(--font-nexo-editorial), Georgia, serif; font-size: clamp(1.5rem, 2.6vw, 1.875rem); font-weight: 400; line-height: 1.2; }
+.nexo-direct .editorial-experience .career-role { display: block; margin: 0; color: var(--foreground); font-size: .9375rem; font-weight: 600; line-height: 1.6; }
+.nexo-direct .editorial-experience .career-period { display: block; margin: 6px 0 0; color: var(--muted); font-size: .875rem; line-height: 1.6; }
+.nexo-direct .editorial-experience .nexo-experience-entry__facts { display: block; grid-column: auto; margin: 0; }
+.nexo-direct .editorial-experience .editorial-experience__context { max-width: 72ch; margin: 0 0 16px; color: var(--foreground); font-size: 1rem; line-height: 1.75; }
+.nexo-direct .editorial-experience .nexo-experience-entry__facts h3:not(.nexo-visually-hidden) { margin: 20px 0 8px; color: var(--foreground); font-family: var(--font-nexo-sans), sans-serif; font-size: .875rem; font-weight: 600; }
+.nexo-direct .editorial-experience .nexo-experience-responsibilities { display: grid; gap: 8px; padding: 0 0 0 18px; margin: 0; list-style: disc; color: var(--muted-strong); font-size: .9375rem; line-height: 1.75; }
+.editorial-experience .nexo-experience-responsibilities li::marker { color: var(--accent); }
+.editorial-experience__tools, .editorial-experience__results { margin-top: 16px; }
+
+/* Six areas use typography rather than enclosing cards. */
+.editorial-skills__instruction { max-width: 72ch; margin: 0 0 32px; color: var(--muted); font-size: .9375rem; line-height: 1.75; }
+.editorial-skills__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 40px 36px; }
+.nexo-direct .editorial-skill-group { min-width: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.nexo-direct .editorial-skill-group h2 { margin: 0 0 12px; color: var(--foreground); font-family: var(--font-nexo-sans), sans-serif; font-size: 1.125rem; font-weight: 600; line-height: 1.4; letter-spacing: -.02em; }
+.editorial-skill-group > p { max-width: 38ch; margin: 0 0 12px; color: var(--muted); font-size: .875rem; line-height: 1.75; }
+.editorial-skill-group__technologies { display: flex; flex-wrap: wrap; gap: 0 16px; list-style: none; margin: 0; padding: 0; }
+.editorial-skill-group__technologies li { min-width: 0; max-width: 100%; }
+.nexo-direct .editorial-skill-group .nexo-skill-node { display: block; width: auto; max-width: 100%; min-height: 40px; padding: 8px 0; border: 0; border-bottom: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); border-radius: 0; background: transparent; color: var(--foreground); font-size: .875rem; line-height: 1.6; overflow-wrap: anywhere; text-align: left; }
+.nexo-direct .editorial-skill-group .nexo-skill-node:hover,
+.nexo-direct .editorial-skill-group .nexo-skill-node[aria-pressed="true"] { border-bottom-color: var(--accent-strong); background: transparent; color: var(--accent-strong); }
+.editorial-skill-group__technologies li[data-connected="true"] .nexo-skill-node { border-bottom-color: var(--accent-strong); }
+.editorial-skill-group__detail { padding-top: 16px; margin-top: 20px; border-top: 1px solid var(--accent); }
+.nexo-direct .editorial-skill-group__detail h3 { margin: 8px 0; font-family: var(--font-nexo-sans), sans-serif; font-size: 1rem; font-weight: 600; }
+.editorial-skill-group__detail > p { margin: 0 0 12px; color: var(--muted-strong); font-size: .9375rem; line-height: 1.75; }
+.editorial-skill-group__detail .nexo-skill-projects { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; }
+.nexo-direct .editorial-skill-group__detail .nexo-skill-project { min-height: 40px; padding: 8px 0; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; background: transparent; color: var(--accent-strong); font-size: .8125rem; }
+.editorial-skills__connections { margin-top: 40px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.editorial-skills__connections > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 16px 0; font-size: .9375rem; cursor: pointer; list-style: none; }
+.editorial-skills__connections > summary::-webkit-details-marker { display: none; }
+.editorial-skills__connections[open] > summary > span { transform: rotate(45deg); }
+.nexo-direct .editorial-connections { margin: 0 0 24px; padding: 8px 0 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.nexo-direct .editorial-connections .nexo-connection-map__heading { gap: 12px; }
+.nexo-direct .editorial-connections .nexo-connection-map__heading h3 { font-size: 1.5rem; }
+.nexo-direct .editorial-connections .nexo-map-projects { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-block: 16px 24px; }
+.nexo-direct .editorial-connections .nexo-map-project { display: block; flex: 0 1 auto; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; background: transparent; color: var(--foreground); }
+.nexo-direct .editorial-connections .nexo-map-project strong { display: block; font-size: .9375rem; font-weight: 500; }
+.nexo-direct .editorial-connections .nexo-map-project small { display: block; margin-top: 4px; font-size: .75rem; color: var(--muted); }
+.nexo-direct .editorial-connections .nexo-map-project[aria-pressed="true"] { border-bottom-color: var(--accent-strong); background: transparent; color: var(--accent-strong); }
+.nexo-direct .editorial-connections .nexo-map-detail { margin: 0; padding: 20px 0 0; border-top: 1px solid var(--border); }
+.nexo-direct .editorial-connections .nexo-map-detail h4 { font-size: 1.5rem; }
+.nexo-direct .editorial-connections .nexo-map-detail > p { max-width: 76ch; font-size: .9375rem; line-height: 1.75; color: var(--muted-strong); }
+.nexo-direct .editorial-connections .nexo-map-case-links { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.editorial-skill-group__static { list-style: none; margin: 0; padding: 0; }
+.editorial-skill-group__static li { margin-top: 16px; font-size: .9375rem; }
+.editorial-skill-group__static a { display: block; text-decoration: underline; margin-top: 8px; }
+
+/* Contact is a set of direct links on the page, without a panel. */
+.nexo-direct .editorial-contact .contact-band { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; gap: 56px; border: 0; padding: 0; background: transparent; }
+.nexo-direct .editorial-contact .contact-band h2 { margin: 0 0 20px; color: var(--foreground); font-size: clamp(1.75rem, 3vw, 2.25rem); line-height: 1.2; letter-spacing: -.025em; }
+.nexo-direct .editorial-contact .contact-band p { max-width: 48ch; margin: 0 0 24px; color: var(--muted-strong); font-size: 1rem; line-height: 1.8; }
+.editorial-contact__location { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: .875rem; }
+.nexo-direct .editorial-contact .contact-panel { min-width: 0; display: grid; gap: 16px; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.nexo-direct .editorial-contact .editorial-contact__email { display: grid; grid-template-columns: minmax(0, 1fr) 24px; gap: 12px; align-items: center; padding: 0 0 20px; border-bottom: 1px solid var(--border); color: var(--foreground); font-weight: 400; }
+.editorial-contact__email > span { display: flex; align-items: center; gap: 8px; color: var(--accent-strong); font-size: .8125rem; grid-column: 1 / -1; }
+.nexo-direct .editorial-contact .editorial-contact__email strong { min-width: 0; color: var(--foreground); font-size: clamp(1rem, 1.8vw, 1.4rem); font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
+.nexo-direct .editorial-contact .editorial-contact__email:hover strong { color: var(--accent-strong); }
+.nexo-direct .editorial-contact .contact-socials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; padding: 0 0 16px; border: 0; border-bottom: 1px solid var(--border); }
+.nexo-direct .editorial-contact .contact-socials a { display: flex; align-items: center; gap: 10px; justify-content: start; min-width: 0; width: auto; min-height: 44px; height: auto; border: 0; border-radius: 0; padding: 0; background: transparent; color: var(--foreground); font-size: .9375rem; font-weight: 500; }
+.nexo-direct .editorial-contact .contact-socials a > svg:last-child { margin-left: auto; color: var(--accent-strong); }
+.nexo-direct .editorial-contact .contact-socials a:hover { background: transparent; color: var(--accent-strong); }
+.nexo-direct .editorial-contact .contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin: 0; }
+.nexo-direct .editorial-contact .contact-actions a { min-height: 44px; padding: 8px 0; border: 0; border-radius: 0; background: transparent; color: var(--foreground); font-size: .8125rem; font-weight: 500; }
+.nexo-direct .editorial-contact .contact-actions a:hover { color: var(--accent-strong); }
+
+@media (max-width: 1023px) {
+  .editorial-skills__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nexo-direct .editorial-profile .profile-grid { gap: 32px; }
+  .nexo-direct .editorial-profile .profile-grid--portrait { grid-template-columns: minmax(0, 1fr); }
+  .nexo-direct .editorial-experience .nexo-experience-entry { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 24px; }
+  .nexo-direct .editorial-contact .contact-band { gap: 32px; }
+}
+@media (max-width: 767px) {
+  .nexo-direct .editorial-profile .profile-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .editorial-profile .profile-grid--portrait .workflow-list { grid-template-columns: minmax(0, 1fr); }
+  .nexo-direct .editorial-profile h2 { margin-bottom: 20px; }
+  .nexo-direct .editorial-profile .workflow-list { gap: 24px; }
+  .nexo-direct .editorial-experience .nexo-experience-entry { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-block: 28px; }
+  .nexo-direct .editorial-experience .nexo-experience-entry__facts { grid-column: auto; }
+  .nexo-direct .editorial-experience .nexo-experience-entry__company h2 { font-size: 1.625rem; }
+  .nexo-direct .editorial-experience .nexo-experience-responsibilities { font-size: .9375rem; }
+  .nexo-direct .editorial-contact .contact-band { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .nexo-direct .editorial-contact .contact-band h2 { font-size: 1.75rem; }
+}
+@media (max-width: 540px) {
+  .editorial-skills__grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .editorial-skills__instruction { margin-bottom: 28px; }
+  .nexo-direct .editorial-connections .nexo-map-projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+  .nexo-direct .editorial-connections .nexo-map-project strong { font-size: .875rem; overflow-wrap: anywhere; }
+}
+@media print {
+  .editorial-skills__connections { display: none; }
+  .editorial-skill-group { break-inside: avoid; }
+  .nexo-direct .editorial-experience .nexo-experience-entry { break-inside: avoid; }
+}

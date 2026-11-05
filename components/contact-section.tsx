@@ -1,57 +1,32 @@
-import { ArrowUpRight, Download, GitBranch, Mail, Network, Send } from "lucide-react";
+﻿import { ArrowUpRight, GitBranch, Mail, MapPin, Network } from "lucide-react";
 import Link from "next/link";
-import { Reveal } from "@/components/reveal";
 import { professional } from "@/lib/data";
-import { SceneAccent } from "@/components/scene-accent";
 
 export function ContactSection() {
   return (
-    <section className="section contact-section" data-section id="contato">
+    <section className="section contact-section editorial-contact" data-section id="contato" aria-label="Canais de contato">
       <div className="container">
-        <Reveal className="contact-band">
-          <div>
-            <p className="eyebrow">Contato</p>
-            <h2>Vamos conversar sobre tecnologia, projetos e oportunidades.</h2>
-            <p>
-              Tem uma oportunidade, um projeto ou uma boa ideia para compartilhar? Vamos conversar. Você também encontra meu trabalho no GitHub e minha trajetória no LinkedIn.
-            </p>
-            <SceneAccent phase="convergence" className="contact-scene" />
+        <div className="contact-band">
+          <div className="editorial-contact__invitation">
+            <h2>Tecnologia, projetos<br />e novas possibilidades.</h2>
+            <p>Tem uma oportunidade ou uma ideia para compartilhar? Escreva para mim. Vamos conversar sobre o que podemos construir.</p>
+            <span className="editorial-contact__location"><MapPin size={16} aria-hidden="true" />{professional.location}</span>
           </div>
-
-          <aside className="contact-panel" aria-label="Informações de contato">
-            <a href={`mailto:${professional.email}`}>{professional.email}</a>
-            <span>{professional.location}</span>
+          <div className="contact-panel">
+            <a className="editorial-contact__email focusable" href={`mailto:${professional.email}`}>
+              <span><Mail size={17} aria-hidden="true" />Enviar e-mail</span>
+              <strong>{professional.email}</strong>
+              <ArrowUpRight size={22} aria-hidden="true" />
+            </a>
+            <div className="contact-socials" aria-label="Perfis profissionais">
+              <a className="focusable" href={professional.github} target="_blank" rel="noreferrer"><GitBranch size={18} aria-hidden="true" /><span>GitHub</span><ArrowUpRight size={16} aria-hidden="true" /></a>
+              <a className="focusable" href={professional.linkedin} target="_blank" rel="noreferrer"><Network size={18} aria-hidden="true" /><span>LinkedIn</span><ArrowUpRight size={16} aria-hidden="true" /></a>
+            </div>
             <div className="contact-actions">
-              <a className="primary-action focusable" href={`mailto:${professional.email}`}>
-                <Send size={17} />
-                Enviar e-mail
-              </a>
-              <Link className="secondary-action focusable" href="/curriculo/">
-                Currículo digital <ArrowUpRight size={17} aria-hidden="true" />
-              </Link>
-              {professional.resumePdfPath ? <a className="text-action focusable" href={professional.resumePdfPath} download>
-                <Download size={17} aria-hidden="true" />{professional.resumePdfLabel}
-              </a> : null}
+              <Link className="text-action focusable" href="/curriculo/">Currículo digital<ArrowUpRight size={16} aria-hidden="true" /></Link>
             </div>
-            <div className="contact-socials">
-              <a className="focusable" href={professional.github} target="_blank" rel="noreferrer" aria-label="GitHub">
-                <GitBranch size={18} />
-              </a>
-              <a
-                className="focusable"
-                href={professional.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-              >
-                <Network size={18} />
-              </a>
-              <a className="focusable" href={`mailto:${professional.email}`} aria-label="E-mail">
-                <Mail size={18} />
-              </a>
-            </div>
-          </aside>
-        </Reveal>
+          </div>
+        </div>
       </div>
     </section>
   );

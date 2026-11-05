@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-04",
+  "files": [
+    "components/header.tsx",
+    "app/navigation-layout.css",
+    "app/layout.tsx",
+    "components/contact-section.tsx",
+    "tests/navigation-sidebar.spec.ts",
+    "docs/navegacao-lateral.md",
+    "docs/validacao-navegacao-lateral.json"
+  ],
+  "validation": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed after security reminder retry",
+    "playwright": {
+      "startTime": "2026-11-04T11:52:36.640Z",
+      "duration": 69370.955,
+      "expected": 205,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "visualScreenshots": 10,
+    "widths": [
+      320,
+      375,
+      430,
+      768,
+      1024,
+      1280,
+      1440,
+      1920
+    ],
+    "additionalDesktopWidth": 1100,
+    "lowDesktopViewport": {
+      "width": 1280,
+      "height": 480
+    }
+  },
+  "pending": [
+    "Next.js 16.4.0 security update: build warning and npm audit confirmed; dependencies unchanged"
+  ],
+  "deployed": false
+}

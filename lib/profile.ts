@@ -20,7 +20,7 @@ export const professional = {
   about: [
     "Sou Letícia de Paula, de Brasília. Curso Análise e Desenvolvimento de Sistemas no Centro Universitário do Distrito Federal (UDF), com conclusão prevista para o segundo semestre de 2026.",
     "Minha trajetória passa pelo apoio a sistemas e automação na SENAPPEN, pela análise de dados geoespaciais na TCB Brasília e pelo suporte técnico na Age Fibra. São contextos diferentes que aproximam tecnologia, organização e cuidado com as pessoas.",
-    "Nos projetos, gosto de conectar interface, dados e funcionamento. Festa Fantasia reúne React, TypeScript, Node.js e PostgreSQL em uma aplicação full stack. Este portfólio explora uma linguagem editorial com Next.js e uma escultura 3D, sem abrir mão da leitura e da navegação direta.",
+    "Nos projetos, gosto de conectar interface, dados e funcionamento. Festa Fantasia reúne React, TypeScript, Node.js e PostgreSQL em uma aplicação full stack. Este portfólio explora uma linguagem editorial com Next.js, navegação entre páginas e estudos de caso, sem abrir mão da leitura e da navegação direta.",
     "Valorizo soluções compreensíveis, documentação útil e aprendizado contínuo. Meu objetivo é transformar necessidades reais em experiências digitais claras e bem cuidadas."
   ],
   principles: [

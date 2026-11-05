@@ -126,7 +126,7 @@ export function SculptureLoader() {
   }, [inViewport, mode, shouldLoad, supported, visible]);
 
   return (
-    <div ref={surface} className="nexo-scene-surface" data-ready={ready && !failed} data-quality={quality} data-scene-content={pathname === "/" ? "project-gallery" : "sculpture"} aria-hidden="true">
+    <div ref={surface} className="nexo-scene-surface" data-ready={ready && !failed} data-quality={quality} data-scene-content="sculpture" aria-hidden="true">
       {pathname !== "/" ? <svg className="nexo-scene-fallback" viewBox="-170 -150 340 300" fill="none">
         <defs><linearGradient id="nexo-scene-metal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#f0ddbc" /><stop offset=".45" stopColor="#8b7659" /><stop offset=".7" stopColor="#ead4b2" /><stop offset="1" stopColor="#b9a382" /></linearGradient></defs>
         {fallbackPaths.map((entry) => <path key={entry.phase} d={entry.path} stroke="url(#nexo-scene-metal)" strokeWidth={entry.phase === "education" ? 12 : 22} strokeLinecap="round" strokeLinejoin="round" opacity={phase === entry.phase ? 1 : 0} />)}

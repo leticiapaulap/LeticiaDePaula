@@ -1,6 +1,6 @@
 # Letícia de Paula — Portfólio profissional
 
-Portfólio profissional de Letícia de Paula. A abertura apresenta uma galeria 3D de projetos reais, com capturas de suas interfaces e acesso aos estudos de caso. Os capítulos conectam trajetória, competências e formação. Grafite, marfim e champanhe, tipografia editorial e navegação acessível formam a identidade visual. A única marca pública é o nome profissional. O conteúdo é HTML estático e pode ser consultado por URL, mecanismos de busca e sem WebGL.
+Portfólio profissional de Letícia de Paula. A abertura editorial apresenta seu trabalho e conduz aos projetos, estudos de caso e páginas independentes de trajetória, competências, formação e contato. Marfim, azul-petróleo, turquesa e cobre compõem a identidade, junto à tipografia editorial e navegação acessível. O conteúdo é HTML estático, compartilhável por URL e não depende de WebGL.
 
 Esta entrega evolui a implementação existente, sem reconstrução. A hero e os controles atuais estão documentados em [docs/hero-galeria-projetos.md](docs/hero-galeria-projetos.md). As revisões anteriores permanecem em [docs/navegacao-capitulos.md](docs/navegacao-capitulos.md), [docs/pos-revisao.md](docs/pos-revisao.md) e [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). Pendências e fontes de conteúdo ficam em [docs/conteudo-interno.md](docs/conteudo-interno.md), não na interface. Os relatórios anteriores preservam os resultados das versões que mediram.
 
@@ -9,7 +9,7 @@ Esta entrega evolui a implementação existente, sem reconstrução. A hero e os
 - Next.js 16.4 App Router, React 19.3 e TypeScript 6.
 - Tailwind CSS 4 e CSS com tokens próprios de cor, tipografia, espaço e movimento.
 - Three.js e React Three Fiber, carregados dinamicamente e com renderização sob demanda.
-- Radix Dialog para menus e certificados; Radix Tooltip, next-themes e Lucide React.
+- Radix Dialog para o menu mobile e certificados; next-themes e Lucide React.
 - Playwright, axe-core e Lighthouse para validação do build exportado.
 - Sharp para preparar a imagem social PNG e a captura WebP.
 
@@ -43,7 +43,7 @@ Copie `.env.example` para `.env.local` e ajuste `NEXT_PUBLIC_SITE_URL` à origem
 
 Essa variável pública é usada no build para canonical, Open Graph, sitemap, robots e JSON-LD. Aceita uma origem HTTP/HTTPS sem caminho, query, fragmento ou credenciais. Ao mudar o domínio, gere outro build. Nenhuma chave secreta é necessária.
 
-O modo de leitura, a pausa de animação e o tema são preferências locais do navegador. Não há formulário que envie mensagens, backend de contato, cookies de rastreamento ou serviço de analytics nesta implementação. Links de contato abrem e-mail, GitHub ou LinkedIn.
+A preferência de tema é local no navegador; animações respeitam a configuração de movimento reduzido do sistema. Não há formulário que envie mensagens, backend de contato, cookies de rastreamento ou serviço de analytics nesta implementação. Links de contato abrem e-mail, GitHub ou LinkedIn.
 
 ## Arquitetura e estrutura
 
@@ -52,17 +52,21 @@ app/                       Rotas, layout, metadados, sitemap, robots e 404
   projetos/[slug]/         Estudos de caso gerados no build
   globals.css              Tokens e estilos editoriais
   experience.css           Interação, responsividade, foco e impressão
-  refinements.css          Acabamento visual e navegação por capítulos
-  chapters.css             Composições, transições e controles dos capítulos
+  refinements.css          Acabamento visual e estilos existentes
+  chapters.css             Composições e transições de página existentes
+  navigation-layout.css    Sidebar desktop, menu mobile e layout responsivo
   hero.css                 Galeria de projetos, composição inicial e moldura do retrato
 components/                Seções profissionais e controles
   chapter-transition.tsx   Transições de rota com React ViewTransition
-  experience-navigation.tsx Navegação entre capítulos e modo de leitura
+  header.tsx               Sidebar desktop e menu mobile
+  experience-navigation.tsx Identificação do modo de leitura
+  theme-toggle.tsx          Alternância de tema
   portal/                  Portal, SVG, carregador e cena 3D
     hero-project-gallery.tsx Capturas, seleção acessível e links da abertura
     project-gallery-scene.tsx Telas reais em perspectiva no canvas compartilhado
 lib/                       Conteúdo tipado, relações e máquina de estados
-  chapters.ts              Ordem, URLs, títulos e motivos dos sete capítulos
+  chapters.ts              Rotas e fases internas das páginas
+  navigation.ts            Rótulos claros usados no menu
 public/                    Imagens públicas, currículo e nove certificados
 scripts/                   Preview, normalização, imagens e Lighthouse
 tests/                     Testes de rotas, acessibilidade e experiência
@@ -72,26 +76,26 @@ vercel.json                Build, diretório público, cache e cabeçalhos
 
 Server Components e dados tipados geram as páginas HTML no build. Client Components atendem filtros, pesquisa, preferências e navegação imersiva. `ExperienceProvider` coordena fases e seleções; um contexto separado de seleções evita atualizar as listas quando só a cena ou as preferências mudam. O renderizador não controla a disponibilidade do conteúdo.
 
-Um único canvas acompanha as rotas. Na abertura, ele exibe duas telas de projetos com capturas reais, molduras físicas, iluminação e seleção por clique. A escultura anterior permanece como apoio nas páginas internas, com alvos que compartilham topologia e são interpolados na GPU; ela não é renderizada na hero, nem como fallback. No celular, a galeria usa uma captura por vez em HTML e não inicia WebGL. Modo direto e movimento reduzido também mantêm a galeria em HTML.
+Server Components e conteúdo tipado entregam as páginas sem depender de canvas ou WebGL. Componentes de cliente são reservados para interações de conteúdo — filtros, pesquisa, seleção de projetos, certificados, preferências e transições — e não controlam a disponibilidade das informações.
 
-Cada capítulo é uma rota HTML independente, carregável e compartilhável. A navegação mantém entradas reais no histórico do navegador, inclui anterior/próximo, seleção direta, teclado e gesto horizontal opcional no mobile. A rolagem não é capturada: timelines, galerias, competências e documentos extensos permanecem acessíveis em fluxo natural.
+Cada seção é uma rota HTML independente, carregável e compartilhável. Em telas largas, a sidebar fixa à esquerda oferece acesso direto a Início, Sobre mim, Projetos, Experiência, Competências, Formação e Contato. Currículo PDF, tema e perfis profissionais ficam abaixo da lista, sem repetir ações na hero ou no rodapé.
 
-Os controles ficam em uma linha discreta de 56 px no fluxo abaixo do header, com número, nome atual, progresso fino, anterior e próximo com o nome do destino. O último capítulo oferece retorno ao início. Não há dropdown nem chamada separada de próximo capítulo. O menu principal contém os sete links diretos. Setas e gestos entre capítulos ficam desativados em controles internos, diálogos, galerias, estudos de caso e currículo. O foco acompanha o título após navegar; Escape no menu restaura o foco ao botão. As transições usam Next.js 16.4 e React 19.3, com dissolução no histórico e animações simplificadas no celular. Pausa e movimento reduzido desativam também as animações dos snapshots de navegação.
+Até 1099 px, a sidebar dá lugar a um cabeçalho compacto com o botão “Menu” e um painel lateral modal. O painel fecha ao escolher uma seção, por Escape ou ao clicar fora; mantém foco contido e impede a rolagem de fundo enquanto aberto. Links Next.js preservam URLs, histórico nativo e pré-carregamento. `aria-current` identifica a rota atual e o foco acompanha o título após a navegação. Não há controles sequenciais nem gestos para trocar de página. A rolagem permanece natural nas páginas extensas; transições respeitam `prefers-reduced-motion`.
 
 | Rota | Conteúdo |
 | --- | --- |
-| `/` | 01 — Apresentação |
-| `/sobre/` | 02 — Sobre mim, princípios e fotografia opcional |
-| `/projetos/` | 03 — Galeria, filtros e estados vazios |
+| `/` | Início e apresentação |
+| `/sobre/` | Sobre mim, princípios e fotografia opcional |
+| `/projetos/` | Projetos, filtros e estados vazios |
 | `/projetos/festa-fantasia/` | Estudo de caso do projeto público |
 | `/projetos/organizador-de-tarefas/` | Finanzy, versão atual do organizador pessoal |
 | `/projetos/senappen-recebimentos/` | Visão geral do portal privado da SENAPPEN |
 | `/projetos/dio-lab-open-source/` | Fork educacional do laboratório da DIO |
 | `/projetos/portfolio-leticia-de-paula/` | Estudo de caso do portfólio pessoal |
-| `/experiencia/` | 04 — Cargos, períodos e atividades da trajetória |
-| `/competencias/` | 05 — Conhecimentos e relações documentadas com projetos |
-| `/formacao/` | 06 — Formação, cursos, filtros e certificados |
-| `/contato/` | 07 — E-mail e perfis profissionais |
+| `/experiencia/` | Cargos, períodos e atividades da trajetória |
+| `/competencias/` | Conhecimentos e relações documentadas com projetos |
+| `/formacao/` | Formação, cursos, filtros e certificados |
+| `/contato/` | E-mail e perfis profissionais |
 | `/curriculo/` | Currículo digital indexável e imprimível |
 | URL desconhecida | Página 404 com caminhos para continuar |
 

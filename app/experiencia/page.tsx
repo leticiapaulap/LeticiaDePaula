@@ -12,7 +12,7 @@ export default function ExperiencePage() {
     <EditorialPage
       phase="experience"
       eyebrow="Experiência"
-      title="Uma trajetória que conecta contextos."
+      title="Trajetória profissional."
       description="Do suporte às pessoas ao cuidado com os dados e sistemas. Experiências que ampliam minha forma de pensar e trabalhar com tecnologia."
     >
       <ExperienceSection />

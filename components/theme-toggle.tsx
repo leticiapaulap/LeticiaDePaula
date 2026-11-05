@@ -1,6 +1,5 @@
 "use client";
 
-import * as Tooltip from "@radix-ui/react-tooltip";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
@@ -16,24 +15,14 @@ export function ThemeToggle() {
   const isDark = mounted && resolvedTheme === "dark";
 
   return (
-    <Tooltip.Provider delayDuration={180}>
-      <Tooltip.Root>
-        <Tooltip.Trigger asChild>
-          <button
-            className="nexo-icon-button focusable"
-            type="button"
-            aria-label={isDark ? "Ativar tema claro" : "Ativar tema escuro"}
-            onClick={() => setTheme(isDark ? "light" : "dark")}
-          >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-        </Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Content className="tooltip-content" sideOffset={8}>
-            {isDark ? "Tema claro" : "Tema escuro"}
-          </Tooltip.Content>
-        </Tooltip.Portal>
-      </Tooltip.Root>
-    </Tooltip.Provider>
+    <button
+      className="portfolio-theme-toggle"
+      type="button"
+      aria-label={isDark ? "Ativar tema claro" : "Ativar tema escuro"}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+    >
+      {isDark ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
+      {isDark ? "Tema claro" : "Tema escuro"}
+    </button>
   );
 }

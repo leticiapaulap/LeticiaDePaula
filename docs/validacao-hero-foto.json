@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-04",
+  "validation": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed after installed Next.js security reminder retry",
+    "playwright": {
+      "startTime": "2026-11-04T13:08:28.172Z",
+      "duration": 88155.216,
+      "expected": 214,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "heroTests": 21,
+    "visualScenarios": 7
+  },
+  "photo": {
+    "originalBytes": 204972,
+    "originalSha256": "49ec0ea1fba33d4be393432b3946472a0798a63ad5613e3b6b11ec3adff915be",
+    "originalUnchanged": true,
+    "deliveryVariants": [
+      {
+        "width": 720,
+        "bytes": 85370
+      },
+      {
+        "width": 960,
+        "bytes": 128056
+      },
+      {
+        "width": 1200,
+        "bytes": 170446
+      }
+    ],
+    "retouched": false,
+    "crop": "CSS only; x120 y300 w660 h825"
+  },
+  "lighthouse": {
+    "desktopFinalSingleRun": {
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcpMs": 649.01855,
+      "cls": 0,
+      "tbtMs": 0
+    },
+    "mobileFinalIsolatedSingleRun": {
+      "performance": 0.91,
+      "accessibility": 1,
+      "seo": 1,
+      "lcpMs": 3456.5653,
+      "cls": 0,
+      "tbtMs": 33
+    },
+    "note": "Local lab results, not production traffic or medians."
+  },
+  "pending": [
+    "Existing Next.js16.4.0 security warning; dependency unchanged.",
+    "Simulated mobile LCP3457ms can be improved with broader loading optimization."
+  ],
+  "deployed": false
+}

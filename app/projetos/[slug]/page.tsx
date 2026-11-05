@@ -6,7 +6,6 @@ import { ProjectVisual } from "@/components/project-visual";
 import { ProjectReturnLink } from "@/components/project-return-link";
 import { getProjectBySlug, projects } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
-import { SceneAccent } from "@/components/scene-accent";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -76,15 +75,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     className={link.type === "github" ? "secondary-action focusable" : "primary-action focusable"}
                     href={link.href}
                     key={link.href}
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     target="_blank"
                   >
-                    {link.type === "github" ? <GitBranch size={17} /> : <ExternalLink size={17} />}
+                    {link.type === "github" ? <GitBranch size={17} aria-hidden="true" /> : <ExternalLink size={17} aria-hidden="true" />}
                     {link.label}
                   </a>
                 ))}
             </div>
-            <SceneAccent phase="projects" className="project-case-scene" />
           </div>
           <ProjectVisual project={project} />
         </header>

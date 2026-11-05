@@ -1,140 +1,157 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { Menu, Pause, Play, X } from "lucide-react";
+import { FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
-import { useExperience } from "@/components/experience-provider";
-import { ModeControl } from "@/components/experience-navigation";
-import { chapters, chapterForPath, chapterTransitionType } from "@/lib/chapters";
+import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { professional } from "@/lib/data";
+import { chapterTransitionType } from "@/lib/chapters";
+import { navItems } from "@/lib/navigation";
+import { socialLinks } from "@/lib/social-links";
+
+function isCurrentPath(pathname: string, href: string) {
+  const normalizedPath = pathname === "/" ? "/" : `${pathname.replace(/\/$/, "")}/`;
+  return normalizedPath === href || (href !== "/" && normalizedPath.startsWith(href));
+}
+
+function SocialLinks() {
+  return (
+    <nav className="portfolio-sidebar__socials" aria-label="Perfis profissionais">
+      {socialLinks.filter((link) => link.label !== "E-mail").map((link) => (
+        <a
+          href={link.href}
+          key={link.label}
+          rel="noreferrer"
+          target="_blank"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+function SectionLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: (href: string) => void }) {
+  return (
+    <nav aria-label="Navegação principal" className="portfolio-sidebar__nav">
+      {navItems.map((item) => (
+        <Link
+          aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}
+          href={item.href}
+          key={item.id}
+          onNavigate={() => onNavigate?.(item.href)}
+          transitionTypes={[chapterTransitionType(pathname, item.href)]}
+        >
+          {item.label}
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
+function SidebarUtilities({ pathname }: { pathname: string }) {
+  return (
+    <div className="portfolio-sidebar__utilities">
+      <a className="portfolio-sidebar__resume" href="/curriculo-leticia-de-paula.pdf" target="_blank" rel="noreferrer">
+        <FileText size={16} aria-hidden="true" />
+        Currículo PDF
+      </a>
+      <ThemeToggle />
+      {pathname.replace(/\/$/, "") !== "/contato" ? <SocialLinks /> : null}
+    </div>
+  );
+}
 
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const navigating = useRef(false);
-  const current = chapterForPath(pathname);
-  const { motionEnabled, prefersReducedMotion, toggleMotion } = useExperience();
-  const closeForNavigation = (destination: string) => {
-    navigating.current = pathname.replace(/\/$/, "") !== destination.replace(/\/$/, "");
-    setOpen(false);
-  };
+  const previousPath = useRef(pathname);
+  const navigatingFromMenu = useRef(false);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1100px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
+
+  useEffect(() => {
+    if (previousPath.current === pathname) return;
+    previousPath.current = pathname;
+    const frame = window.requestAnimationFrame(() => {
+      const heading = document.querySelector<HTMLElement>("main h1");
+      if (!heading) return;
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [pathname]);
 
   return (
-    <header className="nexo-header">
-      <div className="nexo-header__inner">
-        <Link className="nexo-brand personal-brand focusable" href="/" transitionTypes={["nav-back"]}>
-          <span className="nexo-brand__wordmark">
-            <strong>Letícia <em>de Paula</em></strong>
-          </span>
+    <>
+      <aside className="portfolio-sidebar" aria-label="Navegação do portfólio">
+        <Link className="portfolio-sidebar__brand" href="/" aria-label="Letícia de Paula — início">
+          Letícia <em>de Paula</em>
         </Link>
+        <div className="portfolio-sidebar__divider" />
+        <SectionLinks pathname={pathname} />
+        <SidebarUtilities pathname={pathname} />
+      </aside>
 
-        <div className="nexo-header__actions">
-          <Link className="nexo-resume-link focusable" href="/curriculo/">Currículo</Link>
-          <ThemeToggle />
-          <button
-            aria-label={
-              prefersReducedMotion
-                ? "Animações reduzidas pela preferência do dispositivo"
-                : motionEnabled
-                  ? "Pausar animações"
-                  : "Retomar animações"
-            }
-            aria-pressed={!motionEnabled || prefersReducedMotion}
-            className="nexo-icon-button nexo-motion-toggle focusable"
-            disabled={prefersReducedMotion}
-            onClick={toggleMotion}
-            title={prefersReducedMotion ? "Animações reduzidas pela preferência do dispositivo" : undefined}
-            type="button"
+      <Dialog.Root open={open} onOpenChange={(nextOpen) => {
+        navigatingFromMenu.current = false;
+        setOpen(nextOpen);
+      }}>
+        <header className="portfolio-mobile-header">
+          <Link className="portfolio-mobile-header__brand" href="/">
+            Letícia <em>de Paula</em>
+          </Link>
+          <Dialog.Trigger asChild>
+            <button className="portfolio-menu-trigger" type="button" aria-expanded={open}>
+              <Menu size={17} aria-hidden="true" />
+              Menu
+            </button>
+          </Dialog.Trigger>
+        </header>
+        <Dialog.Portal>
+          <Dialog.Overlay className="portfolio-menu-overlay" />
+          <Dialog.Content
+            className="portfolio-mobile-menu"
+            onCloseAutoFocus={(event) => {
+              // Page navigation moves focus to its heading instead of the trigger.
+              if (navigatingFromMenu.current) {
+                event.preventDefault();
+                navigatingFromMenu.current = false;
+              } else if (window.matchMedia("(min-width: 1100px)").matches) {
+                event.preventDefault();
+                const currentLink = document.querySelector<HTMLElement>(".portfolio-sidebar [aria-current='page']");
+                const brand = document.querySelector<HTMLElement>(".portfolio-sidebar__brand");
+                (currentLink ?? brand)?.focus();
+              }
+            }}
           >
-            {motionEnabled && !prefersReducedMotion ? (
-              <Pause size={16} aria-hidden="true" />
-            ) : (
-              <Play size={16} aria-hidden="true" />
-            )}
-          </button>
-          <ModeControl className="nexo-mode-desktop" />
-
-          <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger asChild>
-              <button
-                className="nexo-menu-trigger nexo-menu-trigger--all focusable"
-                type="button"
-                aria-label={open ? "Fechar menu de capítulos" : "Abrir menu de capítulos"}
-                aria-expanded={open}
-              >
-                <Menu size={19} aria-hidden="true" />
-                <span>Capítulos</span>
-              </button>
-            </Dialog.Trigger>
-            <Dialog.Portal>
-              <Dialog.Overlay className="nexo-menu-overlay" />
-              <Dialog.Content className="nexo-menu-panel" onCloseAutoFocus={(event) => {
-                if (navigating.current) {
-                  event.preventDefault();
-                  navigating.current = false;
-                }
-              }}>
-                <div className="nexo-menu-panel__heading">
-                  <Dialog.Title className="nexo-menu-panel__title">Navegar</Dialog.Title>
-                  <Dialog.Description className="nexo-visually-hidden">
-                    Sete capítulos, no seu ritmo. Escolha por onde começar. Use as setas esquerda e direita fora dos controles para avançar ou voltar.
-                  </Dialog.Description>
-                  <Dialog.Close asChild>
-                    <button className="nexo-menu-close focusable" type="button" aria-label="Fechar menu">
-                      <X size={18} aria-hidden="true" />
-                    </button>
-                  </Dialog.Close>
-                </div>
-
-                <nav className="nexo-mobile-nav" aria-label="Navegação compacta">
-                  {chapters.map((chapter) => (
-                      <Link
-                        aria-current={current?.phase === chapter.phase ? "page" : undefined}
-                        href={chapter.href}
-                        transitionTypes={[chapterTransitionType(pathname, chapter.href)]}
-                        key={chapter.phase}
-                        onNavigate={() => closeForNavigation(chapter.href)}
-                      >
-                        <span className="chapter-menu-number" aria-hidden="true">{chapter.number}</span>
-                        {chapter.label}
-                      </Link>
-                    ))}
-                  <Link
-                    href="/curriculo/"
-                    onNavigate={() => closeForNavigation("/curriculo/")}
-                  >
-                    Currículo digital
-                  </Link>
-                </nav>
-
-                <ModeControl />
-                <button
-                  aria-pressed={!motionEnabled || prefersReducedMotion}
-                  className="nexo-motion-menu-control focusable"
-                  disabled={prefersReducedMotion}
-                  onClick={toggleMotion}
-                  type="button"
-                >
-                  {motionEnabled && !prefersReducedMotion ? (
-                    <Pause size={16} aria-hidden="true" />
-                  ) : (
-                    <Play size={16} aria-hidden="true" />
-                  )}
-                  {prefersReducedMotion
-                    ? "Animações reduzidas pelo dispositivo"
-                    : motionEnabled
-                      ? "Pausar animações"
-                      : "Retomar animações"}
+            <div className="portfolio-mobile-menu__heading">
+              <Dialog.Title>Menu</Dialog.Title>
+              <Dialog.Close asChild>
+                <button className="portfolio-mobile-menu__close" type="button" aria-label="Fechar menu">
+                  <X size={19} aria-hidden="true" />
                 </button>
-                <p className="nexo-menu-panel__note">{professional.title}</p>
-              </Dialog.Content>
-            </Dialog.Portal>
-          </Dialog.Root>
-        </div>
-      </div>
-    </header>
+              </Dialog.Close>
+            </div>
+            <Dialog.Description className="nexo-visually-hidden">
+              Escolha uma seção do portfólio ou acesse as opções ao final do menu.
+            </Dialog.Description>
+            <SectionLinks pathname={pathname} onNavigate={(href) => {
+              navigatingFromMenu.current = pathname.replace(/\/$/, "") !== href.replace(/\/$/, "");
+              setOpen(false);
+            }} />
+            <SidebarUtilities pathname={pathname} />
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+    </>
   );
 }

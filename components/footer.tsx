@@ -1,4 +1,4 @@
-import { navItems, professional, socialLinks } from "@/lib/data";
+import { professional } from "@/lib/data";
 import Link from "next/link";
 
 export function Footer() {
@@ -14,27 +14,6 @@ export function Footer() {
           <p>{professional.title} · {professional.location}</p>
         </div>
 
-        <nav aria-label="Navegação do rodapé">
-          {navItems.slice(1).map((item) => (
-            <Link className="focusable" href={item.href} key={item.id}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="footer-socials" aria-label="Links de contato">
-          {socialLinks.map((link) => (
-            <a
-              className="focusable"
-              href={link.href}
-              key={link.label}
-              rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
-              target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
       </div>
     </footer>
   );

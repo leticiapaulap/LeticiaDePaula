@@ -1,54 +1,20 @@
-import { BookOpen, GraduationCap } from "lucide-react";
-import { Reveal } from "@/components/reveal";
-import { SectionShell } from "@/components/section-shell";
-import { education } from "@/lib/data";
+﻿import { education } from "@/lib/data";
 
 export function EducationSection() {
   return (
-    <SectionShell
-      alt
-      description="A base que conecta raciocínio, desenvolvimento de software e aplicação prática."
-      eyebrow="Formação"
-      id="formacao"
-      title="Base acadêmica em análise e desenvolvimento."
-    >
-      <Reveal className="education-panel">
-        <div className="education-icon" aria-hidden="true">
-          <GraduationCap size={28} />
-        </div>
-        <div>
-          <p className="context-label">Formação acadêmica</p>
-          <h3>{education.course}</h3>
-          <dl className="education-meta">
-            <div>
-              <dt>Instituição</dt>
-              <dd>{education.institution}</dd>
-            </div>
-            <div>
-              <dt>Situação</dt>
-              <dd>{education.status}</dd>
-            </div>
-            <div>
-              <dt>Período</dt>
-              <dd>{education.period}</dd>
-            </div>
-          </dl>
-          <p>{education.note}</p>
-          {education.areas.length ? (
-            <details className="nexo-archive-details" open>
-            <summary className="focusable">Áreas de estudo</summary>
-            <div className="study-areas" aria-label="Áreas documentadas de estudo">
-              {education.areas.map((area) => (
-                <span className="tag" key={area}>
-                  <BookOpen size={14} />
-                  {area}
-                </span>
-              ))}
-            </div>
-            </details>
-          ) : null}
-        </div>
-      </Reveal>
-    </SectionShell>
+    <section className="section editorial-education" data-section id="formacao" aria-labelledby="academic-title">
+      <div className="container">
+        <div className="editorial-library-heading"><h2 id="academic-title">Formação acadêmica</h2></div>
+        <article className="editorial-education-panel">
+          <div className="editorial-education-panel__body">
+            <h3>{education.course}</h3>
+            <p className="editorial-education-panel__institution">{education.institution}</p>
+            <p>{education.note}</p>
+            {education.areas.length ? <ul className="study-areas" aria-label="Áreas documentadas de estudo">{education.areas.map((area) => <li key={area}>{area}</li>)}</ul> : null}
+          </div>
+          <dl className="education-meta"><div><dt>Situação</dt><dd>{education.status}</dd></div><div><dt>Período</dt><dd>{education.period}</dd></div></dl>
+        </article>
+      </div>
+    </section>
   );
 }

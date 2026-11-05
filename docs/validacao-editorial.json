@@ -1,0 +1,184 @@
+{
+  "date": "2026-11-03T13:53:50.753Z",
+  "environment": {
+    "os": "Windows",
+    "node": "v24.19.0",
+    "browser": "Chrome local via Playwright",
+    "productionURL": "http://127.0.0.1:4173/"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "build": "passed",
+    "diffCheck": "passed"
+  },
+  "tests": {
+    "startTime": "2026-11-03T13:48:44.557Z",
+    "duration": 105480.003,
+    "expected": 191,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "widths": [
+    320,
+    375,
+    430,
+    768,
+    1024,
+    1280,
+    1440,
+    1920
+  ],
+  "coverage": {
+    "pages": 13,
+    "chapterRoutes": 7,
+    "caseStudies": 5,
+    "responsiveLayouts": 104,
+    "axeThemeRouteAudits": 26,
+    "axeViolations": 0,
+    "pdfCertificates": 9
+  },
+  "visualReview": {
+    "rounds": 2,
+    "finalScreenshots": 52,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "widths": [
+      375,
+      1440
+    ],
+    "additional": [
+      "project hover",
+      "mobile menu",
+      "mobile certificate dialog",
+      "transition exit45ms",
+      "transition enter170ms"
+    ],
+    "artifacts": ".qa/final/"
+  },
+  "lighthouse": {
+    "mobile": {
+      "runs": [
+        {
+          "run": 1,
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 906.7620999999999,
+          "cls": 0,
+          "tbtMs": 14
+        },
+        {
+          "run": 2,
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 906.8497,
+          "cls": 0,
+          "tbtMs": 43
+        },
+        {
+          "run": 3,
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 904.0696,
+          "cls": 0,
+          "tbtMs": 12
+        }
+      ],
+      "median": {
+        "performance": 100,
+        "accessibility": 100,
+        "seo": 100,
+        "lcpMs": 906.7620999999999,
+        "cls": 0,
+        "tbtMs": 14
+      }
+    },
+    "desktop": {
+      "runs": [
+        {
+          "run": 1,
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 244.5922,
+          "cls": 0,
+          "tbtMs": 0
+        },
+        {
+          "run": 2,
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 245.34070000000003,
+          "cls": 0,
+          "tbtMs": 0
+        },
+        {
+          "run": 3,
+          "performance": 100,
+          "accessibility": 100,
+          "seo": 100,
+          "lcpMs": 244.83569999999997,
+          "cls": 0,
+          "tbtMs": 0
+        }
+      ],
+      "median": {
+        "performance": 100,
+        "accessibility": 100,
+        "seo": 100,
+        "lcpMs": 244.83569999999997,
+        "cls": 0,
+        "tbtMs": 0
+      }
+    }
+  },
+  "modifiedFiles": [
+    "app/editorial-catalogs.css",
+    "app/editorial-chapters.css",
+    "app/editorial-navigation.css",
+    "app/editorial.css",
+    "app/experiencia/page.tsx",
+    "app/layout.tsx",
+    "components/certification-explorer.tsx",
+    "components/certifications-section.tsx",
+    "components/chapter-transition.tsx",
+    "components/contact-section.tsx",
+    "components/editorial-page.tsx",
+    "components/education-section.tsx",
+    "components/experience-navigation.tsx",
+    "components/experience-section.tsx",
+    "components/header.tsx",
+    "components/portal/portal-hero.tsx",
+    "components/portal/sculpture-loader.tsx",
+    "components/portal/sculpture-scene.tsx",
+    "components/profile-section.tsx",
+    "components/project-explorer.tsx",
+    "components/project-visual.tsx",
+    "components/skill-connection-map.tsx",
+    "components/skills-section.tsx",
+    "components/theme-provider.tsx",
+    "docs/redesign-editorial.md",
+    "docs/validacao-editorial.json",
+    "lib/projects.ts",
+    "tests/chapters.spec.ts",
+    "tests/editorial-hero.spec.ts",
+    "tests/hero-gallery.spec.ts",
+    "tests/immersive.spec.ts",
+    "tests/portfolio.spec.ts",
+    "tests/post-review.spec.ts",
+    "tests/project-catalog.spec.ts",
+    "tests/refinement.spec.ts"
+  ],
+  "notes": [
+    "No deploy performed.",
+    "Next.js build reported an existing security upgrade recommendation. Dependency versions were preserved; build completed on retry.",
+    "Lighthouse results are local production measurements of the opening page, three runs per device profile."
+  ]
+}

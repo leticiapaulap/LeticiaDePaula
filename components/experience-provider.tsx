@@ -23,7 +23,6 @@ function useExperienceController() {
   const [mode, updateMode] = useState<ExperienceMode>("immersive");
   const [preferencesReady, setPreferencesReady] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
-  const [motionPreference, setMotionPreference] = useState(true);
   const [sceneStatus, setSceneStatus] = useState<"loading" | "ready" | "unavailable">("loading");
   const [sceneRequested, setSceneRequested] = useState(false);
   const [completedRevision, setCompletedRevision] = useState(0);
@@ -31,7 +30,7 @@ function useExperienceController() {
   const [galleryReturnHref, rememberGallery] = useState("/projetos/#projetos");
   const [heroProjectSlug, focusHeroProject] = useState<string | null>(null);
   const [heroGalleryReady, setHeroGalleryReady] = useState(false);
-  const motionEnabled = motionPreference && !prefersReducedMotion;
+  const motionEnabled = !prefersReducedMotion;
   const isTransitioning = mode === "immersive" && motionEnabled && state.revision > completedRevision;
 
   const transitionTo = useCallback((phase: ExperiencePhase, section?: string) => dispatch({ type: "navigate", phase, section }), []);
@@ -48,20 +47,12 @@ function useExperienceController() {
     setAnnouncement(next === "direct" ? "Modo direto ativado. Todas as informações continuam disponíveis." : "Modo imersivo ativado.");
     savePreference("nexo-mode", next);
   }, []);
-  const toggleMotion = useCallback(() => {
-    setMotionPreference((enabled) => {
-      savePreference("nexo-motion", String(!enabled));
-      return !enabled;
-    });
-  }, []);
-
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => setPrefersReducedMotion(preference.matches);
     const frame = window.requestAnimationFrame(() => {
       update();
       if (readPreference("nexo-mode") === "direct") updateMode("direct");
-      if (readPreference("nexo-motion") === "false") setMotionPreference(false);
       setPreferencesReady(true);
     });
     preference.addEventListener("change", update);
@@ -81,7 +72,7 @@ function useExperienceController() {
     if (slug) selectProject(slug);
   }, [pathname, selectProject, transitionTo]);
 
-  return useMemo(() => ({ ...state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, rememberGallery, heroProjectSlug, focusHeroProject, heroGalleryReady, markHeroGalleryReady, transitionId: state.revision, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, toggleMotion, markSceneReady, markSceneUnavailable }), [state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, heroProjectSlug, heroGalleryReady, markHeroGalleryReady, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, toggleMotion, markSceneReady, markSceneUnavailable]);
+  return useMemo(() => ({ ...state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, rememberGallery, heroProjectSlug, focusHeroProject, heroGalleryReady, markHeroGalleryReady, transitionId: state.revision, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, markSceneReady, markSceneUnavailable }), [state, mode, preferencesReady, motionEnabled, prefersReducedMotion, sceneStatus, sceneRequested, requestScene, isTransitioning, announcement, galleryReturnHref, heroProjectSlug, heroGalleryReady, markHeroGalleryReady, transitionTo, selectProject, selectSkill, selectExperience, setProjectCategory, setMode, markSceneReady, markSceneUnavailable]);
 }
 
 export function ExperienceProvider({ children }: { children: React.ReactNode }) {

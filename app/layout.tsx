@@ -4,8 +4,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ExperienceProvider } from "@/components/experience-provider";
-import { ChapterNavigation } from "@/components/experience-navigation";
-import { SculptureLoader } from "@/components/portal/sculpture-loader";
 import { StructuredData } from "@/components/structured-data";
 import { pageMetadata } from "@/lib/metadata";
 import { navItems } from "@/lib/navigation";
@@ -14,6 +12,12 @@ import "./experience.css";
 import "./refinements.css";
 import "./chapters.css";
 import "./hero.css";
+import "./editorial-chapters.css";
+import "./editorial-catalogs.css";
+import "./editorial-navigation.css";
+import "./editorial.css";
+import "./navigation-layout.css";
+import "./hero-portrait.css";
 
 const interfaceFont = Manrope({
   subsets: ["latin"],
@@ -42,10 +46,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   colorScheme: "light dark",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f2f0ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c1015" }
-  ]
+  themeColor: "#f7f4ee"
 };
 
 export default function RootLayout({
@@ -61,20 +62,22 @@ export default function RootLayout({
             <a className="skip-link" href="#conteudo">
               Ir para o conteúdo
             </a>
-            <Header />
             <noscript>
               <nav className="nexo-noscript-nav" aria-label="Navegação sem JavaScript">
                 {navItems.map((item) => <a href={item.href} key={item.id}>{item.label}</a>)}
-                <a href="/curriculo/">Currículo digital</a>
+                <a href="/curriculo-leticia-de-paula.pdf">Currículo PDF</a>
               </nav>
-              <style>{`button,input,select,.nexo-experience-stage,.nexo-header__actions,.nexo-experience-nav,.chapter-navigation,.filter-bar,.filter-group,.nexo-certification-search,.nexo-project-selection,.nexo-gallery-tabs,.nexo-career-navigation,.nexo-certificate-dialog{display:none!important}.nexo-artwork__fallback{opacity:1!important}.nexo-experience-root{padding-bottom:0}`}</style>
+              <style>{`button,input,select,.portfolio-mobile-header,.filter-bar,.filter-group,.nexo-certification-search,.nexo-project-selection,.nexo-gallery-tabs,.nexo-career-navigation,.nexo-certificate-dialog{display:none!important}.nexo-experience-root{padding-bottom:0}`}</style>
             </noscript>
-            <div className="nexo-experience-stage" aria-hidden="true">
-              <SculptureLoader />
+            <div className="portfolio-shell">
+              <Header />
+              <div className="portfolio-content">
+                <main id="conteudo" tabIndex={-1}>
+                  {children}
+                </main>
+                <Footer />
+              </div>
             </div>
-            <ChapterNavigation />
-            <main id="conteudo" tabIndex={-1}>{children}</main>
-            <Footer />
             <StructuredData />
           </ExperienceProvider>
         </ThemeProvider>

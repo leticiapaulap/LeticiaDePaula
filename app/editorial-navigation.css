@@ -1,0 +1,313 @@
+/* The page swap is one sequence: exit, then reveal. Nested mount animations
+   previously ran inside a second, simultaneous snapshot animation. */
+.chapter-reveal {
+  animation: none;
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-old(root) {
+  display: none;
+}
+
+/* Keep the single header above page snapshots, including after scrolling. */
+::view-transition-group(editorial-header) {
+  z-index: 100;
+  animation: none;
+}
+
+::view-transition-old(editorial-header) {
+  display: none;
+}
+
+::view-transition-new(editorial-header) {
+  animation: none;
+}
+
+::view-transition-group(.editorial-forward),
+::view-transition-group(.editorial-back),
+::view-transition-group(.editorial-enter),
+::view-transition-group(.editorial-leave) {
+  animation-duration: 250ms;
+}
+
+::view-transition-old(.editorial-leave) {
+  animation: editorial-page-exit 90ms ease-in both;
+}
+
+::view-transition-new(.editorial-forward),
+::view-transition-new(.editorial-back),
+::view-transition-new(.editorial-enter) {
+  animation: editorial-page-enter 160ms ease-out 90ms both;
+  --editorial-direction: 0px;
+}
+
+::view-transition-new(.editorial-forward) {
+  --editorial-direction: 8px;
+}
+
+::view-transition-new(.editorial-back) {
+  --editorial-direction: -8px;
+}
+
+@keyframes editorial-page-exit {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes editorial-page-enter {
+  from { opacity: 0; translate: var(--editorial-direction) 0; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+.nexo-header {
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--background) 94%, transparent);
+  color: var(--foreground);
+  backdrop-filter: blur(12px);
+}
+
+.nexo-header__inner {
+  width: min(1200px, calc(100% - 48px));
+  height: 64px;
+  gap: 20px;
+}
+
+.nexo-header .personal-brand {
+  min-width: 0;
+  color: var(--foreground);
+}
+
+.nexo-header .personal-brand .nexo-brand__wordmark strong {
+  font-size: 25px;
+  letter-spacing: -0.035em;
+}
+
+.nexo-header .personal-brand em {
+  color: var(--foreground);
+}
+
+.nexo-header__actions {
+  gap: 12px;
+}
+
+.nexo-resume-link {
+  color: var(--foreground);
+  font-size: 13px;
+}
+
+.nexo-header :is(.nexo-icon-button, .nexo-menu-trigger),
+.nexo-menu-close {
+  min-height: 44px;
+  border-color: transparent;
+  color: var(--foreground);
+}
+
+.nexo-menu-trigger.nexo-menu-trigger--all {
+  width: auto;
+  gap: 8px;
+  padding-inline: 12px;
+  font-size: 13px;
+}
+
+.nexo-header :is(.nexo-icon-button, .nexo-menu-trigger):hover,
+.nexo-menu-close:hover {
+  border-color: var(--border);
+  background: var(--surface-soft);
+  color: var(--foreground);
+}
+
+.chapter-context-nav {
+  display: flex;
+  position: static;
+  width: min(1200px, calc(100% - 48px));
+  align-items: start;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 auto;
+  padding-block: 16px 36px;
+  color: var(--foreground);
+}
+
+.chapter-context-nav__link {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 48%;
+  min-height: 44px;
+  align-items: center;
+  gap: 14px;
+  padding-block: 4px;
+  color: var(--foreground);
+  transition: color 160ms ease;
+}
+
+.chapter-context-nav__link > span {
+  display: grid;
+  gap: 5px;
+}
+
+.chapter-context-nav__link small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.chapter-context-nav__link strong {
+  color: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.chapter-context-nav__link svg {
+  flex: 0 0 auto;
+}
+
+.chapter-context-nav__link:hover {
+  color: var(--accent-strong);
+}
+
+.chapter-context-nav__next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.nexo-menu-overlay {
+  z-index: 90;
+  background: rgba(32, 38, 45, 0.34);
+  backdrop-filter: blur(3px);
+}
+
+.nexo-menu-panel {
+  z-index: 91;
+  width: min(420px, calc(100% - 24px));
+  gap: 24px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--foreground);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.nexo-menu-panel__title {
+  font-size: 30px;
+}
+
+.nexo-mobile-nav a {
+  min-height: 48px;
+  border-color: var(--border);
+  padding-block: 12px;
+  color: var(--foreground);
+  font-size: 15px;
+}
+
+.nexo-mobile-nav a[aria-current="page"] {
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.chapter-menu-number {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.editorial-menu-preferences {
+  display: grid;
+  gap: 8px;
+}
+
+.editorial-menu-preferences .nexo-motion-menu-control {
+  width: 100%;
+  min-height: 44px;
+  justify-content: start;
+  gap: 10px;
+  border-color: var(--border);
+  padding: 10px 12px;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.editorial-menu-preferences :disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.nexo-menu-panel__note {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 767px) {
+  .nexo-header__inner,
+  .chapter-context-nav {
+    width: calc(100% - 32px);
+  }
+
+  .nexo-header__inner {
+    gap: 8px;
+  }
+
+  .nexo-header .personal-brand .nexo-brand__wordmark strong {
+    font-size: 23px;
+  }
+
+  .nexo-header__actions {
+    gap: 4px;
+  }
+
+  .nexo-resume-link {
+    display: none;
+  }
+
+  .nexo-menu-trigger.nexo-menu-trigger--all {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .chapter-context-nav {
+    gap: 20px;
+    padding-block: 12px 28px;
+  }
+
+  .chapter-context-nav__link {
+    gap: 8px;
+  }
+
+  .chapter-context-nav__link strong {
+    font-size: 13px;
+  }
+
+  .nexo-menu-panel {
+    padding: 20px;
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+@media print {
+  .nexo-header,
+  .chapter-context-nav {
+    display: none;
+  }
+}

@@ -1,6 +1,7 @@
 export type EvidenceLevel = "publico" | "informado" | "interno" | "a-validar";
 
 export type ProjectCategory =
+  | "Aplicações Desktop"
   | "Desenvolvimento Web"
   | "Back-end"
   | "Dados"

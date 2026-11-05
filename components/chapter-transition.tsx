@@ -4,8 +4,9 @@ import type { ExperiencePhase } from "@/lib/experience-state";
 export function ChapterTransition({ phase, children }: { phase: ExperiencePhase; children: ReactNode }) {
   return (
     <ViewTransition
-      enter={{ "nav-forward": `chapter-forward chapter-${phase}`, "nav-back": `chapter-back chapter-${phase}`, default: "chapter-fade" }}
-      exit={{ "nav-forward": "chapter-forward", "nav-back": "chapter-back", default: "chapter-fade" }}
+      key={phase}
+      enter={{ "nav-forward": "editorial-forward", "nav-back": "editorial-back", default: "editorial-enter" }}
+      exit="editorial-leave"
       default="none"
     >
       {children}

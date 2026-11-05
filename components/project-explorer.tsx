@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
-import { ArrowRight, ExternalLink, GitBranch } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo, useRef, type KeyboardEvent, type PointerEvent } from "react";
+import { useMemo, type KeyboardEvent } from "react";
 import type { ProjectCategory } from "@/lib/types";
 import { ProjectVisual } from "@/components/project-visual";
 import { useExperienceSelection } from "@/components/experience-provider";
@@ -16,73 +16,63 @@ const projectCounts = (category: ProjectCategory | "Todos") =>
 export function ProjectExplorer() {
   const pathname = usePathname();
   const { projectCategory, setProjectCategory, selectedProjectSlug, selectedSkillName, selectProject, rememberGallery } = useExperienceSelection();
-  const touchStart = useRef<{ horizontal: number; vertical: number } | null>(null);
   const visibleProjects = useMemo(() => projects.filter((project) => projectCategory === "Todos" || project.category === projectCategory), [projectCategory]);
   const selectedSkillProjects = projectsForSkill(selectedSkillName).map((project) => project.slug);
   const focusedProject = visibleProjects.find((project) => project.slug === selectedProjectSlug)
     ?? visibleProjects.find((project) => selectedSkillProjects.includes(project.slug))
     ?? visibleProjects[0];
   const focusedIndex = visibleProjects.findIndex((project) => project.slug === focusedProject?.slug);
-  const selectAt = (index: number) => {
+
+  const handleKeyboard = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget) return;
+    let index = focusedIndex;
+    if (event.key === "ArrowLeft") index = Math.max(0, index - 1);
+    else if (event.key === "ArrowRight") index = Math.min(visibleProjects.length - 1, index + 1);
+    else if (event.key === "Home") index = 0;
+    else if (event.key === "End") index = visibleProjects.length - 1;
+    else return;
+    event.preventDefault();
     const project = visibleProjects[index];
     if (project) selectProject(project.slug);
   };
-  const handleKeyboard = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.target !== event.currentTarget) return;
-    if (event.key === "ArrowLeft") selectAt(Math.max(0, focusedIndex - 1));
-    else if (event.key === "ArrowRight") selectAt(Math.min(visibleProjects.length - 1, focusedIndex + 1));
-    else if (event.key === "Home") selectAt(0);
-    else if (event.key === "End") selectAt(visibleProjects.length - 1);
-    else return;
-    event.preventDefault();
-  };
-  const handleSwipe = (event: PointerEvent<HTMLDivElement>) => {
-    const start = touchStart.current;
-    touchStart.current = null;
-    if (!start) return;
-    const horizontal = event.clientX - start.horizontal;
-    const vertical = event.clientY - start.vertical;
-    if (Math.abs(horizontal) > 55 && Math.abs(horizontal) > Math.abs(vertical) * 1.5) selectAt(focusedIndex + (horizontal < 0 ? 1 : -1));
-  };
 
   return (
-    <div className="project-explorer">
-      <div className="filter-bar" role="group" aria-label="Filtrar projetos por categoria">
-        {projectCategories.map((category) => (
-          <button aria-pressed={projectCategory === category} aria-label={category === "Todos" ? `Todos os projetos, ${projects.length}` : `${category}, ${projectCounts(category)}`} className="filter-chip focusable" key={category} onClick={() => setProjectCategory(category)} type="button">{category}</button>
-        ))}
+    <div className="project-explorer editorial-projects">
+      <div className="editorial-catalog-toolbar">
+        <div className="filter-bar" role="group" aria-label="Filtrar projetos por categoria">
+          {projectCategories.map((category) => (
+            <button aria-pressed={projectCategory === category} aria-label={category === "Todos" ? `Todos os projetos, ${projects.length}` : `${category}, ${projectCounts(category)}`} className="filter-chip focusable" key={category} onClick={() => setProjectCategory(category)} type="button">{category}</button>
+          ))}
+        </div>
+        <p className="nexo-results-count" aria-live="polite">{visibleProjects.length === 1 ? "1 projeto" : `${visibleProjects.length} projetos`}</p>
       </div>
-      <p className="nexo-results-count" aria-live="polite">{visibleProjects.length === 1 ? "1 projeto" : `${visibleProjects.length} projetos`}</p>
+
       {focusedProject ? (
-        <div className="nexo-gallery-stage project-showcase focusable" role="group" aria-label="Galeria em foco. Use as setas para mudar de projeto." aria-keyshortcuts="ArrowLeft ArrowRight Home End" tabIndex={0} onKeyDown={handleKeyboard} onPointerDown={(event) => {
-          if (event.pointerType !== "mouse" && !(event.target as HTMLElement).closest("a, button")) {
-            touchStart.current = { horizontal: event.clientX, vertical: event.clientY };
-            event.currentTarget.setPointerCapture(event.pointerId);
-          }
-        }} onPointerUp={handleSwipe} onPointerCancel={() => { touchStart.current = null; }}>
-          <article className="project-showcase__feature" data-project-category={focusedProject.category} key={focusedProject.slug}>
-            <div className="project-showcase__media">
-              <div className="project-window-bar" aria-hidden="true"><span /><span /><span /><small>{focusedProject.shortTitle}</small></div>
-              <ProjectVisual project={focusedProject} />
-            </div>
-            <div className="nexo-gallery-info project-showcase__info">
-              <p className="context-label">{focusedProject.category} / {String(focusedIndex + 1).padStart(2, "0")} · {focusedProject.publicationStatus}</p>
-              <h3>{focusedProject.title}</h3>
-              <p>{focusedProject.description}</p>
-              <ul className="project-showcase__highlights">{focusedProject.features.slice(0, 3).map((feature) => <li key={feature}>{feature}</li>)}</ul>
-              <div className="tag-list" aria-label={`Tecnologias de ${focusedProject.shortTitle}`}>{focusedProject.technologies.slice(0, 5).map((technology) => <span className="tag" key={technology}>{technology}</span>)}</div>
-              <div className="project-links">
-                <Link className="primary-action focusable" href={`/projetos/${focusedProject.slug}/`} onNavigate={() => { rememberGallery(`${pathname}#projetos`); selectProject(focusedProject.slug); }}>Ver detalhes<ArrowRight size={17} aria-hidden="true" /></Link>
-                {focusedProject.links.filter((link) => link.type !== "case").map((link) => <a className="text-action focusable" href={link.href} key={link.href} rel="noreferrer" target="_blank">{link.type === "github" ? <GitBranch size={16} aria-hidden="true" /> : <ExternalLink size={16} aria-hidden="true" />}{link.label}</a>)}
-              </div>
-            </div>
-          </article>
-          <div className="project-showcase__selection" role="group" aria-label="Selecionar projeto em destaque">
-            {visibleProjects.map((project) => <button className="project-showcase__tab focusable" type="button" key={project.slug} aria-pressed={focusedProject.slug === project.slug} onClick={() => selectProject(project.slug)}>{project.screenshots[0] ? <img className="project-showcase__thumbnail" src={project.screenshots[0].src} alt="" width={112} height={80} loading="lazy" /> : null}<span><strong>{project.shortTitle}</strong><small>{project.category}</small></span><ArrowRight size={17} aria-hidden="true" /></button>)}
+        <div className="editorial-project-gallery focusable" role="group" aria-label="Galeria de projetos. Use as setas para destacar um projeto." aria-keyshortcuts="ArrowLeft ArrowRight Home End" tabIndex={0} onKeyDown={handleKeyboard}>
+          <div className="editorial-project-grid">
+            {visibleProjects.map((project, index) => {
+              const selected = project.slug === focusedProject.slug;
+              const systemLink = project.slug === "senappen-recebimentos"
+                ? project.links.find((link) => link.type === "demo")
+                : undefined;
+              return (
+                <article className={`editorial-project-card${project.featured ? " editorial-project-card--featured" : ""}`} data-project-category={project.category} data-selected={selected} key={project.slug}>
+                  <div className="editorial-project-card__media"><ProjectVisual project={project} compact /></div>
+                  <div className="editorial-project-card__content">
+                    <div className="editorial-project-card__meta"><span className="context-label">{String(index + 1).padStart(2, "0")} / {project.category}</span><span className="editorial-publication">{project.publicationStatus}</span></div>
+                    <h3>{project.title}</h3>
+                    <p className="editorial-project-card__description">{project.summary}</p>
+                    <p className="editorial-project-technologies" aria-label={`Tecnologias de ${project.shortTitle}`}>{project.technologies.slice(0, 4).join(" · ")}</p>
+                    <Link className="editorial-project-link focusable" href={`/projetos/${project.slug}/`} onNavigate={() => { rememberGallery(`${pathname}#projetos`); selectProject(project.slug); }}>Explorar projeto <ArrowUpRight size={17} aria-hidden="true" /></Link>
+                    {systemLink ? <a className="secondary-action focusable" href={systemLink.href} target="_blank" rel="noopener noreferrer">{systemLink.label}<ExternalLink size={16} aria-hidden="true" /></a> : null}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       ) : <div className="empty-state"><strong>Nenhum projeto nesta categoria.</strong><span>Explore as outras categorias para conhecer meus projetos.</span></div>}
-      <noscript><nav className="project-static-links" aria-label="Todos os estudos de caso">{projects.map((project) => <Link className="secondary-action focusable" href={`/projetos/${project.slug}/`} key={project.slug}>{project.shortTitle}<ArrowRight size={16} aria-hidden="true" /></Link>)}</nav></noscript>
+      <noscript><nav className="project-static-links" aria-label="Todos os estudos de caso">{projects.map((project) => <Link className="text-action focusable" href={`/projetos/${project.slug}/`} key={project.slug}>{project.shortTitle}<ArrowUpRight size={16} aria-hidden="true" /></Link>)}</nav></noscript>
     </div>
   );
 }

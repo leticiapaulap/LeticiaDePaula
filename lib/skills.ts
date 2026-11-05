@@ -13,6 +13,12 @@ export const skillGroups: SkillGroup[] = [
         projectSlugs: ["festa-fantasia", "senappen-recebimentos", "portfolio-leticia-de-paula"]
       },
       {
+        name: "CustomTkinter",
+        evidence: "uso-publico",
+        context: "Interface desktop da Agenda Executiva para Windows.",
+        projectSlugs: ["agenda-executiva"]
+      },
+      {
         name: "TypeScript",
         evidence: "uso-publico",
         context: "Código público em Festa Fantasia e neste portfólio; também utilizado no portal privado da SENAPPEN.",
@@ -45,7 +51,7 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "Three.js · React Three Fiber",
         evidence: "uso-publico",
-        context: "Escultura procedural e cena 3D deste portfólio.",
+        context: "Estudo de escultura procedural e cena 3D na versão anterior deste portfólio, preservado no código do projeto.",
         projectSlugs: ["portfolio-leticia-de-paula"]
       }
     ]
@@ -66,6 +72,12 @@ export const skillGroups: SkillGroup[] = [
         evidence: "uso-publico",
         context: "Módulo Java/Spring Boot do projeto Festa Fantasia.",
         projectSlugs: ["festa-fantasia"]
+      },
+      {
+        name: "Flask",
+        evidence: "uso-publico",
+        context: "Versão web independente da Agenda Executiva, com autenticação e PostgreSQL.",
+        projectSlugs: ["agenda-executiva"]
       },
       {
         name: "Spring Data JPA · Spring Security",
@@ -94,8 +106,14 @@ export const skillGroups: SkillGroup[] = [
       {
         name: "PostgreSQL",
         evidence: "uso-publico",
-        context: "Persistência pública em Festa Fantasia; também documentada nos projetos não públicos Finanzy e portal SENAPPEN.",
-        projectSlugs: ["festa-fantasia", "organizador-de-tarefas", "senappen-recebimentos"]
+        context: "Persistência pública em Festa Fantasia e na versão web da Agenda Executiva; também documentada nos projetos Finanzy e portal SENAPPEN.",
+        projectSlugs: ["festa-fantasia", "agenda-executiva", "organizador-de-tarefas", "senappen-recebimentos"]
+      },
+      {
+        name: "SQLite",
+        evidence: "uso-publico",
+        context: "Persistência local e offline da versão desktop da Agenda Executiva.",
+        projectSlugs: ["agenda-executiva"]
       },
       {
         name: "SQL · Flyway",
@@ -140,8 +158,9 @@ export const skillGroups: SkillGroup[] = [
     items: [
       {
         name: "Python",
-        evidence: "experiencia-informada",
-        context: "Conhecimentos em Python e automação de rotinas."
+        evidence: "uso-publico",
+        context: "Aplicativo desktop Windows da Agenda Executiva, desenvolvido em Python.",
+        projectSlugs: ["agenda-executiva"]
       },
       {
         name: "Power Automate",

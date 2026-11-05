@@ -1,15 +1,12 @@
-import { CertificationExplorer } from "@/components/certification-explorer";
-import { SectionShell } from "@/components/section-shell";
+﻿import { CertificationExplorer } from "@/components/certification-explorer";
 
 export function CertificationsSection() {
   return (
-    <SectionShell
-      description="Uma biblioteca de aprendizados em desenvolvimento, dados e tecnologia. Explore as áreas e conheça cada formação."
-      eyebrow="Cursos e certificações"
-      id="certificacoes"
-      title="Aprender para ir além."
-    >
-      <CertificationExplorer />
-    </SectionShell>
+    <section className="section editorial-certifications" data-section id="certificacoes" aria-labelledby="certification-library-title">
+      <div className="container">
+        <div className="editorial-library-heading"><h2 id="certification-library-title">Cursos e certificações</h2><p>Aprendizados em desenvolvimento, dados e tecnologia.</p></div>
+        <CertificationExplorer />
+      </div>
+    </section>
   );
 }
