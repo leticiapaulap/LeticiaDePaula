@@ -9,7 +9,7 @@ export function HeroMiniature() {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const image = root.querySelector<HTMLImageElement>(".hero-miniature__sprite")!;
+    const image = root.querySelector<HTMLImageElement>(".hero-miniature__avatar")!;
     const trigger = root.querySelector<HTMLButtonElement>("button")!;
     const motion = root.querySelector<HTMLElement>(".hero-miniature__motion")!;
     const bubble = root.querySelector<HTMLElement>(".hero-miniature__bubble")!;
@@ -26,25 +26,18 @@ export function HeroMiniature() {
         const { gsap } = await import("gsap");
         if (disposed) return;
         let timeline: gsap.core.Timeline | undefined;
-        let entrance: gsap.core.Tween | undefined;
         let dismiss: gsap.core.Tween | undefined;
         let hovered = false;
         let focused = false;
         let tapped = false;
         let greeting = false;
-        const cursor = { frame: 0 };
-        const frame = (value: number) => {
-          root.dataset.frame = String(value);
-          image.style.transform = `translateY(${-value * 100 / 9}%)`;
-        };
         const rest = () => {
           timeline?.kill();
           dismiss?.kill();
           greeting = false;
           root.dataset.state = "rest";
           gsap.to(bubble, { autoAlpha: 0, y: 4, duration: preference.matches ? 0 : .4, overwrite: true });
-          gsap.to(motion, { yPercent: preference.matches ? 22 : 84, rotation: 0, duration: preference.matches ? 0 : 1.15, ease: "power2.inOut", overwrite: true });
-          if (preference.matches) frame(4);
+          gsap.to(motion, { yPercent: 0, rotation: 0, duration: preference.matches ? 0 : 1.15, ease: "power2.inOut", overwrite: true });
         };
         const greet = () => {
           // Pointer movement inside the button never restarts a greeting.
@@ -53,21 +46,17 @@ export function HeroMiniature() {
           greeting = true;
           root.dataset.state = "greeting";
           if (preference.matches) {
-            frame(4);
-            gsap.set(motion, { y: 0, yPercent: 22, rotation: 0 });
+            gsap.set(motion, { y: 0, yPercent: 0, rotation: 0 });
             gsap.set(bubble, { autoAlpha: 1, y: 0 });
             dismiss = gsap.delayedCall(5, rest);
             return;
           }
-          cursor.frame = 0;
-          frame(0);
           timeline = gsap.timeline();
-          timeline.to(motion, { yPercent: 18, rotation: 0, duration: 1.2, ease: "power2.inOut", overwrite: true }, 0)
-            .to(cursor, { frame: 8, duration: 4.4, ease: "none", snap: { frame: 1 }, onUpdate: () => frame(cursor.frame) }, .8)
-            .to(motion, { rotation: -3, duration: .85, ease: "sine.inOut" }, 1.2)
-            .to(motion, { rotation: 1.5, duration: 1.3, ease: "sine.inOut" }, 2.6)
-            .to(motion, { rotation: 0, duration: 1, ease: "sine.inOut" }, 4.5)
-            .to(bubble, { autoAlpha: 1, y: 0, duration: .55, overwrite: true }, 1.3)
+          timeline.to(motion, { yPercent: -3, duration: .75, ease: "power2.out", overwrite: true }, 0)
+            .to(motion, { rotation: -3, duration: .85, ease: "sine.inOut" }, .6)
+            .to(motion, { rotation: 1.5, duration: 1.3, ease: "sine.inOut" }, 2)
+            .to(motion, { yPercent: 0, rotation: 0, duration: 1, ease: "sine.inOut" }, 4.2)
+            .to(bubble, { autoAlpha: 1, y: 0, duration: .55, overwrite: true }, .8)
             .to(bubble, { autoAlpha: 0, y: 4, duration: .55 }, 5.5)
             .call(() => { if (!hovered && (!focused || tapped)) rest(); }, [], 6.2);
         };
@@ -83,9 +72,9 @@ export function HeroMiniature() {
           rest();
           if (hovered || focused) greet();
         };
+        const entrance = gsap.delayedCall(1.2, greet);
         gsap.set(bubble, { autoAlpha: 0, y: 4 });
-        gsap.set(motion, { y: 0, yPercent: preference.matches ? 22 : 84, rotation: 0 });
-        frame(preference.matches ? 4 : 0);
+        gsap.set(motion, { y: 0, yPercent: 0, rotation: 0 });
         root.dataset.ready = "true";
         trigger.disabled = false;
         trigger.addEventListener("pointerenter", enter);
@@ -97,12 +86,11 @@ export function HeroMiniature() {
         trigger.addEventListener("pointerdown", pointerdown);
         trigger.addEventListener("keydown", keydown);
         preference.addEventListener("change", changed);
-        if (!preference.matches) entrance = gsap.delayedCall(1.2, greet);
         teardown = () => {
           entrance?.kill();
           dismiss?.kill();
           timeline?.kill();
-          gsap.killTweensOf([motion, bubble, cursor]);
+          gsap.killTweensOf([motion, bubble]);
           trigger.removeEventListener("pointerenter", enter);
           trigger.removeEventListener("pointerleave", leave);
           trigger.removeEventListener("pointercancel", leave);
@@ -132,17 +120,15 @@ export function HeroMiniature() {
   }, []);
 
   return (
-    <div className="hero-miniature" ref={rootRef} data-ready="false" data-state="rest" data-frame="0">
+    <div className="hero-miniature" ref={rootRef} data-ready="false" data-state="rest">
       <button type="button" className="hero-miniature__trigger" aria-label="Cumprimentar Letícia" aria-describedby={messageId} disabled>
         <span className="hero-miniature__viewport" aria-hidden="true">
           <span className="hero-miniature__motion">
-            <span className="hero-miniature__cell">
-              <img className="hero-miniature__sprite" src="/images/leticia-mini-sprite.webp" alt="" width={295} height={3627} draggable={false} decoding="async" fetchPriority="low" />
-            </span>
+            <img className="hero-miniature__avatar" src="/images/leticia-mini-avatar.webp" alt="" width={579} height={768} draggable={false} decoding="async" fetchPriority="low" />
           </span>
         </span>
       </button>
-      <span className="hero-miniature__bubble" id={messageId} role="tooltip">Olá! Seja bem-vindo ao meu portfólio!</span>
+      <span className="hero-miniature__bubble" id={messageId} role="tooltip">Oi! Que bom ter você por aqui!</span>
     </div>
   );
 }

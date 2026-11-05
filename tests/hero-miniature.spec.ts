@@ -22,7 +22,7 @@ async function textBoxes(locator: Locator) {
   });
 }
 
-test("cumprimento inicial usa os quadros da arte e termina sem repetir", async ({ page }, testInfo) => {
+test("cumprimento inicial apresenta a nova arte e termina sem repetir", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   const errors: string[] = [];
@@ -31,18 +31,26 @@ test("cumprimento inicial usa os quadros da arte e termina sem repetir", async (
   await page.goto("/");
   const miniature = page.locator(".hero-miniature");
   const bubble = miniature.locator(".hero-miniature__bubble");
+  const avatar = miniature.locator(".hero-miniature__avatar");
   await expect(miniature).toHaveAttribute("data-ready", "true");
+  await expect(avatar).toHaveAttribute("src", "/images/leticia-mini-avatar.webp");
+  await expect(avatar).toHaveJSProperty("complete", true);
+  expect(await avatar.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBe(579);
+  expect(await avatar.evaluate((image) => (image as HTMLImageElement).naturalHeight)).toBe(768);
   await expect(miniature).toHaveAttribute("data-state", "greeting");
-  await expect(bubble).toHaveText("Olá! Seja bem-vindo ao meu portfólio!");
+  await expect(bubble).toHaveText("Oi! Que bom ter você por aqui!");
   await expect(bubble).toBeVisible();
-  await expect.poll(async () => Number(await miniature.getAttribute("data-frame"))).toBeGreaterThan(1);
   await page.screenshot({ path: testInfo.outputPath("mini-leticia-cumprimento.png"), fullPage: true });
   await waitForRest(miniature);
   await expect(bubble).toHaveCSS("opacity", "0");
-  const frame = await miniature.getAttribute("data-frame");
+  const imageSource = await avatar.getAttribute("src");
   await page.waitForTimeout(1800);
   await expect(miniature).toHaveAttribute("data-state", "rest");
-  await expect(miniature).toHaveAttribute("data-frame", frame!);
+  await expect(avatar).toHaveAttribute("src", imageSource!);
+  await page.reload();
+  await expect(miniature).toHaveAttribute("data-state", "greeting");
+  await expect(bubble).toHaveText("Oi! Que bom ter você por aqui!");
+  await expect(bubble).toBeVisible();
   expect(errors).toEqual([]);
 });
 
@@ -57,13 +65,11 @@ test("hover reage uma vez e recolhe ao sair sem reiniciar por movimento do curso
   await waitForRest(miniature);
   await trigger.hover();
   await expect(miniature).toHaveAttribute("data-state", "greeting");
-  await expect.poll(async () => Number(await miniature.getAttribute("data-frame"))).toBeGreaterThan(1);
-  const frameBefore = Number(await miniature.getAttribute("data-frame"));
   const bounds = await trigger.boundingBox();
   for (const fraction of [.45, .55, .48, .52]) {
     await page.mouse.move(bounds!.x + bounds!.width * fraction, bounds!.y + bounds!.height * .5);
   }
-  expect(Number(await miniature.getAttribute("data-frame"))).toBeGreaterThanOrEqual(frameBefore);
+  await expect(miniature).toHaveAttribute("data-state", "greeting");
   await page.mouse.move(240, 10);
   await waitForRest(miniature);
   await expect(miniature.locator(".hero-miniature__bubble")).toHaveCSS("opacity", "0");
@@ -87,13 +93,16 @@ for (const width of [320, 375, 768, 1024, 1100, 1440]) {
     expect(hitArea!.width).toBeGreaterThanOrEqual(44);
     expect(hitArea!.height).toBeGreaterThanOrEqual(44);
     expect(viewport!.height).toBeLessThanOrEqual(131);
-    // A visible window alone is not enough: the actual art must be revealed.
     const motion = await miniature.locator(".hero-miniature__motion").boundingBox();
-    expect(motion!.y - viewport!.y).toBeCloseTo(viewport!.height * .22, 0);
-    expect(viewport!.x).toBeGreaterThanOrEqual(frame!.x + frame!.width);
+    expect(motion!.y).toBeCloseTo(viewport!.y, 0);
+    expect(viewport!.x).toBeLessThan(frame!.x);
+    expect(viewport!.x + viewport!.width).toBeGreaterThan(frame!.x);
     expect(viewport!.y).toBeGreaterThanOrEqual(frame!.y);
     expect(viewport!.y + viewport!.height).toBeLessThanOrEqual(frame!.y + frame!.height);
-    expect(overlaps(viewport!, photo!)).toBe(false);
+    expect(overlaps(viewport!, photo!)).toBe(true);
+    expect(await miniature.evaluate((element) => Number(getComputedStyle(element).zIndex))).toBeLessThan(
+      await page.locator(".hero-portrait__image").evaluate((element) => Number(getComputedStyle(element).zIndex))
+    );
     expect(text.some((bounds) => overlaps(viewport!, bounds))).toBe(false);
     const bubble = miniature.locator(".hero-miniature__bubble");
     if (width >= 1100) {
@@ -107,7 +116,7 @@ for (const width of [320, 375, 768, 1024, 1100, 1440]) {
     } else {
       await expect(bubble).toBeHidden();
     }
-    expect(await miniature.locator(".hero-miniature__viewport").evaluate((element) => getComputedStyle(element).overflow)).toBe("hidden");
+    expect(await miniature.locator(".hero-miniature__viewport").evaluate((element) => getComputedStyle(element).overflow)).toBe("visible");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }
@@ -139,7 +148,7 @@ test("toque inicia cumprimento mantendo a foto estável e rolagem livre", async 
     const frame = await page.locator(".hero-portrait__frame").boundingBox();
     await miniature.getByRole("button", { name: "Cumprimentar Letícia", exact: true }).tap();
     await expect(miniature).toHaveAttribute("data-state", "greeting");
-    await expect.poll(async () => Number(await miniature.getAttribute("data-frame"))).toBeGreaterThan(1);
+    await expect(miniature.locator(".hero-miniature__avatar")).toBeVisible();
     await expect(miniature.locator(".hero-miniature__bubble")).toBeHidden();
     expect(await page.locator(".hero-portrait__frame").boundingBox()).toEqual(frame);
     await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
@@ -151,7 +160,24 @@ test("toque inicia cumprimento mantendo a foto estável e rolagem livre", async 
   }
 });
 
-test("movimento reduzido mantém quadro estático inclusive ao mudar a preferência", async ({ page }) => {
+test("cada visita cumprimenta mesmo com movimento reduzido, sem animar a arte", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const miniature = page.locator(".hero-miniature");
+  const motion = miniature.locator(".hero-miniature__motion");
+  const bubble = miniature.locator(".hero-miniature__bubble");
+  await expect(miniature).toHaveAttribute("data-ready", "true");
+  await expect(miniature).toHaveAttribute("data-state", "greeting");
+  await expect(bubble).toHaveText("Oi! Que bom ter você por aqui!");
+  await expect(bubble).toBeVisible();
+  const transform = await motion.evaluate((element) => getComputedStyle(element).transform);
+  await page.waitForTimeout(300);
+  await expect(motion).toHaveCSS("transform", transform);
+  expect(await miniature.evaluate((element) => element.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running").length)).toBe(0);
+});
+
+test("movimento reduzido mantém a arte estática inclusive ao mudar a preferência", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
@@ -162,9 +188,9 @@ test("movimento reduzido mantém quadro estático inclusive ao mudar a preferên
   const trigger = miniature.getByRole("button", { name: "Cumprimentar Letícia", exact: true });
   await trigger.hover();
   await trigger.focus();
-  const frame = await miniature.getAttribute("data-frame");
+  const transform = await miniature.locator(".hero-miniature__motion").evaluate((element) => getComputedStyle(element).transform);
   await page.waitForTimeout(800);
-  await expect(miniature).toHaveAttribute("data-frame", frame!);
+  await expect(miniature.locator(".hero-miniature__motion")).toHaveCSS("transform", transform);
   const animations = await miniature.evaluate((element) => element.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running").length);
   expect(animations).toBe(0);
   await expect(page.locator(".hero-portrait__image img")).toBeVisible();
@@ -173,7 +199,7 @@ test("movimento reduzido mantém quadro estático inclusive ao mudar a preferên
 test("falha na arte remove só a miniatura e mantém foto e navegação", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await page.route("**/images/leticia-mini-sprite.webp", (route) => route.abort());
+  await page.route("**/images/leticia-mini-avatar.webp", (route) => route.abort());
   await page.goto("/");
   await expect(page.getByRole("button", { name: "Cumprimentar Letícia", exact: true })).toBeHidden();
   const photo = page.locator(".hero-portrait__image img");
