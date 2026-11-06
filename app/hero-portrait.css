@@ -237,14 +237,14 @@
 
 .hero-miniature {
   --miniature-height: 120px;
+  --miniature-tilt: -3;
   position: absolute;
   z-index: 0;
-  top: 50%;
-  right: calc(100% - 18px);
+  top: 58%;
+  right: calc(100% - 30px);
   left: auto;
-  width: calc(var(--miniature-height) * 295 / 403);
+  width: calc(var(--miniature-height) * 579 / 768);
   height: var(--miniature-height);
-  transform: translateY(-50%);
 }
 .hero-miniature[data-ready="false"] { visibility: hidden; pointer-events: none; }
 .hero-miniature__trigger {
@@ -267,7 +267,7 @@
   display: block;
 }
 .hero-miniature__viewport { overflow: visible; }
-.hero-miniature__motion { transform-origin: 50% 80%; }
+.hero-miniature__motion { transform-origin: 80% 72%; }
 .hero-miniature__avatar {
   position: absolute;
   bottom: 0;
@@ -281,13 +281,36 @@
   user-select: none;
   pointer-events: none;
 }
+.hero-miniature__wave-arm {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  clip-path: polygon(15.6% 39.5%, 18.5% 36.2%, 22% 34.6%, 24.8% 33.9%, 28% 35.8%, 31.7% 38.1%, 33.5% 41.5%, 35% 45.5%, 36.7% 48.5%, 36% 51.9%, 32.6% 54%, 27.5% 53%, 22.5% 52%, 18.2% 49.5%, 16% 47.8%, 15% 45.5%, 16.5% 43.5%, 19.8% 42.6%, 17% 41.8%, 15% 40.8%);
+  transform-origin: 34% 52%;
+  user-select: none;
+  pointer-events: none;
+}
+.hero-miniature__mouth {
+  /* Coordinates of the mouth in the approved 579 x 768 artwork. */
+  position: absolute;
+  top: 31%;
+  left: 57%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
 .hero-miniature__bubble {
   position: absolute;
   z-index: 5;
-  top: calc(-1 * (var(--miniature-height) + 60px));
-  right: calc(100% - 16px);
-  width: 162px;
-  padding: 10px 12px;
+  right: 14px;
+  bottom: 36px;
+  width: 140px;
+  padding: 8px 10px;
   border: 1px solid var(--border);
   border-radius: 12px 12px 3px 12px;
   background: var(--surface);
@@ -300,25 +323,35 @@
   visibility: hidden;
   pointer-events: none;
 }
-.hero-miniature__bubble::after {
+.hero-miniature__tail {
   position: absolute;
-  top: 23px;
-  right: -5px;
-  width: 8px;
-  height: 8px;
-  border-top: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  background: var(--surface);
-  transform: rotate(45deg);
-  content: "";
+  top: calc(100% - 1px);
+  right: -14px;
+  width: 24px;
+  height: 36px;
+  overflow: visible;
+  fill: var(--surface);
+  stroke: var(--border);
+  stroke-width: 1;
+  stroke-linejoin: round;
 }
 @media (min-width: 768px) and (max-width: 1099px) {
-  .hero-miniature { --miniature-height: 102px; }
+  .hero-miniature { --miniature-height: 102px; right: calc(100% - 26px); }
+  .hero-miniature__bubble { width: 126px; }
 }
-@media (max-width: 1099px) { .hero-miniature__bubble { display: none; } }
 @media (max-width: 767px) {
-  .hero-miniature { --miniature-height: clamp(56px, 16vw, 72px); right: calc(100% - 12px); }
+  .hero-miniature { --miniature-height: 80px; --miniature-tilt: -1.5; top: 65%; right: calc(100% - 22px); }
   .hero-miniature__trigger { min-width: 44px; }
+  .hero-miniature__bubble {
+    right: -4px;
+    bottom: 24px;
+    width: clamp(32px, calc((100vw - 240px) / 2 - 8px), 140px);
+    padding: 6px 3px;
+    font-size: 10px;
+    line-height: 1.35;
+    border-radius: 10px 10px 3px 10px;
+  }
+  .hero-miniature__tail { right: 4px; width: 12px; height: 24px; }
 }
 @media print { .hero-miniature { display: none; } }
 .hero-portrait__corner--top { top: -1px; left: -1px; border-width: 1px 0 0 1px; }

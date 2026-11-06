@@ -12,6 +12,7 @@ export function HeroMiniature() {
     const image = root.querySelector<HTMLImageElement>(".hero-miniature__avatar")!;
     const trigger = root.querySelector<HTMLButtonElement>("button")!;
     const motion = root.querySelector<HTMLElement>(".hero-miniature__motion")!;
+    const wavingArm = root.querySelector<HTMLElement>(".hero-miniature__wave-arm")!;
     const bubble = root.querySelector<HTMLElement>(".hero-miniature__bubble")!;
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     let disposed = false;
@@ -27,54 +28,66 @@ export function HeroMiniature() {
         if (disposed) return;
         let timeline: gsap.core.Timeline | undefined;
         let dismiss: gsap.core.Tween | undefined;
+        let wave: gsap.core.Timeline | undefined;
         let hovered = false;
         let focused = false;
         let tapped = false;
         let greeting = false;
+        let availableAt = 0;
         const rest = () => {
           timeline?.kill();
+          wave?.kill();
           dismiss?.kill();
           greeting = false;
-          root.dataset.state = "rest";
-          gsap.to(bubble, { autoAlpha: 0, y: 4, duration: preference.matches ? 0 : .4, overwrite: true });
-          gsap.to(motion, { yPercent: 0, rotation: 0, duration: preference.matches ? 0 : 1.15, ease: "power2.inOut", overwrite: true });
+          availableAt = performance.now() + (preference.matches ? 0 : 1300);
+          root.dataset.state = "retreating";
+          gsap.to(bubble, { autoAlpha: 0, duration: preference.matches ? 0 : .4, overwrite: true });
+          gsap.to(motion, { xPercent: preference.matches ? 0 : 18, yPercent: 0, rotation: 0, duration: preference.matches ? 0 : 1.3, ease: "power2.inOut", overwrite: true, onComplete: () => { root.dataset.state = "rest"; } });
+          gsap.to(wavingArm, { rotation: 0, duration: preference.matches ? 0 : .6, ease: "sine.inOut", overwrite: true });
         };
         const greet = () => {
           // Pointer movement inside the button never restarts a greeting.
           entrance?.kill();
-          if (greeting) return;
+          if (greeting || performance.now() < availableAt) return;
           greeting = true;
           root.dataset.state = "greeting";
           if (preference.matches) {
-            gsap.set(motion, { y: 0, yPercent: 0, rotation: 0 });
-            gsap.set(bubble, { autoAlpha: 1, y: 0 });
+            gsap.set(motion, { xPercent: 0, yPercent: 0, rotation: 0 });
+            gsap.set(wavingArm, { rotation: 0 });
+            gsap.set(bubble, { autoAlpha: 1 });
             dismiss = gsap.delayedCall(5, rest);
             return;
           }
           timeline = gsap.timeline();
-          timeline.to(motion, { yPercent: -3, duration: .75, ease: "power2.out", overwrite: true }, 0)
-            .to(motion, { rotation: -3, duration: .85, ease: "sine.inOut" }, .6)
-            .to(motion, { rotation: 1.5, duration: 1.3, ease: "sine.inOut" }, 2)
-            .to(motion, { yPercent: 0, rotation: 0, duration: 1, ease: "sine.inOut" }, 4.2)
-            .to(bubble, { autoAlpha: 1, y: 0, duration: .55, overwrite: true }, .8)
-            .to(bubble, { autoAlpha: 0, y: 4, duration: .55 }, 5.5)
-            .call(() => { if (!hovered && (!focused || tapped)) rest(); }, [], 6.2);
+          timeline.to(motion, { xPercent: 0, yPercent: 0, rotation: 0, duration: 1.4, ease: "power2.inOut", overwrite: true }, 0)
+            .to(motion, { rotation: () => Number(getComputedStyle(root).getPropertyValue("--miniature-tilt")), duration: .8, ease: "sine.inOut" }, 1.35)
+            .to(bubble, { autoAlpha: 1, duration: .6, overwrite: true }, 2.55)
+            .to(bubble, { autoAlpha: 0, duration: .6 }, 6.25)
+            .call(rest, [], 7);
+          wave = gsap.timeline();
+          wave.to(wavingArm, { rotation: -9, duration: .4, ease: "sine.inOut", overwrite: true }, 1.7)
+            .to(wavingArm, { rotation: 7, duration: .5, ease: "sine.inOut" }, 2.1)
+            .to(wavingArm, { rotation: -6, duration: .5, ease: "sine.inOut" }, 2.6)
+            .to(wavingArm, { rotation: 0, duration: .55, ease: "sine.inOut" }, 3.1);
         };
         const enter = (event: PointerEvent) => { if (event.pointerType === "mouse") { hovered = true; greet(); } };
-        const leave = () => { hovered = false; if (!focused) rest(); };
+        const leave = () => { hovered = false; if (!focused && greeting) rest(); };
         const focus = () => { focused = !tapped && trigger.matches(":focus-visible"); greet(); };
-        const blur = () => { focused = false; if (!hovered) rest(); };
+        const blur = () => { focused = false; if (!hovered && greeting) rest(); };
         const click = () => { if (!greeting) greet(); };
         const pointerdown = (event: PointerEvent) => { tapped = event.pointerType !== "mouse"; };
         const keydown = (event: KeyboardEvent) => { if (event.key === "Escape") rest(); };
         const changed = () => {
           entrance?.kill();
           rest();
+          availableAt = 0;
+          if (preference.matches) return;
           if (hovered || focused) greet();
         };
         const entrance = gsap.delayedCall(1.2, greet);
-        gsap.set(bubble, { autoAlpha: 0, y: 4 });
-        gsap.set(motion, { y: 0, yPercent: 0, rotation: 0 });
+        gsap.set(bubble, { autoAlpha: 0 });
+        gsap.set(motion, { xPercent: preference.matches ? 0 : 75, yPercent: 0, rotation: 0 });
+        gsap.set(wavingArm, { rotation: 0 });
         root.dataset.ready = "true";
         trigger.disabled = false;
         trigger.addEventListener("pointerenter", enter);
@@ -90,7 +103,8 @@ export function HeroMiniature() {
           entrance?.kill();
           dismiss?.kill();
           timeline?.kill();
-          gsap.killTweensOf([motion, bubble]);
+          wave?.kill();
+          gsap.killTweensOf([motion, wavingArm, bubble]);
           trigger.removeEventListener("pointerenter", enter);
           trigger.removeEventListener("pointerleave", leave);
           trigger.removeEventListener("pointercancel", leave);
@@ -122,13 +136,21 @@ export function HeroMiniature() {
   return (
     <div className="hero-miniature" ref={rootRef} data-ready="false" data-state="rest">
       <button type="button" className="hero-miniature__trigger" aria-label="Cumprimentar Letícia" aria-describedby={messageId} disabled>
-        <span className="hero-miniature__viewport" aria-hidden="true">
+        <span className="hero-miniature__viewport">
           <span className="hero-miniature__motion">
             <img className="hero-miniature__avatar" src="/images/leticia-mini-avatar.webp" alt="" width={579} height={768} draggable={false} decoding="async" fetchPriority="low" />
+            <img className="hero-miniature__wave-arm" src="/images/leticia-mini-avatar.webp" alt="" width={579} height={768} draggable={false} decoding="async" aria-hidden="true" />
+            <span className="hero-miniature__mouth">
+              <span className="hero-miniature__bubble" id={messageId} role="tooltip">
+                Oi! Que bom ter você por aqui!
+                <svg className="hero-miniature__tail" viewBox="0 0 24 40" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M 1 0 L 23 39 L 10 0" />
+                </svg>
+              </span>
+            </span>
           </span>
         </span>
       </button>
-      <span className="hero-miniature__bubble" id={messageId} role="tooltip">Oi! Que bom ter você por aqui!</span>
     </div>
   );
 }

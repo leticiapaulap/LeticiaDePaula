@@ -22,7 +22,58 @@ async function textBoxes(locator: Locator) {
   });
 }
 
-test("cumprimento inicial apresenta a nova arte e termina sem repetir", async ({ page }, testInfo) => {
+test("entrada parte de trás da foto e mantém o ponteiro na boca durante a fala e o recuo", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    const observer = new MutationObserver(() => {
+      const root = document.querySelector('.hero-miniature[data-ready="true"]');
+      if (!root) return;
+      const motion = root.querySelector(".hero-miniature__motion")!.getBoundingClientRect();
+      const photo = document.querySelector(".hero-portrait__image")!.getBoundingClientRect();
+      Reflect.set(window, "__miniatureInitial", { motionLeft: motion.left, photoLeft: photo.left });
+      observer.disconnect();
+    });
+    observer.observe(document, { subtree: true, childList: true, attributes: true, attributeFilter: ["data-ready"] });
+  });
+  await page.goto("/");
+  const miniature = page.locator(".hero-miniature");
+  await expect(miniature).toHaveAttribute("data-ready", "true");
+  const initial = await page.evaluate(() => Reflect.get(window, "__miniatureInitial") as { motionLeft: number; photoLeft: number });
+  // Even the transparent image box starts inside the photograph: all of the
+  // actual character pixels are hidden by its foreground layer at this point.
+  expect(initial.motionLeft).toBeGreaterThanOrEqual(initial.photoLeft);
+  const bubble = miniature.locator(".hero-miniature__bubble");
+  await expect(bubble).toHaveCSS("opacity", "1");
+  const emerged = await miniature.locator(".hero-miniature__motion").boundingBox();
+  const photo = await page.locator(".hero-portrait__image").boundingBox();
+  expect(emerged!.x).toBeLessThan(photo!.x - 30);
+  const connectionDistance = () => miniature.evaluate((root) => {
+    const mouth = root.querySelector(".hero-miniature__mouth")!.getBoundingClientRect();
+    const path = root.querySelector<SVGPathElement>(".hero-miniature__tail path")!;
+    const matrix = path.getScreenCTM()!;
+    const length = path.getTotalLength();
+    return Math.min(...Array.from({ length: 201 }, (_, index) => {
+      const point = path.getPointAtLength(length * index / 200);
+      const screen = new DOMPoint(point.x, point.y).matrixTransform(matrix);
+      return Math.hypot(screen.x - mouth.x, screen.y - mouth.y);
+    }));
+  });
+  expect(await connectionDistance()).toBeLessThan(4);
+  // Dismiss while speaking so the tail is also checked as both layers move.
+  await miniature.getByRole("button", { name: "Cumprimentar Letícia", exact: true }).focus();
+  await page.keyboard.press("Escape");
+  await expect(miniature).toHaveAttribute("data-state", "retreating");
+  await page.waitForTimeout(180);
+  expect(await connectionDistance()).toBeLessThan(4);
+  await waitForRest(miniature);
+  const rested = await miniature.locator(".hero-miniature__motion").boundingBox();
+  expect(rested!.x).toBeGreaterThan(emerged!.x + 10);
+  expect(rested!.x).toBeLessThan(initial.motionLeft);
+  await expect(bubble).toHaveCSS("opacity", "0");
+});
+
+test("cumprimento inicial preserva a arte aprovada e termina sem repetir", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   const errors: string[] = [];
@@ -32,12 +83,17 @@ test("cumprimento inicial apresenta a nova arte e termina sem repetir", async ({
   const miniature = page.locator(".hero-miniature");
   const bubble = miniature.locator(".hero-miniature__bubble");
   const avatar = miniature.locator(".hero-miniature__avatar");
+  const wavingArm = miniature.locator(".hero-miniature__wave-arm");
   await expect(miniature).toHaveAttribute("data-ready", "true");
   await expect(avatar).toHaveAttribute("src", "/images/leticia-mini-avatar.webp");
   await expect(avatar).toHaveJSProperty("complete", true);
   expect(await avatar.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBe(579);
   expect(await avatar.evaluate((image) => (image as HTMLImageElement).naturalHeight)).toBe(768);
   await expect(miniature).toHaveAttribute("data-state", "greeting");
+  await expect.poll(async () => wavingArm.evaluate((arm) => {
+    const matrix = new DOMMatrix(getComputedStyle(arm).transform);
+    return Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+  })).toBeLessThan(-1);
   await expect(bubble).toHaveText("Oi! Que bom ter você por aqui!");
   await expect(bubble).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath("mini-leticia-cumprimento.png"), fullPage: true });
@@ -54,7 +110,7 @@ test("cumprimento inicial apresenta a nova arte e termina sem repetir", async ({
   expect(errors).toEqual([]);
 });
 
-test("hover reage uma vez e recolhe ao sair sem reiniciar por movimento do cursor", async ({ page }) => {
+test("hover reage uma vez e recua mesmo com o cursor parado, sem reiniciar por pequenos movimentos", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
@@ -70,21 +126,33 @@ test("hover reage uma vez e recolhe ao sair sem reiniciar por movimento do curso
     await page.mouse.move(bounds!.x + bounds!.width * fraction, bounds!.y + bounds!.height * .5);
   }
   await expect(miniature).toHaveAttribute("data-state", "greeting");
-  await page.mouse.move(240, 10);
+  await expect(miniature.locator(".hero-miniature__bubble")).toBeVisible();
   await waitForRest(miniature);
   await expect(miniature.locator(".hero-miniature__bubble")).toHaveCSS("opacity", "0");
+  for (const fraction of [.48, .52, .5]) {
+    await page.mouse.move(bounds!.x + bounds!.width * fraction, bounds!.y + bounds!.height * .5);
+  }
+  await page.waitForTimeout(500);
+  await expect(miniature).toHaveAttribute("data-state", "rest");
+  await page.mouse.move(240, 10);
+  await trigger.hover();
+  await expect(miniature).toHaveAttribute("data-state", "greeting");
+  await page.mouse.move(240, 10);
+  await waitForRest(miniature);
 });
 
-for (const width of [320, 375, 768, 1024, 1100, 1440]) {
-  test(`miniatura ancorada à moldura e balão sem sobreposição em ${width}px`, async ({ page }) => {
+for (const width of [320, 375, 430, 768, 1024, 1100, 1440]) {
+  for (const reducedMotion of ["reduce", "no-preference"] as const) {
+  test(`miniatura emerge mais abaixo da moldura e balão aponta para a boca em ${width}px (${reducedMotion})`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
-    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.emulateMedia({ reducedMotion });
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
     const miniature = page.locator(".hero-miniature");
     const trigger = miniature.getByRole("button", { name: "Cumprimentar Letícia", exact: true });
     await expect(miniature).toHaveAttribute("data-ready", "true");
     await trigger.focus();
+    await expect(miniature.locator(".hero-miniature__bubble")).toHaveCSS("opacity", "1");
     const viewport = await miniature.locator(".hero-miniature__viewport").boundingBox();
     const frame = await page.locator(".hero-portrait__frame").boundingBox();
     const photo = await page.locator(".hero-portrait__image").boundingBox();
@@ -94,31 +162,62 @@ for (const width of [320, 375, 768, 1024, 1100, 1440]) {
     expect(hitArea!.height).toBeGreaterThanOrEqual(44);
     expect(viewport!.height).toBeLessThanOrEqual(131);
     const motion = await miniature.locator(".hero-miniature__motion").boundingBox();
-    expect(motion!.y).toBeCloseTo(viewport!.y, 0);
     expect(viewport!.x).toBeLessThan(frame!.x);
     expect(viewport!.x + viewport!.width).toBeGreaterThan(frame!.x);
     expect(viewport!.y).toBeGreaterThanOrEqual(frame!.y);
     expect(viewport!.y + viewport!.height).toBeLessThanOrEqual(frame!.y + frame!.height);
+    expect(viewport!.y).toBeGreaterThan(frame!.y + frame!.height * .5);
     expect(overlaps(viewport!, photo!)).toBe(true);
     expect(await miniature.evaluate((element) => Number(getComputedStyle(element).zIndex))).toBeLessThan(
       await page.locator(".hero-portrait__image").evaluate((element) => Number(getComputedStyle(element).zIndex))
     );
     expect(text.some((bounds) => overlaps(viewport!, bounds))).toBe(false);
+    // Probe opaque torso pixels in the approved artwork, rather than relying
+    // only on overlapping element boxes or their declared z-index.
+    const torso = { x: motion!.x + motion!.width * .77, y: motion!.y + motion!.height * .6 };
+    expect(torso.x).toBeGreaterThan(photo!.x);
+    expect(await page.evaluate(({ x, y }) => !!document.elementFromPoint(x, y)?.closest(".hero-portrait__image"), torso)).toBe(true);
+    const mouth = await miniature.locator(".hero-miniature__mouth").boundingBox();
+    expect(mouth).not.toBeNull();
+    const mouthPoint = { x: mouth!.x + mouth!.width / 2, y: mouth!.y + mouth!.height / 2 };
+    expect(mouthPoint.x).toBeLessThan(frame!.x);
+    expect(mouthPoint.y).toBeGreaterThan(frame!.y + frame!.height * .6);
+    expect(mouthPoint.y).toBeLessThan(frame!.y + frame!.height);
+    expect(await page.evaluate(({ x, y }) => !!document.elementFromPoint(x, y)?.closest(".hero-miniature__trigger"), mouthPoint)).toBe(true);
     const bubble = miniature.locator(".hero-miniature__bubble");
-    if (width >= 1100) {
-      await expect(bubble).toBeVisible();
-      const bounds = await bubble.boundingBox();
-      expect(bounds!.x).toBeGreaterThanOrEqual(0);
-      expect(bounds!.y).toBeGreaterThanOrEqual(0);
-      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
-      expect(overlaps(bounds!, photo!)).toBe(false);
-      expect(text.some((textBounds) => overlaps(bounds!, textBounds))).toBe(false);
-    } else {
-      await expect(bubble).toBeHidden();
-    }
+    await expect(bubble).toBeVisible();
+    await expect(bubble).toHaveText("Oi! Que bom ter você por aqui!");
+    const bounds = await bubble.boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.y).toBeGreaterThanOrEqual(frame!.y);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
+    expect(overlaps(bounds!, photo!)).toBe(false);
+    expect(text.some((textBounds) => overlaps(bounds!, textBounds))).toBe(false);
+    const caption = await page.locator(".hero-portrait figcaption").boundingBox();
+    expect(overlaps(bounds!, caption!)).toBe(false);
+    expect(mouthPoint.y - (bounds!.y + bounds!.height)).toBeLessThan(50);
+    const tail = await miniature.locator(".hero-miniature__tail").evaluate((element, mouthPosition) => {
+      const points = Array.from(element.querySelectorAll("path")).flatMap((path) => {
+        const matrix = path.getScreenCTM();
+        if (!matrix) return [];
+        const length = path.getTotalLength();
+        return Array.from({ length: 201 }, (_, index) => {
+          const point = path.getPointAtLength(length * index / 200);
+          const screen = new DOMPoint(point.x, point.y).matrixTransform(matrix);
+          return { x: screen.x, y: screen.y };
+        });
+      });
+      return {
+        distanceToMouth: Math.min(...points.map((point) => Math.hypot(point.x - mouthPosition.x, point.y - mouthPosition.y))),
+        rightmostPoint: Math.max(...points.map((point) => point.x))
+      };
+    }, mouthPoint);
+    expect(tail.distanceToMouth).toBeLessThan(4);
+    expect(tail.rightmostPoint).toBeLessThan(photo!.x);
     expect(await miniature.locator(".hero-miniature__viewport").evaluate((element) => getComputedStyle(element).overflow)).toBe("visible");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
+  }
 }
 
 test("teclado cumprimenta e preserva foco visível", async ({ page }) => {
@@ -149,7 +248,7 @@ test("toque inicia cumprimento mantendo a foto estável e rolagem livre", async 
     await miniature.getByRole("button", { name: "Cumprimentar Letícia", exact: true }).tap();
     await expect(miniature).toHaveAttribute("data-state", "greeting");
     await expect(miniature.locator(".hero-miniature__avatar")).toBeVisible();
-    await expect(miniature.locator(".hero-miniature__bubble")).toBeHidden();
+    await expect(miniature.locator(".hero-miniature__bubble")).toBeVisible();
     expect(await page.locator(".hero-portrait__frame").boundingBox()).toEqual(frame);
     await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
     await waitForRest(miniature);
@@ -166,14 +265,17 @@ test("cada visita cumprimenta mesmo com movimento reduzido, sem animar a arte", 
   await page.goto("/");
   const miniature = page.locator(".hero-miniature");
   const motion = miniature.locator(".hero-miniature__motion");
+  const wavingArm = miniature.locator(".hero-miniature__wave-arm");
   const bubble = miniature.locator(".hero-miniature__bubble");
   await expect(miniature).toHaveAttribute("data-ready", "true");
   await expect(miniature).toHaveAttribute("data-state", "greeting");
   await expect(bubble).toHaveText("Oi! Que bom ter você por aqui!");
   await expect(bubble).toBeVisible();
   const transform = await motion.evaluate((element) => getComputedStyle(element).transform);
+  const armTransform = await wavingArm.evaluate((element) => getComputedStyle(element).transform);
   await page.waitForTimeout(300);
   await expect(motion).toHaveCSS("transform", transform);
+  await expect(wavingArm).toHaveCSS("transform", armTransform);
   expect(await miniature.evaluate((element) => element.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running").length)).toBe(0);
 });
 
