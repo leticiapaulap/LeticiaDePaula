@@ -27,9 +27,11 @@ export function PortalHero() {
           </div>
 
           <div className="hero-details">
-            <p className="personal-opening__positioning">Tecnologia com <em>propósito.</em></p>
+            <p className="personal-opening__positioning">
+              Desenvolvo <em>aplicações web e automações</em> para organizar processos, simplificar tarefas e transformar informações em soluções práticas.
+            </p>
             <p className="nexo-portal__introduction">
-              Desenvolvo interfaces e aplicações que conectam pessoas, dados e ideias, com atenção à experiência de quem usa.
+              Minha experiência reúne desenvolvimento de sistemas, análise de dados geoespaciais e suporte a processos digitais.
             </p>
 
             <div className="nexo-portal__actions">

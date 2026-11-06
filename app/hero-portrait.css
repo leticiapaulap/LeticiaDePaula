@@ -26,7 +26,7 @@
 .personal-opening .editorial-intro__edition,
 .personal-opening .editorial-intro__colophon,
 .personal-opening .nexo-portal__content {
-  width: min(1000px, calc(100% - 48px));
+  width: min(1160px, calc(100% - 48px));
 }
 
 .personal-opening .nexo-portal__content {
@@ -35,8 +35,8 @@
   grid-template-areas: "identity portrait" "details portrait";
   align-items: end;
   align-content: center;
-  gap: 20px clamp(32px, 3vw, 48px);
-  padding-block: 52px 44px;
+  gap: 20px clamp(32px, 3.8vw, 52px);
+  padding-block: 40px 32px;
 }
 
 .personal-opening .nexo-portal__copy { display: contents; }
@@ -66,7 +66,7 @@
   margin: 0;
   color: var(--foreground);
   font-family: var(--font-nexo-editorial), Georgia, serif;
-  font-size: clamp(1.5rem, 2vw, 1.8125rem);
+  font-size: clamp(1.35rem, 1.7vw, 1.65rem);
   line-height: 1.25;
   letter-spacing: -.015em;
 }
@@ -131,20 +131,40 @@
 .hero-portrait {
   grid-area: portrait;
   align-self: center;
-  justify-self: start;
-  width: 72%;
-  max-width: 272px;
+  justify-self: center;
+  width: 100%;
+  max-width: 300px;
   min-width: 0;
   margin: 0;
 }
 
 .hero-portrait__stage {
-  --portrait-x: 0;
-  --portrait-y: 0;
+  --portrait-halo-opacity: .64;
+  --portrait-edge-opacity: .55;
+  --portrait-glow-color: color-mix(in srgb, var(--teal) 30%, transparent);
   position: relative;
   isolation: isolate;
   padding: 12px 18px 0 8px;
-  perspective: 1100px;
+}
+
+.dark .hero-portrait__stage {
+  --portrait-halo-opacity: .44;
+  --portrait-edge-opacity: .46;
+  --portrait-glow-color: color-mix(in srgb, var(--teal) 22%, transparent);
+}
+
+/* Ambient color sits behind all portrait layers, including the miniature. */
+.hero-portrait__stage::before {
+  position: absolute;
+  z-index: -2;
+  inset: -28px -38px -34px -24px;
+  background: radial-gradient(ellipse at 58% 50%, var(--portrait-glow-color), color-mix(in srgb, var(--teal) 12%, transparent) 48%, transparent 72%);
+  background-size: 110% 110%;
+  background-position: 45% 50%;
+  opacity: var(--portrait-halo-opacity);
+  transition: opacity 900ms ease;
+  pointer-events: none;
+  content: "";
 }
 
 .hero-portrait__grid {
@@ -164,8 +184,6 @@
   inset: 4px 12px 12px 22px;
   border: solid color-mix(in srgb, var(--copper) 52%, transparent);
   border-width: 1px 1px 0 0;
-  transform: translate(calc(var(--portrait-x) * -2px), calc(var(--portrait-y) * -2px));
-  transition: transform 500ms ease;
   pointer-events: none;
 }
 
@@ -183,13 +201,21 @@
 .hero-portrait__frame {
   position: relative;
   z-index: 1;
-  z-index: 1;
   padding: 3px;
   border: 1px solid color-mix(in srgb, var(--foreground) 13%, var(--border));
   background: color-mix(in srgb, var(--background) 84%, var(--surface));
   box-shadow: 0 18px 36px -26px color-mix(in srgb, var(--foreground) 32%, transparent), 0 0 0 1px color-mix(in srgb, var(--foreground) 4%, transparent);
-  transform: translate(calc(var(--portrait-x) * 1.5px), calc(var(--portrait-y) * 1.5px)) rotateX(calc(var(--portrait-y) * -.8deg)) rotateY(calc(var(--portrait-x) * .8deg));
-  transition: transform 450ms cubic-bezier(.2, .65, .25, 1), box-shadow 450ms ease;
+}
+
+.hero-portrait__frame::after {
+  position: absolute;
+  z-index: 2;
+  inset: -1px;
+  border: 1px solid var(--teal);
+  opacity: var(--portrait-edge-opacity);
+  transition: opacity 900ms ease;
+  pointer-events: none;
+  content: "";
 }
 
 .hero-portrait__image {
@@ -359,21 +385,45 @@
 .hero-portrait__corner--bottom { right: -1px; bottom: -1px; border-width: 0 1px 1px 0; }
 
 .hero-portrait__light {
+  display: none;
   position: absolute;
-  inset: 4px;
-  border: 1px solid #ffffff12;
-  background: linear-gradient(120deg, #ffffff06, transparent 35%, transparent 80%, #ffffff08);
+  z-index: 2;
+  inset: -1px;
   pointer-events: none;
 }
 
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .hero-portrait__stage:hover .hero-portrait__frame {
-    box-shadow: 0 20px 36px -22px color-mix(in srgb, var(--foreground) 30%, transparent);
+/* Masks restrict the decorative gradients to one pixel of the frame. */
+@supports (mask-composite: exclude) {
+  .hero-portrait__frame::after, .hero-portrait__light {
+    padding: 1px;
+    border: 0;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
   }
+  .hero-portrait__frame::after {
+    background: linear-gradient(145deg, var(--teal), color-mix(in srgb, var(--teal) 18%, transparent) 35%, var(--teal) 70%, transparent);
+  }
+  .hero-portrait__light {
+    display: block;
+    background: linear-gradient(115deg, transparent 40%, color-mix(in srgb, var(--teal) 60%, transparent) 48%, color-mix(in srgb, var(--foreground) 38%, transparent) 50%, color-mix(in srgb, var(--teal) 60%, transparent) 52%, transparent 60%);
+    background-size: 300% 300%;
+    background-position: 10% 50%;
+    opacity: var(--portrait-edge-opacity);
+    transition: opacity 900ms ease;
+  }
+}
 
+@media (hover: hover) and (pointer: fine) {
+  .hero-portrait__stage:hover::before { opacity: calc(var(--portrait-halo-opacity) + .14); }
+  .hero-portrait__stage:hover .hero-portrait__frame::after,
+  .hero-portrait__stage:hover .hero-portrait__light {
+    opacity: calc(var(--portrait-edge-opacity) + .16);
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .hero-portrait__stage::before { animation: hero-portrait-ambient 20s ease-in-out infinite alternate; }
+  .hero-portrait__light { animation: hero-portrait-light-pass 24s linear infinite; }
   .hero-identity, .hero-details { animation: hero-copy-arrive 600ms ease-out both; }
   .hero-details { animation-delay: 80ms; }
   .hero-portrait { animation: hero-portrait-arrive 750ms cubic-bezier(.2, .65, .25, 1) both; }
@@ -383,12 +433,17 @@
 @keyframes hero-copy-arrive { from { translate: 0 8px; } to { translate: 0 0; } }
 @keyframes hero-portrait-arrive { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
 @keyframes hero-node-arrive { from { opacity: 0; translate: -24px 0; } to { opacity: 1; translate: 0 0; } }
+@keyframes hero-portrait-ambient { from { background-position: 45% 50%; } to { background-position: 55% 50%; } }
+@keyframes hero-portrait-light-pass { 0%, 12% { background-position: 10% 50%; } 88%, 100% { background-position: 90% 50%; } }
 
 @container portfolio-main (max-width: 960px) {
-  .personal-opening .nexo-portal__content { column-gap: 28px; }
+  .personal-opening .nexo-portal__content {
+    grid-template-columns: minmax(0, 1fr) minmax(232px, .95fr);
+    column-gap: 24px;
+  }
   .personal-opening .nexo-portal__title { font-size: 64px; }
   .personal-opening .nexo-portal__actions { gap: 6px 18px; }
-  .personal-opening__positioning { font-size: 26px; }
+  .personal-opening__positioning { font-size: 24px; }
 }
 
 @media (max-width: 767px) {
@@ -423,7 +478,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-portrait, .hero-identity, .hero-details, .hero-portrait__orbit span { animation: none; }
-  .hero-portrait__frame, .hero-portrait__orbit { transform: none; transition: none; }
+  .hero-portrait__stage::before, .hero-portrait__frame::after, .hero-portrait__light { animation: none; transition: none; }
   .personal-opening .nexo-button--primary,
   .personal-opening .editorial-text-link { transition: none; }
   .personal-opening .editorial-text-link svg { transition: none; translate: none; }
@@ -434,5 +489,5 @@
   .personal-opening .nexo-portal__content { display: block; }
   .hero-details { margin-top: 24px; }
   .hero-portrait { max-width: 240px; margin-top: 24px; }
-  .hero-portrait__grid, .hero-portrait__orbit { display: none; }
+  .hero-portrait__grid, .hero-portrait__orbit, .hero-portrait__stage::before, .hero-portrait__frame::after, .hero-portrait__light { display: none; }
 }

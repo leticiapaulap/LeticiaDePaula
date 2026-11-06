@@ -3,8 +3,8 @@ import { expect, test, type Locator } from "@playwright/test";
 
 async function portraitMotion(stage: Locator) {
   return stage.evaluate((element) => {
-    const style = getComputedStyle(element);
-    return [style.getPropertyValue("--portrait-x").trim(), style.getPropertyValue("--portrait-y").trim()];
+    const style = getComputedStyle(element.querySelector(".hero-portrait__frame")!);
+    return [style.transform, style.translate, style.scale];
   });
 }
 
@@ -72,19 +72,55 @@ test("link de trajetória mantém a ordem de teclado antes da miniatura", async 
   await expect(page.locator("main h1")).toBeFocused();
 });
 
-test("retrato responde ao ponteiro e retorna ao repouso quando ele sai", async ({ page }) => {
+for (const theme of ["light", "dark"]) {
+test(`iluminação discreta reage ao hover sem mover ou filtrar a fotografia no tema ${theme}`, async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript((saved) => localStorage.setItem("theme", saved), theme);
   await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator("html")).toHaveClass(new RegExp(`\\b${theme}\\b`));
   const stage = page.locator(".hero-portrait__stage");
-  await stage.scrollIntoViewIfNeeded();
+  const photo = page.locator(".hero-portrait__image");
+  await expect(photo.locator("img")).toHaveJSProperty("complete", true);
+  // The approved arrival can finish before measuring hover stability.
+  await page.locator(".hero-portrait").evaluate(async (element) => Promise.allSettled(element.getAnimations().map((animation) => animation.finished)));
   const initial = await portraitMotion(stage);
-  const bounds = await stage.boundingBox();
-  await page.mouse.move(bounds!.x + bounds!.width * .8, bounds!.y + bounds!.height * .3);
-  await expect.poll(() => portraitMotion(stage)).not.toEqual(initial);
-  await page.mouse.move(240, 10);
+  const initialBox = await photo.boundingBox();
+  const initialPixels = await photo.screenshot();
+  const ambientOpacity = () => stage.evaluate((element) => parseFloat(getComputedStyle(element, "::before").opacity));
+  const initialOpacity = await ambientOpacity();
+  const ambient = await stage.evaluate((element) => {
+    const style = getComputedStyle(element, "::before");
+    return { background: style.backgroundImage, zIndex: Number(style.zIndex), duration: parseFloat(style.animationDuration), events: style.pointerEvents };
+  });
+  expect(ambient.background).toContain("radial-gradient");
+  expect(ambient.zIndex).toBeLessThan(0);
+  expect(ambient.duration).toBeGreaterThanOrEqual(15);
+  expect(ambient.events).toBe("none");
+  const frame = page.locator(".hero-portrait__frame");
+  const ring = await frame.evaluate((element) => {
+    const style = getComputedStyle(element, "::after");
+    return { mask: style.maskImage, background: style.backgroundImage, events: style.pointerEvents };
+  });
+  expect(ring.mask).not.toBe("none");
+  expect(ring.background).toContain("gradient");
+  expect(ring.events).toBe("none");
+  const passage = page.locator(".hero-portrait__light");
+  expect(await passage.evaluate((element) => parseFloat(getComputedStyle(element).animationDuration))).toBeGreaterThanOrEqual(15);
+  await stage.hover({ position: { x: 40, y: 25 } });
+  await expect.poll(ambientOpacity).toBeGreaterThan(initialOpacity + .05);
   await expect.poll(() => portraitMotion(stage)).toEqual(initial);
+  expect(await photo.boundingBox()).toEqual(initialBox);
+  expect(initialPixels.equals(await photo.screenshot())).toBe(true);
+  await expect(photo.locator("img")).toHaveCSS("filter", "none");
+  await expect(photo).toHaveCSS("filter", "none");
+  await expect(frame).toHaveCSS("filter", "none");
+  await page.mouse.move(240, 10);
+  await expect.poll(async () => Math.abs(await ambientOpacity() - initialOpacity)).toBeLessThan(.01);
+  expect(await photo.boundingBox()).toEqual(initialBox);
 });
+}
 
 test("movimento reduzido mantém foto e ações sem resposta ao ponteiro", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -103,18 +139,20 @@ test("movimento reduzido mantém foto e ações sem resposta ao ponteiro", async
   await expect(page).toHaveURL(/\/projetos\/$/);
 });
 
-test("mudar a preferência para movimento reduzido encerra a resposta da foto", async ({ page }) => {
+test("mudar a preferência para movimento reduzido mantém a iluminação estática", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   const stage = page.locator(".hero-portrait__stage");
   await stage.scrollIntoViewIfNeeded();
-  const initial = await portraitMotion(stage);
-  const bounds = await stage.boundingBox();
-  await page.mouse.move(bounds!.x + bounds!.width * .8, bounds!.y + bounds!.height * .3);
-  await expect.poll(() => portraitMotion(stage)).not.toEqual(initial);
+  await expect.poll(() => stage.evaluate((element) => getComputedStyle(element, "::before").animationName)).not.toBe("none");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect.poll(() => portraitMotion(stage)).toEqual(initial);
+  await expect.poll(() => stage.evaluate((element) => getComputedStyle(element, "::before").animationName)).toBe("none");
+  await expect(page.locator(".hero-portrait__light")).toHaveCSS("animation-name", "none");
+  const backgroundPosition = await stage.evaluate((element) => getComputedStyle(element, "::before").backgroundPosition);
+  await page.waitForTimeout(200);
+  expect(await stage.evaluate((element) => getComputedStyle(element, "::before").backgroundPosition)).toBe(backgroundPosition);
+  expect(await stage.evaluate((element) => parseFloat(getComputedStyle(element, "::before").opacity))).toBeGreaterThan(0);
 });
 
 test("toque mantém o retrato estável e não bloqueia rolagem natural", async ({ browser }) => {

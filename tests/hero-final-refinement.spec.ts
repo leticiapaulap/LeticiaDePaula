@@ -29,6 +29,63 @@ const viewports = [
   { width: 375, height: 667 }
 ];
 
+for (const theme of ["light", "dark"] as const) {
+  test(`iluminação da moldura é sutil, responsiva ao hover e reduzida em movimento (${theme})`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.addInitScript((saved) => localStorage.setItem("theme", saved), theme);
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveClass(new RegExp(`\\b${theme}\\b`));
+    await page.locator(".hero-portrait").evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)));
+
+    const stage = page.locator(".hero-portrait__stage");
+    const frame = page.locator(".hero-portrait__frame");
+    const photo = page.locator(".hero-portrait__image");
+    const initialFrame = await frame.boundingBox();
+    const initial = await stage.evaluate((element) => {
+      const halo = getComputedStyle(element, "::before");
+      const frameElement = element.querySelector<HTMLElement>(".hero-portrait__frame")!;
+      const lightElement = element.querySelector<HTMLElement>(".hero-portrait__light")!;
+      const photoImage = element.querySelector<HTMLImageElement>(".hero-portrait__image img")!;
+      const edge = getComputedStyle(frameElement, "::after");
+      const light = getComputedStyle(lightElement);
+      return {
+        haloOpacity: Number(halo.opacity),
+        haloDuration: halo.animationDuration,
+        edgeOpacity: Number(edge.opacity),
+        lightOpacity: Number(light.opacity),
+        lightDuration: light.animationDuration,
+        imageFilter: getComputedStyle(photoImage).filter
+      };
+    });
+
+    expect(initial.haloOpacity).toBeGreaterThan(0);
+    expect(initial.haloOpacity).toBeLessThan(1);
+    expect(initial.haloDuration).toBe("20s");
+    expect(initial.edgeOpacity).toBeGreaterThan(0);
+    expect(initial.edgeOpacity).toBeLessThan(1);
+    expect(initial.lightOpacity).toBeGreaterThan(0);
+    expect(initial.lightDuration).toBe("24s");
+    expect(initial.imageFilter).toBe("none");
+
+    await photo.hover();
+    await expect.poll(() => stage.evaluate((element) => Number(getComputedStyle(element, "::before").opacity))).toBeGreaterThan(initial.haloOpacity);
+    await expect.poll(() => frame.evaluate((element) => Number(getComputedStyle(element, "::after").opacity))).toBeGreaterThan(initial.edgeOpacity);
+    expect(await frame.boundingBox()).toEqual(initialFrame);
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    const reduced = await stage.evaluate((element) => ({
+      haloAnimation: getComputedStyle(element, "::before").animationName,
+      lightAnimation: getComputedStyle(element.querySelector<HTMLElement>(".hero-portrait__light")!).animationName,
+      haloOpacity: Number(getComputedStyle(element, "::before").opacity)
+    }));
+    expect(reduced.haloAnimation).toBe("none");
+    expect(reduced.lightAnimation).toBe("none");
+    expect(reduced.haloOpacity).toBeGreaterThan(0);
+    expect(await frame.boundingBox()).toEqual(initialFrame);
+  });
+}
+
 for (const viewport of viewports) {
   for (const theme of ["light", "dark"] as const) {
     test(`apresentação automática e composição final em ${viewport.width}x${viewport.height} (${theme})`, async ({ page }, testInfo) => {

@@ -2,8 +2,8 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { heroCharacterModelPath, resolveHeroCharacterClip } from "../lib/hero-character";
 
-for (const width of [768, 900, 1024, 1100, 1280, 1440, 1920]) {
-  test(`retrato menor preserva o protagonismo do nome em ${width}px`, async ({ page }) => {
+for (const width of [768, 900, 1024, 1100, 1280, 1366, 1440, 1920]) {
+  test(`retrato ampliado discretamente preserva o protagonismo do nome em ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
@@ -17,9 +17,10 @@ for (const width of [768, 900, 1024, 1100, 1280, 1440, 1920]) {
     expect(image).not.toBeNull();
     expect(identity).not.toBeNull();
     expect(details).not.toBeNull();
-    expect(figure!.width).toBeLessThanOrEqual(281);
+    expect(figure!.width).toBeLessThanOrEqual(308);
     expect(image!.width).toBeGreaterThanOrEqual(190);
-    expect(image!.width).toBeLessThanOrEqual(240);
+    // The approved desktop crop grows at most 15% from its previous 238 px.
+    expect(image!.width).toBeLessThanOrEqual(274);
     expect(image!.height / image!.width).toBeCloseTo(1.25, 2);
     expect(image!.width).toBeLessThan(identity!.width);
     expect(image!.x).toBeGreaterThan(identity!.x + identity!.width);
@@ -27,9 +28,28 @@ for (const width of [768, 900, 1024, 1100, 1280, 1440, 1920]) {
     const textCenter = (identity!.y + details!.y + details!.height) / 2;
     const imageCenter = image!.y + image!.height / 2;
     expect(Math.abs(imageCenter - textCenter)).toBeLessThan(90);
+    if (width >= 1366) {
+      const content = await page.locator(".personal-opening .nexo-portal__content").boundingBox();
+      expect(content!.width).toBeGreaterThan(1000);
+      expect(content!.width).toBeLessThanOrEqual(1240);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }
+
+test("apresentação comunica aplicações web, processos e automação sem repetir a frase genérica", async ({ page }) => {
+  await page.goto("/");
+  const details = page.locator(".hero-details");
+  await expect(page.locator("main h1")).toHaveText(/Letícia\s*de Paula/);
+  await expect(details).toContainText("Desenvolvo aplicações web e automações");
+  await expect(details).toContainText("organizar processos");
+  await expect(details).toContainText("simplificar tarefas");
+  await expect(details).toContainText("transformar informações em soluções práticas");
+  await expect(details).not.toContainText("Tecnologia com propósito.");
+  await expect(details).not.toContainText("Desenvolvo interfaces e aplicações que conectam pessoas, dados e ideias");
+  expect(await details.locator(":scope > p").count()).toBeLessThanOrEqual(2);
+  await expect(details.getByRole("link")).toHaveText(["Conhecer projetos", "Minha trajetória"]);
+});
 
 for (const width of [320, 375, 430]) {
   test(`mobile ${width}px mantém foto compacta entre nome e apresentação`, async ({ page }) => {
