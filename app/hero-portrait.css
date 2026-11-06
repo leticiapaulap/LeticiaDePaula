@@ -238,7 +238,7 @@
 .hero-miniature {
   --miniature-height: 120px;
   --miniature-tilt: -3;
-  --miniature-bubble-width: 148px;
+  --miniature-bubble-width: 136px;
   position: absolute;
   z-index: 0;
   top: 58%;
@@ -317,7 +317,7 @@
   position: absolute;
   z-index: 5;
   width: var(--miniature-bubble-width);
-  padding: 8px 10px;
+  padding: 6px 8px;
   border: 1px solid var(--border);
   border-radius: 12px 12px 3px 12px;
   background: var(--surface);
@@ -331,7 +331,7 @@
   pointer-events: none;
 }
 .hero-miniature__bubble[data-compact="true"] {
-  padding: 6px 3px;
+  padding: 4px 3px;
   font-size: 10px;
   line-height: 1.4;
 }
@@ -348,7 +348,7 @@
   stroke-linejoin: round;
 }
 @media (min-width: 768px) and (max-width: 1099px) {
-  .hero-miniature { --miniature-height: 102px; --miniature-bubble-width: 132px; right: calc(100% - 26px); }
+  .hero-miniature { --miniature-height: 102px; --miniature-bubble-width: 124px; right: calc(100% - 26px); }
 }
 @media (max-width: 767px) {
   .hero-miniature { --miniature-height: 80px; --miniature-tilt: -1.5; top: 65%; right: calc(100% - 22px); }

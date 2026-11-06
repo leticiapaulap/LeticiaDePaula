@@ -62,9 +62,11 @@ export function HeroMiniature() {
         const height = bubble.getBoundingClientRect().height / scaleY;
         const headTop = artwork.top + (artwork.bottom - artwork.top) * .04;
         const candidates = [
+          // Keep the card beside the head first, with its bottom near the mouth.
+          { left: facialArea.left - margin - width, top: lips.top + margin / 2 - height },
+          { left: lips.left - margin * 2 - width, top: facialArea.top - margin - height },
+          { left: photograph.left - margin - width, top: facialArea.top - margin - height },
           { left: lips.left - margin * 2 - width, top: headTop - margin - height },
-          { left: photograph.left - margin - width, top: headTop - margin - height },
-          { left: facialArea.left - margin - width, top: lips.top - height * .6 },
           { left: facialArea.left - margin - width, top: facialArea.bottom + margin },
           { left: photograph.left, top: photograph.bottom + margin },
           { left: photograph.left, top: photograph.top - margin - height }
@@ -81,13 +83,20 @@ export function HeroMiniature() {
       bubble.style.width = `${width}px`;
       bubble.style.left = `${left}px`;
       bubble.style.top = `${top}px`;
-      // Approach from beside the cheek, rather than crossing forehead/glasses.
-      const tipX = lips.left - left - 1;
-      const tipY = lips.top - top;
+      // A short side pointer replaces the long hooked route over the cheek.
+      const tipX = lips.left - left - 3;
+      const tipY = lips.top - top - 1;
+      if (left + width <= facialArea.left - margin) {
+        const baseY = Math.min(height - 3, Math.max(3, tipY));
+        tail.setAttribute("d", `M ${width - 1} ${baseY - 3} L ${tipX} ${tipY} L ${width - 1} ${baseY + 3} Z`);
+        return;
+      }
+      // On narrow screens, keep the curve outside the forehead and glasses;
+      // only a fine taper approaches the mouth from the side.
       const sideX = facialArea.left - left - margin;
-      const baseX = width - 9;
+      const baseX = Math.min(width - 7, sideX - 3);
       const baseY = height - 1;
-      tail.setAttribute("d", `M ${baseX - 4} ${baseY} C ${sideX - 4} ${baseY + margin} ${sideX - 4} ${tipY} ${sideX} ${tipY} L ${tipX} ${tipY} Q ${sideX} ${tipY - 3} ${sideX} ${tipY - 4} C ${sideX} ${baseY + margin} ${baseX + 3} ${baseY + 2} ${baseX + 3} ${baseY} Z`);
+      tail.setAttribute("d", `M ${baseX - 3} ${baseY} C ${sideX - 4} ${baseY + margin} ${sideX - 4} ${tipY} ${sideX} ${tipY} L ${tipX} ${tipY} Q ${sideX} ${tipY - .75} ${sideX} ${tipY - 1} C ${sideX} ${baseY + margin} ${baseX + 3} ${baseY + 2} ${baseX + 3} ${baseY} Z`);
     };
 
     const fail = () => { root.hidden = true; trigger.disabled = true; teardown(); };

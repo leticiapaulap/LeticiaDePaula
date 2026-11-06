@@ -91,15 +91,19 @@ for (const viewport of viewports) {
           mouth: { x: mouth.x, y: mouth.y },
           face: { x: minX, y: minY, width: maxX - minX, height: maxY - minY },
           tailDistance: Math.min(...points.map((point) => Math.hypot(point.x - mouth.x, point.y - mouth.y))),
-          tailRight: Math.max(...points.map((point) => point.x))
+          tailRight: Math.max(...points.map((point) => point.x)),
+          crossesEyes: points.some((point) => point.x > minX && point.x < maxX && point.y > minY && point.y < minY + (maxY - minY) * .65)
         };
       });
       expect(overlaps(balloon!, avatarGeometry.face)).toBe(false);
       expect(avatarGeometry.tailDistance).toBeLessThan(4);
       expect(avatarGeometry.tailRight).toBeLessThan(photo!.x);
+      expect(avatarGeometry.crossesEyes).toBe(false);
       const gapX = Math.max(balloon!.x - avatarGeometry.mouth.x, 0, avatarGeometry.mouth.x - balloon!.x - balloon!.width);
       const gapY = Math.max(balloon!.y - avatarGeometry.mouth.y, 0, avatarGeometry.mouth.y - balloon!.y - balloon!.height);
-      expect(Math.hypot(gapX, gapY)).toBeLessThan(100);
+      // The speech sits beside the head or just above it on narrow screens.
+      const characterHeight = await miniature.locator(".hero-miniature__viewport").evaluate((element) => element.getBoundingClientRect().height);
+      expect(Math.hypot(gapX, gapY)).toBeLessThan(characterHeight * .3);
 
       await expect(page.getByText("Pessoas. Ideias. Possibilidades.", { exact: true })).toHaveCount(0);
       await expect(page.locator(".hero-portrait figcaption")).toHaveCount(0);
