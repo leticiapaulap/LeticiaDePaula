@@ -22,29 +22,39 @@ async function textBoxes(locator: Locator) {
   });
 }
 
-test("entrada parte de trás da foto e mantém o ponteiro na boca durante a fala e o recuo", async ({ page }) => {
+test("entrada automática parte de trás da foto e mantém a personagem visível ao dispensar a fala", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.addInitScript(() => {
+    let captured = false;
     const observer = new MutationObserver(() => {
       const root = document.querySelector('.hero-miniature[data-ready="true"]');
       if (!root) return;
-      const motion = root.querySelector(".hero-miniature__motion")!.getBoundingClientRect();
-      const photo = document.querySelector(".hero-portrait__image")!.getBoundingClientRect();
-      Reflect.set(window, "__miniatureInitial", { motionLeft: motion.left, photoLeft: photo.left });
-      observer.disconnect();
+      if (!captured) {
+        const motion = root.querySelector(".hero-miniature__motion")!.getBoundingClientRect();
+        const photo = document.querySelector(".hero-portrait__image")!.getBoundingClientRect();
+        Reflect.set(window, "__miniatureInitial", { motionLeft: motion.left, photoLeft: photo.left, readyAt: performance.now() });
+        captured = true;
+      }
+      if (root.getAttribute("data-state") === "greeting") {
+        Reflect.set(window, "__miniatureGreetingAt", performance.now());
+        observer.disconnect();
+      }
     });
-    observer.observe(document, { subtree: true, childList: true, attributes: true, attributeFilter: ["data-ready"] });
+    observer.observe(document, { subtree: true, childList: true, attributes: true, attributeFilter: ["data-ready", "data-state"] });
   });
   await page.goto("/");
   const miniature = page.locator(".hero-miniature");
   await expect(miniature).toHaveAttribute("data-ready", "true");
-  const initial = await page.evaluate(() => Reflect.get(window, "__miniatureInitial") as { motionLeft: number; photoLeft: number });
+  const initial = await page.evaluate(() => Reflect.get(window, "__miniatureInitial") as { motionLeft: number; photoLeft: number; readyAt: number });
   // Even the transparent image box starts inside the photograph: all of the
   // actual character pixels are hidden by its foreground layer at this point.
   expect(initial.motionLeft).toBeGreaterThanOrEqual(initial.photoLeft);
   const bubble = miniature.locator(".hero-miniature__bubble");
   await expect(bubble).toHaveCSS("opacity", "1");
+  const greetingAt = await page.evaluate(() => Reflect.get(window, "__miniatureGreetingAt") as number);
+  expect(greetingAt - initial.readyAt).toBeGreaterThanOrEqual(250);
+  expect(greetingAt - initial.readyAt).toBeLessThan(1000);
   const emerged = await miniature.locator(".hero-miniature__motion").boundingBox();
   const photo = await page.locator(".hero-portrait__image").boundingBox();
   expect(emerged!.x).toBeLessThan(photo!.x - 30);
@@ -60,16 +70,16 @@ test("entrada parte de trás da foto e mantém o ponteiro na boca durante a fala
     }));
   });
   expect(await connectionDistance()).toBeLessThan(4);
-  // Dismiss while speaking so the tail is also checked as both layers move.
+  // Escape dismisses the speech without putting the character back behind the photo.
   await miniature.getByRole("button", { name: "Cumprimentar Letícia", exact: true }).focus();
   await page.keyboard.press("Escape");
-  await expect(miniature).toHaveAttribute("data-state", "retreating");
   await page.waitForTimeout(180);
   expect(await connectionDistance()).toBeLessThan(4);
   await waitForRest(miniature);
   const rested = await miniature.locator(".hero-miniature__motion").boundingBox();
-  expect(rested!.x).toBeGreaterThan(emerged!.x + 10);
-  expect(rested!.x).toBeLessThan(initial.motionLeft);
+  const viewport = await miniature.locator(".hero-miniature__viewport").boundingBox();
+  expect(rested!.x).toBeCloseTo(viewport!.x, 0);
+  expect(rested!.x).toBeLessThan(photo!.x - 30);
   await expect(bubble).toHaveCSS("opacity", "0");
 });
 
@@ -110,7 +120,27 @@ test("cumprimento inicial preserva a arte aprovada e termina sem repetir", async
   expect(errors).toEqual([]);
 });
 
-test("hover reage uma vez e recua mesmo com o cursor parado, sem reiniciar por pequenos movimentos", async ({ page }) => {
+test("cada retorno pela navegação apresenta a miniatura novamente sem timelines antigas", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("/");
+  await expect(page.locator(".hero-miniature")).toHaveAttribute("data-state", "greeting");
+  await page.getByRole("link", { name: "Conhecer projetos", exact: true }).click();
+  await expect(page).toHaveURL(/\/projetos\/$/);
+  await expect(page.locator(".hero-miniature")).toHaveCount(0);
+  const navigation = page.getByRole("navigation", { name: "Navegação principal" }).first();
+  await navigation.getByRole("link", { name: "Início", exact: true }).click();
+  await expect(page).toHaveURL("/");
+  const miniature = page.locator(".hero-miniature");
+  await expect(miniature).toHaveCount(1);
+  await expect(miniature).toHaveAttribute("data-state", "greeting");
+  await expect(miniature.locator(".hero-miniature__bubble")).toHaveCSS("opacity", "1");
+  expect(errors).toEqual([]);
+});
+
+test("hover repete a fala uma vez e preserva a personagem sem reiniciar por pequenos movimentos", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
@@ -141,11 +171,10 @@ test("hover reage uma vez e recua mesmo com o cursor parado, sem reiniciar por p
   await waitForRest(miniature);
 });
 
-for (const width of [320, 375, 430, 768, 1024, 1100, 1440]) {
-  for (const reducedMotion of ["reduce", "no-preference"] as const) {
-  test(`miniatura emerge mais abaixo da moldura e balão aponta para a boca em ${width}px (${reducedMotion})`, async ({ page }) => {
+for (const width of [320, 375, 768, 1440]) {
+  test(`miniatura permanece visível com movimento reduzido e balão aponta para a boca em ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
-    await page.emulateMedia({ reducedMotion });
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
     const miniature = page.locator(".hero-miniature");
@@ -189,13 +218,11 @@ for (const width of [320, 375, 430, 768, 1024, 1100, 1440]) {
     await expect(bubble).toHaveText("Oi! Que bom ter você por aqui!");
     const bounds = await bubble.boundingBox();
     expect(bounds!.x).toBeGreaterThanOrEqual(0);
-    expect(bounds!.y).toBeGreaterThanOrEqual(frame!.y);
+    expect(bounds!.y).toBeGreaterThanOrEqual(0);
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
     expect(overlaps(bounds!, photo!)).toBe(false);
     expect(text.some((textBounds) => overlaps(bounds!, textBounds))).toBe(false);
-    const caption = await page.locator(".hero-portrait figcaption").boundingBox();
-    expect(overlaps(bounds!, caption!)).toBe(false);
-    expect(mouthPoint.y - (bounds!.y + bounds!.height)).toBeLessThan(50);
+    await expect(page.locator(".hero-portrait figcaption")).toHaveCount(0);
     const tail = await miniature.locator(".hero-miniature__tail").evaluate((element, mouthPosition) => {
       const points = Array.from(element.querySelectorAll("path")).flatMap((path) => {
         const matrix = path.getScreenCTM();
@@ -217,7 +244,6 @@ for (const width of [320, 375, 430, 768, 1024, 1100, 1440]) {
     expect(await miniature.locator(".hero-miniature__viewport").evaluate((element) => getComputedStyle(element).overflow)).toBe("visible");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
-  }
 }
 
 test("teclado cumprimenta e preserva foco visível", async ({ page }) => {

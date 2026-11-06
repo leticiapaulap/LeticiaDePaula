@@ -87,7 +87,6 @@ export function HeroPortrait() {
           <span className="hero-portrait__light" aria-hidden="true" />
         </div>
       </div>
-      <figcaption><span aria-hidden="true" />Pessoas. Ideias. Possibilidades.</figcaption>
     </figure>
   );
 }

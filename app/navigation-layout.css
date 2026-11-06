@@ -24,6 +24,16 @@ html {
   min-width: 0;
 }
 
+/* The opening follows its content; only internal pages keep the sticky footer. */
+.portfolio-content:has(> main .personal-opening) {
+  align-self: start;
+  min-height: 0;
+}
+
+.portfolio-content > main:has(.personal-opening) {
+  flex: 0 0 auto;
+}
+
 .portfolio-sidebar {
   position: sticky;
   z-index: 20;
