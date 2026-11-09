@@ -25,8 +25,10 @@ for (const width of [375, 1440]) {
     const featured = page.locator(".editorial-project-card--featured");
     await expect(featured.locator("img")).toHaveAttribute("src", "/projects/senappen-recebimentos-home.webp");
     await expect(featured.getByRole("heading", { name: "Sistema de Recebimentos Documentais — SENAPPEN", exact: true })).toBeVisible();
-    await featured.getByRole("link", { name: "Conhecer projeto", exact: true }).click();
     await expect(featured.getByRole("link", { name: "Acessar sistema", exact: true })).toHaveAttribute("href", "https://mjsp-recebimentos-smtp.vercel.app/");
+    await featured.getByRole("link", { name: "Conhecer projeto", exact: true }).click();
+    await expect(page).toHaveURL(/\/projetos\/senappen-recebimentos\/$/);
+    await expect(page.locator("main").getByRole("link", { name: "Acessar sistema", exact: true })).toHaveAttribute("href", "https://mjsp-recebimentos-smtp.vercel.app/");
     await page.goto("/formacao/");
     await expect(page.locator(".certification-card")).toHaveCount(10);
     await expect(page.locator(".certification-card:visible")).toHaveCount(7);

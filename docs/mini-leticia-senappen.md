@@ -1,6 +1,6 @@
 # Mini Letícia e acesso ao SENAPPEN
 
-A hero mantém fotografia, recorte, dimensões, título, apresentação, botões, cores e navegação. A legenda “Pessoas. Ideias. Possibilidades.” e seu marcador foram removidos no refinamento final, junto dos estilos e do espaço que reservavam. A miniatura usa a ilustração transparente `Avatar Acenando com Cachos Ruivos.png`, fornecida para substituir a personagem anterior com celular. É uma imagem 2D estática, sem modelo, Canvas ou WebGL; a saudação usa movimento suave e um balão, sem simular quadros que a arte não contém. A gravação fornecida ajudou a identificar o recorte anterior que deixava apenas parte da cabeça à mostra; não é enviada nem incorporada ao site.
+A hero mantém fotografia, recorte, dimensões, título, apresentação, botões, cores e navegação. A legenda “Pessoas. Ideias. Possibilidades.” e seu marcador foram removidos no refinamento final, junto dos estilos e do espaço que reservavam. A miniatura usa a ilustração transparente `Avatar Acenando com Cachos Ruivos.png`, fornecida para substituir a personagem anterior com celular. É uma imagem 2D, sem modelo, Canvas ou WebGL; sua entrada lateral e o aceno usam movimento suave, sem alterar a arte aprovada. Não há balão ou fala.
 
 ## Arte e saudação
 
@@ -12,13 +12,13 @@ Para regenerar a imagem otimizada com o arquivo PNG original:
 node scripts/prepare-miniature.mjs "C:/Users/leticia.pereira/Downloads/Avatar Acenando com Cachos Ruivos.png"
 ```
 
-`HeroMiniature` carrega GSAP após a imagem, sem bloquear a renderização da hero. A apresentação começa automaticamente 400 ms após a ativação, uma vez a cada montagem/entrada na página. Hover, foco por teclado e toque podem repetir o cumprimento. O balão diz “Oi! Que bom ter você por aqui!” e permanece por 4,5 segundos após aparecer, antes do fade. Somente a fala desaparece: a personagem continua na posição final, junto da moldura. Escape dispensa a fala; pequenas movimentações do ponteiro não reiniciam a sequência. A apresentação inicial não é cancelada por uma saída incidental do ponteiro.
+`HeroMiniature` carrega GSAP após a imagem, sem bloquear a renderização da hero. A personagem entra automaticamente pela lateral após uma breve pausa, acena uma vez e permanece ao lado da moldura. É uma ilustração decorativa, não interativa e oculta de tecnologias assistivas. Não há texto, balão, ponteiro ou estados de hover/foco para fala.
 
-A miniatura fica à esquerda, com o topo em 58% da altura da moldura (65% no mobile), e a foto à frente oculta de fato a lateral do corpo. A entrada começa 75% da largura da arte para dentro da foto; ela desliza para fora em 1,2 segundo, inclina suavemente, acena e apresenta a fala. Ao terminar, normaliza a inclinação em 800 ms sem voltar para dentro da foto. O encerramento bloqueia reinícios causados por pequenas saídas e reentradas do ponteiro. Todas as camadas pertencem à moldura e acompanham seu deslocamento existente, sem mudar as dimensões da foto ou ocupar espaço no fluxo. Timelines, tweens, listeners e ResizeObserver são limpos ao desmontar.
+A miniatura fica à esquerda, com o topo em 58% da altura da moldura (65% no mobile), e a foto à frente oculta de fato a lateral do corpo. A entrada começa 75% da largura da arte para dentro da foto e desliza para fora em 1,2 segundo, inclinando-se suavemente durante o aceno. Todas as camadas pertencem à moldura e não ocupam espaço no fluxo. Com movimento reduzido, a personagem aparece estática na posição final; ao ativar essa preferência durante a entrada, a animação é interrompida com segurança. Se a imagem ou o módulo de animação falhar, apenas a miniatura é ocultada. Sem JavaScript, foto e links continuam disponíveis.
 
-As alturas de referência são 120 px no desktop, 102 px em tablets e 80 px no mobile, mantendo a proporção 579 × 768 do arquivo aprovado. O balão usa coordenadas locais da personagem, uma âncora na boca (57% da largura, 31% da altura da arte) e medições reais do rosto, foto, textos e botões. Tenta posições próximas acima/à esquerda e alternativas livres, adaptando a largura ao espaço disponível. Recalcula ao redimensionar, após as fontes carregarem e durante as transformações. O balão permanece horizontal, separado do grupo que inclina o avatar; o ponteiro SVG se curva pela lateral da bochecha, evitando o trajeto diagonal anterior sobre testa e óculos. O posicionamento não depende de offsets relativos ao viewport.
+As alturas de referência são 120 px no desktop, 102 px em tablets e 80 px no mobile, mantendo a proporção 579 × 768 do arquivo aprovado.
 
-Com movimento reduzido, a personagem já aparece diretamente na posição final, e o balão responde sem animação. Se imagem ou módulo de animação falhar, apenas a miniatura é ocultada. Sem JavaScript, foto e links continuam disponíveis.
+O espaçamento vertical da abertura foi compactado: padding do topo, conteúdo, intervalo entre colunas/linhas e colofão foram reduzidos, mantendo a ordem e o respiro dos elementos. A seção continua dimensionada pelo conteúdo; o rodapé permanece logo após a hero, sem altura mínima de viewport ou espaço reservado para a antiga fala.
 
 ## Espaçamento da página inicial
 
@@ -34,13 +34,25 @@ Uma consulta pública GET confirmou HTTP 200. Nenhum formulário foi enviado, á
 
 ## Validação
 
+### Remoção do balão e compactação da hero
+
+O componente não contém texto de fala, balão, ponteiro, controles de hover/foco ou cálculos de posicionamento da fala. A entrada lateral e o aceno permanecem, com inicialização única da animação mesmo quando o evento `load` e a verificação da imagem em cache ocorrem juntos.
+
+Comparação local do CSS anterior com a versão atual, na mesma build de produção: a hero ficou 40 px mais curta no desktop/tablet e 28 px no mobile. A fotografia mantém exatamente as mesmas dimensões. O rodapé começa imediatamente após a seção, sem vão adicional; o respiro restante inclui o colofão existente.
+
+Foram capturadas dez resoluções (320 × 812, 375 × 667, 390 × 844, 430 × 932, 768 × 1024, 1024 × 768, 1100 × 900, 1366 × 768, 1440 × 900 e 1920 × 1080) nos temas claro e escuro. Nenhuma apresentou overflow horizontal ou balão residual. Capturas e medidas estão em `.qa/hero-spacing/final/`, com comparação em `.qa/hero-spacing/comparison.json`. A pasta `original/` usa somente o CSS anterior sobre a página atual para isolar a comparação dos espaçamentos.
+
+Validação final em Chromium: `npm.cmd run typecheck`, `npm.cmd run lint` e `npm.cmd run build` aprovados; **266 testes passaram** em `npm.cmd test`, incluindo os 62 casos da hero. O teste de navegação contextual foi corrigido para verificar o link no card antes de navegar e, depois, na página de destino, evitando consultar um card que já saiu do DOM. Nenhum componente de projeto foi alterado. Arte, fotografia, moldura, sidebar, botões, tipografia, paleta, temas, páginas internas e projetos permanecem preservados. Nenhum deploy realizado.
+
+### Histórico das etapas anteriores
+
 Refinamento final: build de produção, TypeScript e ESLint aprovados; **61 testes** passaram nos arquivos `hero-miniature`, `hero-final-refinement`, `editorial-hero` e `hero-refinement`. Os 12 casos de apresentação sem interação cobrem 1366 × 768, 1440 × 900, 1920 × 1080, 768 × 1024, 390 × 844 e 375 × 667 em claro e escuro. Também foram verificados foco, toque, Escape, entrada em aproximadamente 400 ms, duração da fala, permanência do avatar, remontagem por navegação, movimento reduzido inicial/dinâmico, falha do asset, oclusão, foto, botões e acessibilidade.
+
+Refinamento subsequente: removidos balão, fala, ponteiro, controles e cálculos de posicionamento associados; a miniatura mantém a entrada e o aceno automáticos. Padding vertical e gaps da hero foram reduzidos para aproximar o rodapé sem alterar a sidebar ou páginas internas.
 
 Revisão real de 48 capturas antes/depois, durante a fala e em repouso, em `.qa/hero-final-refinement/before/` e `after/`, com relatórios JSON e folhas de comparação dos avatares. Sem erros de página, overflow horizontal, balão sobre o rosto/foto/textos ou legenda residual nas telas testadas. Validação automatizada em Chromium; outros navegadores não foram exercitados nesta etapa. Nenhum deploy realizado. Arte aprovada e fotografia mantêm os hashes anteriores.
 
 Arquivos do refinamento final: `components/portal/hero-miniature.tsx`, `components/portal/hero-portrait.tsx`, `app/hero-portrait.css`, `app/navigation-layout.css`, `tests/hero-miniature.spec.ts`, `tests/hero-final-refinement.spec.ts` e este documento.
-
-### Histórico das etapas anteriores
 
 Comandos: `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd run build` e `npm.cmd test`.
 
@@ -54,7 +66,7 @@ Validação original: TypeScript, ESLint e build de produção aprovados; 251 te
 
 - `components/portal/hero-miniature.tsx` — novo controlador e apresentação da miniatura.
 - `components/portal/hero-portrait.tsx` — integração na moldura existente.
-- `app/hero-portrait.css` — camadas, oclusão, proporções e balão.
+- `app/hero-portrait.css` — camadas, oclusão, proporções e espaçamento da hero sem balão.
 - `public/images/leticia-mini-avatar.webp` — ilustração sem celular fornecida por Letícia.
 - `scripts/prepare-miniature.mjs` — preparação reproduzível do asset.
 - `lib/projects.ts` — link público do SENAPPEN e nota de divulgação.

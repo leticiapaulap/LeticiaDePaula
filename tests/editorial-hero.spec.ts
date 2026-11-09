@@ -24,7 +24,8 @@ for (const width of [320, 375, 430, 768, 1024, 1100, 1440, 1920]) {
     const photo = portrait.getByRole("img", { name: /Letícia de Paula/ });
     await expect(portrait).toBeVisible();
     await expect(portrait.locator(".hero-character, canvas")).toHaveCount(0);
-    await expect(portrait.getByRole("button", { name: "Cumprimentar Letícia", exact: true })).toBeVisible();
+    await expect(portrait.locator(".hero-miniature")).toHaveAttribute("aria-hidden", "true");
+    await expect(portrait.locator(".hero-miniature button, .hero-miniature__bubble")).toHaveCount(0);
     await expect(photo).toBeVisible();
     await expect(photo).toHaveJSProperty("complete", true);
     expect(await photo.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
@@ -57,7 +58,7 @@ for (const width of [320, 375, 430, 768, 1024, 1100, 1440, 1920]) {
   });
 }
 
-test("link de trajetória mantém a ordem de teclado antes da miniatura", async ({ page }) => {
+test("miniatura decorativa não interfere na ordem de teclado dos links", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   const primary = page.getByRole("link", { name: "Conhecer projetos", exact: true });
@@ -66,7 +67,8 @@ test("link de trajetória mantém a ordem de teclado antes da miniatura", async 
   const trajectory = page.locator("main").getByRole("link", { name: /Minha trajetória/i });
   await expect(trajectory).toBeFocused();
   expect(await trajectory.evaluate((element) => getComputedStyle(element).outlineStyle)).not.toBe("none");
-  await expect(page.locator(".hero-portrait").getByRole("button", { name: "Cumprimentar Letícia", exact: true })).toHaveCount(1);
+  await expect(page.locator(".hero-miniature")).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator(".hero-miniature button, .hero-miniature__bubble")).toHaveCount(0);
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/sobre\/$/);
   await expect(page.locator("main h1")).toBeFocused();

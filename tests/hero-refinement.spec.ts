@@ -95,7 +95,8 @@ for (const width of [375, 768, 1440]) {
 
     await expect(page.locator(".hero-portrait .hero-character, .hero-portrait .hero-character__interaction, .hero-portrait canvas")).toHaveCount(0);
     await expect(page.locator(".hero-miniature")).toHaveAttribute("data-ready", "true");
-    await expect(page.locator(".hero-portrait").getByRole("button", { name: "Cumprimentar Letícia", exact: true })).toBeVisible();
+    await expect(page.locator(".hero-miniature")).toHaveAttribute("aria-hidden", "true");
+    await expect(page.locator(".hero-miniature button, .hero-miniature__bubble")).toHaveCount(0);
     const photo = page.locator(".hero-portrait__image img");
     await expect(photo).toBeVisible();
     await expect(photo).toHaveJSProperty("complete", true);
