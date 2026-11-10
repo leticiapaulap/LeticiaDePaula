@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import sharp from "sharp";
 
 const artwork = /\/images\/fundo-tecnologico-hero-v1(?:-mobile)?\.webp/;
 
@@ -41,7 +42,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
       });
       expect(layer.background).toContain(expectedFile);
       expect(layer.opacity).toBeGreaterThan(0);
-      expect(layer.opacity).toBeLessThanOrEqual(.3);
+      expect(layer.opacity).toBeLessThanOrEqual(.5);
       expect(layer.animation).toBe("none");
       expect(layer.events).toBe("none");
       expect(layer.overlay).toContain("linear-gradient");
@@ -54,6 +55,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
       const photoPixels = await photo.screenshot();
       const initial = await geometry(page);
       const copy = await page.locator("main").innerText();
+      const artworkPixels = await sharp(await page.locator("#portal").screenshot()).ensureAlpha().raw().toBuffer();
       await page.screenshot({ path: testInfo.outputPath(`fundo-${theme}.png`), fullPage: true });
       const accessibility = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
       expect(accessibility.violations.map(({ id, nodes }) => ({ id, targets: nodes.map(({ target }) => target) }))).toEqual([]);
@@ -63,6 +65,15 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
       expect(await geometry(page)).toEqual(initial);
       expect(await page.locator("main").innerText()).toBe(copy);
       expect(photoPixels.equals(await photo.screenshot())).toBe(true);
+      const fallbackPixels = await sharp(await page.locator("#portal").screenshot()).ensureAlpha().raw().toBuffer();
+      expect(fallbackPixels.length).toBe(artworkPixels.length);
+      let visiblyDifferent = 0;
+      for (let offset = 0; offset < artworkPixels.length; offset += 4) {
+        const difference = Math.max(...[0, 1, 2].map((channel) => Math.abs(artworkPixels[offset + channel] - fallbackPixels[offset + channel])));
+        if (difference >= 8) visiblyDifferent += 1;
+      }
+      // A loaded file must also contribute visible pixels to the actual hero.
+      expect(visiblyDifferent / (artworkPixels.length / 4)).toBeGreaterThan(.05);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await page.getByRole("link", { name: "Conhecer projetos", exact: true }).click();
       await expect(page).toHaveURL(/\/projetos\/$/);

@@ -49,20 +49,20 @@
 .hero-ambient[data-background="technology"]::before {
   background: url("/images/fundo-tecnologico-hero-v1.webp") center / cover no-repeat;
   mix-blend-mode: multiply;
-  opacity: .3;
+  opacity: .48;
 }
 
 /* The paper-colored veil keeps the text area quiet in both themes. */
 .hero-ambient[data-background="technology"]::after {
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--background) 55%, transparent), color-mix(in srgb, var(--background) 15%, transparent) 60%, color-mix(in srgb, var(--background) 25%, transparent)),
-    linear-gradient(180deg, color-mix(in srgb, var(--background) 25%, transparent), transparent 35%, color-mix(in srgb, var(--background) 35%, transparent));
+    linear-gradient(90deg, color-mix(in srgb, var(--background) 55%, transparent), color-mix(in srgb, var(--background) 10%, transparent) 60%, color-mix(in srgb, var(--background) 10%, transparent)),
+    linear-gradient(180deg, color-mix(in srgb, var(--background) 25%, transparent), transparent 35%, color-mix(in srgb, var(--background) 15%, transparent));
 }
 
 .dark .hero-ambient[data-background="technology"]::before {
   filter: invert(1) hue-rotate(180deg) saturate(.6);
   mix-blend-mode: screen;
-  opacity: .16;
+  opacity: .3;
 }
 
 .hero-ambient > span {
@@ -464,7 +464,7 @@
   .hero-ambient[data-background="technology"]::before {
     background-image: url("/images/fundo-tecnologico-hero-v1-mobile.webp");
     background-position: 72% center;
-    opacity: .24;
+    opacity: .36;
   }
   .personal-opening.editorial-intro { padding-top: 20px; }
   .personal-opening .editorial-intro__edition,
