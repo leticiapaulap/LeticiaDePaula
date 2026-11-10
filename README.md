@@ -6,7 +6,7 @@ Portfólio em Next.js e TypeScript, com páginas estáticas para apresentação,
 
 ## Executar localmente
 
-Use Node.js 22.19 ou superior, conforme `package.json`.
+Use Node.js 24.x, conforme `package.json`. A versão principal está limitada para manter o ambiente local e o build da Vercel alinhados.
 
 ```bash
 npm ci
@@ -145,7 +145,7 @@ Os testes ficam em `tests/pagina-inicial/`, `tests/navegacao/`, `tests/projetos/
 
 Para Lighthouse, inicie `npm run preview` antes da auditoria. `CHROME_PATH` seleciona o Chrome; `NEXO_AUDIT_URL` define a URL; `NEXO_AUDIT_OUTPUT` define a saída, cujo padrão é `.qa/performance/`. Execute sem outros testes concorrentes para reduzir interferência.
 
-Somente `out/` é o diretório de publicação. `vercel.json` mantém o build, a saída e os cabeçalhos de segurança; o preview aplica os mesmos cabeçalhos. A reorganização do código não realiza deploy.
+Somente `out/` é o diretório de publicação. Na Vercel, use **Framework Preset: Other**, **Install Command: `npm ci`**, **Build Command: `npm run build`**, **Output Directory: `out`** e **Node.js: 24.x**, com a raiz do projeto na pasta que contém `package.json`. O `vercel.json` fixa `framework: null` para selecionar Other e manter o adaptador estático; usar o preset Next.js com a saída `out` faz o adaptador procurar manifestos de servidor no diretório errado. A exportação estática, as barras finais e a normalização de segmentos são preservadas. Os cabeçalhos de segurança continuam no arquivo e no preview. O deploy automático da branch `main` está desativado por `git.deploymentEnabled.main: false`, para permitir commit e push sem publicar antes de autorização. Consulte [publicação na Vercel](docs/publicacao-vercel.md) para validação, avisos de ambiente e retomada da publicação.
 
 ## Documentação e histórico
 
