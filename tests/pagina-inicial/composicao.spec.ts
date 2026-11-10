@@ -42,12 +42,12 @@ test("apresentação breve convida a conhecer o trabalho sem repetir o currícul
   const details = page.locator(".hero-details");
   await expect(page.locator("main h1")).toHaveText(/Letícia\s*de Paula/);
   await expect(page.locator(".nexo-portal__eyebrow")).toHaveText("Desenvolvimento web · Dados · Automação");
-  await expect(details.locator(".personal-opening__positioning")).toHaveText("Gosto de criar soluções digitais que sejam simples de entender e boas de usar.");
+  await expect(details.locator(".personal-opening__positioning")).toHaveCount(0);
   await expect(details.locator(".nexo-portal__introduction")).toHaveText("Por aqui, compartilho um pouco do que venho desenvolvendo.");
   await expect(details).not.toContainText(/Minha experiência reúne|dados geoespaciais|suporte a processos/);
   await expect(details).not.toContainText("Tecnologia com propósito.");
   await expect(details).not.toContainText("Desenvolvo interfaces e aplicações que conectam pessoas, dados e ideias");
-  expect(await details.locator(":scope > p").count()).toBeLessThanOrEqual(2);
+  expect(await details.locator(":scope > p").count()).toBe(1);
   await expect(details.getByRole("link")).toHaveText(["Conhecer projetos", "Minha trajetória"]);
 });
 

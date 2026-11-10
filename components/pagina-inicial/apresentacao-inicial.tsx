@@ -11,7 +11,7 @@ export function PortalHero() {
 
   return (
     <section className="nexo-portal editorial-intro personal-opening" id="portal" aria-labelledby="portal-title" data-experience-state={phase}>
-      <div className="hero-ambient" aria-hidden="true"><span /><span /></div>
+      <div className="hero-ambient" data-background="technology" aria-hidden="true"><span /><span /></div>
       <div className="editorial-intro__edition"><span>Portfólio profissional</span><span>{professional.location}</span></div>
       <div className="nexo-portal__content">
         <div className="nexo-portal__copy">
@@ -21,16 +21,12 @@ export function PortalHero() {
             </p>
 
             <h1 id="portal-title" className="nexo-portal__title" tabIndex={-1}>
-              Letícia
+              Letícia de Paula
               <br />
-              <span>de Paula</span>
             </h1>
           </div>
 
           <div className="hero-details">
-            <p className="personal-opening__positioning">
-              Gosto de criar soluções digitais que sejam simples de entender e boas de usar.
-            </p>
             <p className="nexo-portal__introduction">
               Por aqui, compartilho um pouco do que venho desenvolvendo.
             </p>
