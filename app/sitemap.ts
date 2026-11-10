@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { professional, projects } from "@/lib/data";
+import { professional, projects } from "@/data/conteudo";
 
 export const dynamic = "force-static";
 

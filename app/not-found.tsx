@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { EditorialPage } from "@/components/editorial-page";
+import { EditorialPage } from "@/components/compartilhados/estrutura/pagina-editorial";
 
 export const metadata = { title: "Página não encontrada", robots: { index: false, follow: true } };
 

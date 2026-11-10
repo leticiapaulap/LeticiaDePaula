@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ChapterTransition } from "@/components/chapter-transition";
+import { ChapterTransition } from "@/components/compartilhados/transicoes/transicao-pagina";
 import Link from "next/link";
-import { EditorialPage } from "@/components/editorial-page";
-import { ProfileSection } from "@/components/profile-section";
-import { pageMetadata } from "@/lib/metadata";
+import { EditorialPage } from "@/components/compartilhados/estrutura/pagina-editorial";
+import { ProfileSection } from "@/components/sobre/apresentacao-profissional";
+import { pageMetadata } from "@/lib/seo/metadados";
 
 export const metadata: Metadata = pageMetadata("Sobre mim", "Conheça Letícia de Paula: desenvolvimento web, trajetória em tecnologia e dados, formação e forma de trabalhar.", "/sobre/");
 

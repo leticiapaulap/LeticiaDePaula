@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ChapterTransition } from "@/components/chapter-transition";
-import { ContactSection } from "@/components/contact-section";
-import { EditorialPage } from "@/components/editorial-page";
-import { pageMetadata } from "@/lib/metadata";
+import { ChapterTransition } from "@/components/compartilhados/transicoes/transicao-pagina";
+import { ContactSection } from "@/components/contato/secao-contato";
+import { EditorialPage } from "@/components/compartilhados/estrutura/pagina-editorial";
+import { pageMetadata } from "@/lib/seo/metadados";
 
 export const metadata: Metadata = pageMetadata("Contato", "Converse com Letícia de Paula sobre tecnologia, projetos e oportunidades. E-mail, GitHub e LinkedIn.", "/contato/");
 

@@ -1,23 +1,12 @@
 # Letícia de Paula — Portfólio profissional
 
-Portfólio profissional de Letícia de Paula. A abertura editorial apresenta seu trabalho e conduz aos projetos, estudos de caso e páginas independentes de trajetória, competências, formação e contato. Marfim, azul-petróleo, turquesa e cobre compõem a identidade, junto à tipografia editorial e navegação acessível. O conteúdo é HTML estático, compartilhável por URL e não depende de WebGL.
+Portfólio em Next.js e TypeScript, com páginas estáticas para apresentação, projetos, experiência, competências, formação e contato. A página inicial apresenta a fotografia principal e a mini Letícia animada em 2D, com a navegação lateral e o tema claro/escuro existentes.
 
-Esta entrega evolui a implementação existente, sem reconstrução. A hero e os controles atuais estão documentados em [docs/hero-galeria-projetos.md](docs/hero-galeria-projetos.md). As revisões anteriores permanecem em [docs/navegacao-capitulos.md](docs/navegacao-capitulos.md), [docs/pos-revisao.md](docs/pos-revisao.md) e [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). Pendências e fontes de conteúdo ficam em [docs/conteudo-interno.md](docs/conteudo-interno.md), não na interface. Os relatórios anteriores preservam os resultados das versões que mediram.
+**Comece pelo [MAPA DO PROJETO](docs/MAPA_DO_PROJETO.md).** O guia contém a árvore atual, a finalidade das pastas e a seção **ONDE ALTERAR CADA COISA?** para localizar fotografia, moldura, personagem, animação, textos, menu e rodapé.
 
-## Tecnologias
+## Executar localmente
 
-- Next.js 16.4 App Router, React 19.3 e TypeScript 6.
-- Tailwind CSS 4 e CSS com tokens próprios de cor, tipografia, espaço e movimento.
-- Three.js e React Three Fiber, carregados dinamicamente e com renderização sob demanda.
-- Radix Dialog para o menu mobile e certificados; next-themes e Lucide React.
-- Playwright, axe-core e Lighthouse para validação do build exportado.
-- Sharp para preparar a imagem social PNG e a captura WebP.
-
-Manrope e Instrument Serif são processadas por `next/font` e servidas localmente no site publicado. A primeira compilação precisa de acesso à rede para obter as fontes.
-
-## Instalação e execução
-
-Ambiente validado: Windows, Node.js 24.13.0 e npm 11.6.2. As ferramentas de auditoria exigem Node.js 22.19 ou superior; recomenda-se Node.js 24.
+Use Node.js 22.19 ou superior, conforme `package.json`.
 
 ```bash
 npm ci
@@ -30,179 +19,143 @@ Desenvolvimento: `http://localhost:3000`. No PowerShell, use `npm.cmd` e `npx.cm
 npm run typecheck
 npm run lint
 npm run build
+npm test
+npm run test:report
 npm run preview
 ```
 
-O build produz `out/`. O preview de produção está em `http://127.0.0.1:4173`; `npm start` executa o mesmo servidor estático. Para outra porta, defina `PORT`. O servidor local escuta apenas em `127.0.0.1` e não é um servidor de hospedagem pública.
+O build gera `out/`. Use `npm run build` para incluir a normalização dos segmentos de navegação estáticos desta versão do Next.js no Windows. O preview fica em `http://127.0.0.1:4173`; `npm start` executa o mesmo servidor. Para outra porta, defina `PORT`.
 
-Use sempre `npm run build`: o pós-processamento normaliza os segmentos estáticos de navegação produzidos no Windows por esta versão do Next.js. O comando também funciona quando não há caminhos a normalizar.
+Para instalar o navegador dos testes, execute `npx playwright install chromium`. Para utilizar um Chromium já instalado, defina `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` com o caminho absoluto do executável.
 
-## Configuração
-
-Copie `.env.example` para `.env.local` e ajuste `NEXT_PUBLIC_SITE_URL` à origem HTTPS definitiva, conforme o domínio configurado na hospedagem. O valor padrão mantém o endereço já presente no projeto; não pressupõe que esta nova entrega esteja publicada nele.
-
-Essa variável pública é usada no build para canonical, Open Graph, sitemap, robots e JSON-LD. Aceita uma origem HTTP/HTTPS sem caminho, query, fragmento ou credenciais. Ao mudar o domínio, gere outro build. Nenhuma chave secreta é necessária.
-
-A preferência de tema é local no navegador; animações respeitam a configuração de movimento reduzido do sistema. Não há formulário que envie mensagens, backend de contato, cookies de rastreamento ou serviço de analytics nesta implementação. Links de contato abrem e-mail, GitHub ou LinkedIn.
-
-## Arquitetura e estrutura
+## Estrutura atual
 
 ```text
-app/                       Rotas, layout, metadados, sitemap, robots e 404
-  projetos/[slug]/         Estudos de caso gerados no build
-  globals.css              Tokens e estilos editoriais
-  experience.css           Interação, responsividade, foco e impressão
-  refinements.css          Acabamento visual e estilos existentes
-  chapters.css             Composições e transições de página existentes
-  navigation-layout.css    Sidebar desktop, menu mobile e layout responsivo
-  hero.css                 Galeria de projetos, composição inicial e moldura do retrato
-components/                Seções profissionais e controles
-  chapter-transition.tsx   Transições de rota com React ViewTransition
-  header.tsx               Sidebar desktop e menu mobile
-  experience-navigation.tsx Identificação do modo de leitura
-  theme-toggle.tsx          Alternância de tema
-  portal/                  Portal, SVG, carregador e cena 3D
-    hero-project-gallery.tsx Capturas, seleção acessível e links da abertura
-    project-gallery-scene.tsx Telas reais em perspectiva no canvas compartilhado
-lib/                       Conteúdo tipado, relações e máquina de estados
-  chapters.ts              Rotas e fases internas das páginas
-  navigation.ts            Rótulos claros usados no menu
-public/                    Imagens públicas, currículo e nove certificados
-scripts/                   Preview, normalização, imagens e Lighthouse
-tests/                     Testes de rotas, acessibilidade e experiência
-docs/                      Auditoria e documentação técnica
-vercel.json                Build, diretório público, cache e cabeçalhos
+app/                         Rotas, layout e arquivos especiais do Next.js
+  projetos/[slug]/           Páginas de detalhes geradas no build
+components/
+  pagina-inicial/            Apresentação, fotografia e mini Letícia
+    fotografia/              Fotografia principal e sua moldura
+    mini-leticia/             Entrada lateral e aceno da personagem
+  sobre/                     Apresentação profissional
+  navegacao/                 Menu lateral e menu mobile
+  projetos/                  Catálogo, filtros, imagens e retorno aos projetos
+  experiencia/               Trajetória profissional
+  competencias/              Conhecimentos e conexões com projetos
+  formacao/                  Formação acadêmica e certificados
+  contato/                   E-mail e perfis profissionais
+  curriculo/                 Controles de impressão
+  rodape/                    Rodapé compartilhado
+  compartilhados/            Estrutura, estado, tema, transições e SEO
+  legado/                    Componentes anteriores preservados
+data/                        Conteúdo tipado separado por funcionalidade
+  projetos/                  Um cadastro por projeto e catálogo central
+  perfil/                    Identidade e informações profissionais
+  pagina-inicial/            Configuração das fotografias
+  experiencia/               Dados da trajetória
+  competencias/              Grupos de competências
+  formacao/                  Formação e certificações
+  contato/                   Redes sociais
+  navegacao/                 Rótulos e destinos do menu
+  legado/                    Dados das composições anteriores
+styles/                      CSS agrupado por área, mantendo a cascata existente
+  pagina-inicial/            Apresentação, fotografia, mini Letícia e responsividade
+  navegacao/                 Menu e transições de página
+  compartilhados/            Bases, tema, tipografia, seções e catálogos
+lib/                         Lógica de navegação, relações de competências e SEO
+  legado/                    Geometria e suporte 3D anteriores preservados
+public/                      Imagens e PDFs com URLs estáveis
+scripts/                     Preview, build, preparação de assets e Lighthouse
+tests/                       Testes por funcionalidade e auxiliares de navegação
+docs/                        Mapa atual, orientações editoriais e histórico técnico
 ```
 
-Server Components e dados tipados geram as páginas HTML no build. Client Components atendem filtros, pesquisa, preferências e navegação imersiva. `ExperienceProvider` coordena fases e seleções; um contexto separado de seleções evita atualizar as listas quando só a cena ou as preferências mudam. O renderizador não controla a disponibilidade do conteúdo.
+Configurações permanecem na raiz. `node_modules/`, `.next/`, `out/`, `.qa/`, `test-results/` e `playwright-report/` são dependências ou arquivos gerados, não locais para editar funcionalidades.
 
-Server Components e conteúdo tipado entregam as páginas sem depender de canvas ou WebGL. Componentes de cliente são reservados para interações de conteúdo — filtros, pesquisa, seleção de projetos, certificados, preferências e transições — e não controlam a disponibilidade das informações.
+Pastas e arquivos internos usam português sem acentos e kebab-case. Convenções do framework, extensões, nomes de configuração, identificadores TypeScript e URLs públicas existentes são preservados. O alias `@/` aponta para a raiz do repositório.
 
-Cada seção é uma rota HTML independente, carregável e compartilhável. Em telas largas, a sidebar fixa à esquerda oferece acesso direto a Início, Sobre mim, Projetos, Experiência, Competências, Formação e Contato. Currículo PDF, tema e perfis profissionais ficam abaixo da lista, sem repetir ações na hero ou no rodapé.
-
-Até 1099 px, a sidebar dá lugar a um cabeçalho compacto com o botão “Menu” e um painel lateral modal. O painel fecha ao escolher uma seção, por Escape ou ao clicar fora; mantém foco contido e impede a rolagem de fundo enquanto aberto. Links Next.js preservam URLs, histórico nativo e pré-carregamento. `aria-current` identifica a rota atual e o foco acompanha o título após a navegação. Não há controles sequenciais nem gestos para trocar de página. A rolagem permanece natural nas páginas extensas; transições respeitam `prefers-reduced-motion`.
-
-| Rota | Conteúdo |
-| --- | --- |
-| `/` | Início e apresentação |
-| `/sobre/` | Sobre mim, princípios e fotografia opcional |
-| `/projetos/` | Projetos, filtros e estados vazios |
-| `/projetos/festa-fantasia/` | Estudo de caso do projeto público |
-| `/projetos/organizador-de-tarefas/` | Finanzy, versão atual do organizador pessoal |
-| `/projetos/senappen-recebimentos/` | Visão geral do portal privado da SENAPPEN |
-| `/projetos/agenda-executiva/` | Aplicação web de gestão de compromissos executivos |
-| `/projetos/dio-lab-open-source/` | Fork educacional do laboratório da DIO |
-| `/projetos/portfolio-leticia-de-paula/` | Estudo de caso do portfólio pessoal |
-| `/experiencia/` | Cargos, períodos e atividades da trajetória |
-| `/competencias/` | Conhecimentos e relações documentadas com projetos |
-| `/formacao/` | Formação, cursos, filtros e certificados |
-| `/contato/` | E-mail e perfis profissionais |
-| `/curriculo/` | Currículo digital indexável e imprimível |
-| URL desconhecida | Página 404 com caminhos para continuar |
+A hero atual está em `components/pagina-inicial/`. A mini Letícia usa GSAP e a ilustração transparente existente; a hero não monta Canvas nem WebGL. Componentes 3D e galerias anteriores continuam em `components/legado/`, com seus dados e utilitários preservados. Eles não são a implementação da página inicial atual.
 
 ## Atualizar conteúdo
 
-Os arquivos em `lib/` são a fonte da interface. Preserve a diferença entre informação declarada no currículo, evidência em código e documento anexado.
+Edite os arquivos em `data/` correspondentes à funcionalidade. `data/conteudo.ts` reúne exportações para os consumidores existentes; não é um segundo cadastro.
+
+| Conteúdo | Local |
+| --- | --- |
+| Identidade e informações profissionais | `data/perfil/perfil-profissional.ts` |
+| Fotografia principal e retrato opcional de Sobre | `data/pagina-inicial/fotografias.ts` |
+| Experiência profissional | `data/experiencia/trajetoria.ts` |
+| Competências | `data/competencias/grupos.ts` |
+| Formação acadêmica | `data/formacao/formacao-academica.ts` |
+| Cursos e certificados | `data/formacao/certificacoes.ts` |
+| Perfis sociais | `data/contato/redes-sociais.ts` |
+| Rótulos e destinos do menu | `data/navegacao/itens-menu.ts` |
+| Tipos dos dados | `data/tipos.ts` |
 
 ### Projetos
 
-1. Adicione um objeto compatível com `Project` em `lib/projects.ts`, com `id` e `slug` únicos.
-2. Preencha contexto, problema, solução, tecnologias, arquitetura, aprendizados e fontes reais.
-3. Inclua um link `type: "case"` apontando para `/projetos/SEU-SLUG/`. Links GitHub e demonstrações devem existir e corresponder ao projeto.
-4. Para uma captura autorizada, coloque o arquivo em `public/projects/` e adicione `src`, `alt` e `caption` em `screenshots`. Os diagramas são identificados como diagramas.
-5. Associe competências em `lib/skills.ts` apenas quando o projeto documentar seu uso.
-6. Gere o build; `generateStaticParams` e o sitemap incluem o novo projeto automaticamente.
+Os seis projetos têm arquivos próprios em `data/projetos/`: `festa-fantasia.ts`, `finanzy.ts`, `senappen-recebimentos.ts`, `dio-lab-open-source.ts`, `agenda-executiva.ts` e `portfolio-leticia-de-paula.ts`. `catalogo.ts` reúne os cadastros na ordem existente; SENAPPEN mantém o destaque principal.
 
-Categorias sem projetos têm estados vazios reais. Não publique fluxos, nomes de sistemas, resultados ou código corporativo sem autorização.
+Para adicionar um projeto:
 
-Os projetos adicionais foram incluídos a pedido da autora, com fontes e limites registrados em [docs/projetos-adicionais.md](docs/projetos-adicionais.md). Projetos não públicos não recebem botões de repositório ou demo. Sem uma captura autorizada, cada projeto mostra um diagrama editorial próprio; não são simuladas interfaces. A galeria 3D da abertura continua usando apenas as duas capturas reais já disponíveis.
+1. Crie um arquivo em `data/projetos/` com um objeto compatível com `Project`, definido em `data/tipos.ts`.
+2. Use `id` e `slug` únicos e preencha descrições, tecnologias, imagens e links com informações verificadas.
+3. Registre o objeto em `data/projetos/catalogo.ts`. O link do estudo de caso deve apontar para `/projetos/SEU-SLUG/`.
+4. Coloque capturas autorizadas em `public/projects/` e informe `src`, texto alternativo e legenda no cadastro. As imagens existentes conservam seus caminhos.
+5. Quando houver evidência, relacione o slug às competências em `data/competencias/grupos.ts`.
+6. Execute typecheck, lint, build e testes. A rota dinâmica e o sitemap incluem os projetos do catálogo.
 
-### Certificações e formação
+Não renomeie slugs existentes ao organizar seus arquivos. `finanzy.ts`, por exemplo, mantém a URL `/projetos/organizador-de-tarefas/`. Dados e links externos ficam no cadastro; a exibição fica em `components/projetos/`; detalhes continuam em `app/projetos/[slug]/page.tsx`.
 
-Edite `lib/certifications.ts`: nome, instituição, área, carga horária, data de conclusão, status e prioridade. Somente um documento real deve receber `certificateUrl`, apontando para `public/certificates/`. Estudos em curso usam `Em andamento`, sem botão de visualização. Cursos cuja conclusão ainda não está confirmada ficam em `docs/conteudo-interno.md`, não recebem status de concluídos e não aparecem como pendências na biblioteca pública.
+### Fotografias e documentos
 
-A pesquisa ignora acentos e combina nome, instituição e área. Verifique os filtros, o diálogo e o link direto ao PDF depois de adicionar um arquivo. Os certificados atuais foram renderizados e conferidos; a conclusão de “Contribuindo em um Projeto Open Source no GitHub” é 01/04/2026, conforme o documento.
+As URLs públicas são determinadas pelos arquivos em `public/`. A organização preserva `public/images/`, `public/projects/`, `public/certificates/`, o currículo PDF e as imagens sociais nos caminhos existentes. O mapa identifica os assets de cada área.
 
-Os documentos recebidos em 16/10/2026 comprovam “Desenvolvedor Profissional”, Versátil TI, 240 h, concluído em 30/04/2026 (emissão em 12/05/2026), e “Introdução à Análise de Dados — Microsoft Power BI”, Fundação Bradesco, 5 h, concluído em 17/09/2026. O segundo é distinto do curso de BI da DIO. Na cópia pública da Fundação Bradesco foi removido o texto do rodapé com o endereço de impressão do portal e seus parâmetros; o conteúdo do certificado, QR e código de autenticidade foram preservados. Os originais fornecidos não foram modificados.
+A fotografia principal usa o JPEG original e as três variantes WebP em `public/images/`. A mini Letícia usa `public/images/leticia-mini-avatar.webp`. O retrato opcional de Sobre é configurado separadamente em `data/pagina-inicial/fotografias.ts`.
 
-Atualize a formação acadêmica em `lib/education.ts` e as fontes em `lib/content-audit.ts`. A conclusão prevista no currículo não deve ser tratada como conclusão efetiva.
+Certificações usam `certificateUrl` somente quando existe um PDF real em `public/certificates/`. Estudos em andamento não recebem botão de certificado. Fontes e pendências editoriais continuam em [docs/conteudo-interno.md](docs/conteudo-interno.md). O currículo `public/curriculo-leticia-de-paula.pdf` é independente: não é gerado automaticamente pela página `/curriculo/`.
 
-### Currículo e contato
+## Rotas e configuração
 
-Atualize `lib/profile.ts`, `lib/experiences.ts`, `lib/education.ts` e `lib/skills.ts`; o currículo HTML usa esses dados. Substitua `public/curriculo-leticia-de-paula.pdf` por uma cópia pública revisada. Revise o PDF separadamente: ele não é gerado automaticamente a partir do HTML. O arquivo atual tem duas páginas e não contém o telefone pessoal do currículo original.
+As páginas permanecem em `/`, `/sobre/`, `/projetos/`, `/projetos/[slug]/`, `/experiencia/`, `/competencias/`, `/formacao/`, `/contato/` e `/curriculo/`. Slugs de projetos, links externos e URLs de imagens, PDFs, sitemap e robots conservam os caminhos existentes.
 
-Atualize os perfis em `lib/profile.ts` e `lib/social-links.ts`, mantendo-os consistentes. Links em documentos anexos também precisam de revisão. O PDF desta entrega tem idioma e metadados em português e links ativos de e-mail, GitHub e LinkedIn.
+Copie `.env.example` para `.env.local` quando precisar configurar `NEXT_PUBLIC_SITE_URL`. Essa origem pública é usada no build para canonical, Open Graph, sitemap, robots e JSON-LD. Ao mudar o domínio, gere outro build. Metadados e resolução do endereço ficam em `lib/seo/`; os arquivos especiais do Next.js permanecem em `app/`.
 
-## Acessibilidade
+O projeto usa Next.js App Router, React, TypeScript, Tailwind CSS, CSS global, Radix Dialog, next-themes, Lucide e GSAP. Three.js e React Three Fiber permanecem para o código legado. Manrope e Instrument Serif são processadas por `next/font`; o build pode precisar de rede para obter essas fontes.
 
-O conteúdo relevante permanece fora do canvas. Há links de salto, landmarks, headings, labels, foco visível, navegação por teclado, alvos maiores, contraste por superfície e suporte a `prefers-reduced-motion`. Menu e certificados têm contenção e restauração de foco, fechamento por Escape e acesso direto aos PDFs.
+## Scripts e verificações
 
-O modo direto evita inicializar WebGL em uma visita nova. Indisponibilidade de WebGL, falha do renderizador ou perda de contexto preservam as capturas HTML na abertura e o SVG nas páginas internas. Sem JavaScript, uma navegação HTML adicional, capturas, estudos de caso e links de documentos continuam disponíveis; filtros e controles que exigem scripts ficam ocultos.
+| Comando ou script | Finalidade |
+| --- | --- |
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run typecheck` | Verificação TypeScript |
+| `npm run lint` | ESLint sem avisos |
+| `npm run build` | Exportação estática e normalização dos segmentos |
+| `npm start` ou `npm run preview` | Preview local de `out/` |
+| `npm test` | Suíte Playwright existente |
+| `npm run test:report` | Abrir relatório HTML |
+| `npm run audit:performance` | Lighthouse, três execuções mobile e três desktop |
+| `npm run assets` | Regenerar imagem social e capturas WebP |
+| `scripts/prepare-hero-portrait.mjs` | Preparar variantes WebP da fotografia original |
+| `scripts/prepare-miniature.mjs` | Preparar o avatar a partir do PNG aprovado informado por argumento |
 
-Axe testa critérios automatizáveis de WCAG 2.2 AA. Isso não é certificação de conformidade: ainda é recomendada uma revisão humana com leitor de tela e aparelhos reais. Quatro certificados DIO/Klabin são PDFs de imagem; nome, instituição, data e carga horária também estão disponíveis no HTML.
+Os scripts de preparação de imagens alteram arquivos em `public/`; execute-os somente quando quiser regenerar esses assets. A reorganização não exige regenerá-los.
 
-## Performance e imagens
+Os testes ficam em `tests/pagina-inicial/`, `tests/navegacao/`, `tests/projetos/` e `tests/portfolio/`; auxiliares ficam em `tests/auxiliares/`. A suíte usa o build de produção e cobre rotas, imagens, temas, responsividade, mini Letícia, navegação, foco, filtros, documentos e verificações automatizadas de acessibilidade. Capturas e traces ficam em `test-results/`; o relatório HTML, em `playwright-report/`.
 
-- Exportação estática e divisão de código por rota.
-- Importação separada de WebGL, após restauração de preferências, visibilidade e tempo ocioso. A abertura mobile usa as capturas HTML e não carrega o renderizador.
-- Renderização sob demanda, com pausa em aba oculta, fora da área visível e no modo direto; a galeria desktop é limitada a aproximadamente 24 atualizações por segundo. Os capítulos internos preservam seus estados da escultura e a ativação mobile explícita pelo modo imersivo. Movimento reduzido usa imagens HTML ou SVG sem iniciar WebGL.
-- Geometria e pixel ratio por dispositivo; sem texturas remotas nem pós-processamento.
-- Capturas HTML imediatas na abertura, SVG nas páginas internas e dimensões explícitas nas imagens. Animações de entrada do corpo preservam opacidade e contraste dos textos e ações.
-- Capturas reais em WebP, imagens abaixo da dobra com lazy loading e fontes locais após o build.
-- Cache imutável somente para arquivos versionados em `/_next/static/`; documentos de nome estável podem ser atualizados a cada publicação.
+Para Lighthouse, inicie `npm run preview` antes da auditoria. `CHROME_PATH` seleciona o Chrome; `NEXO_AUDIT_URL` define a URL; `NEXO_AUDIT_OUTPUT` define a saída, cujo padrão é `.qa/performance/`. Execute sem outros testes concorrentes para reduzir interferência.
 
-`npm run assets` recria a imagem social PNG e as capturas WebP a partir das fontes preservadas em `public/`. A captura atual do Festa Fantasia foi fornecida por Letícia de Paula e o mapa de competências foi capturado do próprio portfólio, sem simular interfaces. A imagem antiga `nexo-portal` permanece como fonte histórica e não aparece na hero.
+Somente `out/` é o diretório de publicação. `vercel.json` mantém o build, a saída e os cabeçalhos de segurança; o preview aplica os mesmos cabeçalhos. A reorganização do código não realiza deploy.
 
-Metas: LCP ≤ 2,5 s; CLS ≤ 0,1; INP ≤ 200 ms. Consulte as medições reais e suas condições em [docs/refinamento-pessoal.md](docs/refinamento-pessoal.md). TBT de Lighthouse não é INP; métricas de campo precisam de tráfego real.
+## Documentação e histórico
 
-## Testes e auditorias
+O [MAPA DO PROJETO](docs/MAPA_DO_PROJETO.md) é o guia de manutenção atual. Os documentos abaixo registram etapas anteriores e suas condições, caminhos e resultados da época:
 
-```bash
-npx playwright install chromium
-npm run build
-npm test
-npm run test:report
-npm audit
-```
+- [Mini Letícia, hero e SENAPPEN](docs/mini-leticia-senappen.md).
+- [Fotografia da hero](docs/hero-foto-interativa.md).
+- [Navegação lateral](docs/navegacao-lateral.md) e [navegação por capítulos](docs/navegacao-capitulos.md).
+- [Projetos adicionais](docs/projetos-adicionais.md).
+- [Galeria anterior da hero](docs/hero-galeria-projetos.md) e [base 3D anterior](docs/personagem-3d-hero.md).
+- [Redesign editorial](docs/redesign-editorial.md), [pós-revisão](docs/pos-revisao.md), [refinamento pessoal](docs/refinamento-pessoal.md) e [auditoria de produção](docs/auditoria-producao.md).
 
-Playwright serve `out/` e verifica treze rotas em 320, 375, 430, 768, 1024, 1280, 1440 e 1920 px; testa contraste nos dois temas, menu, foco, filtros, busca, estados vazios, documentos, SEO, 404 e fallback. Os testes imersivos conferem a posição da arte, fases e perda de contexto. O catálogo também tem testes específicos de acesso, histórico, seleção, privacidade, atribuição do fork e diagramas. Screenshots e traces ficam em `test-results/`; o relatório HTML fica em `playwright-report/`.
-
-Se precisar usar um Chromium existente, defina `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` com o caminho absoluto do executável. Esse ajuste é opcional e não é incluído no bundle.
-
-Para Lighthouse, execute `npm run preview` em um terminal e, em outro:
-
-```bash
-npm run audit:performance
-```
-
-O script realiza três execuções mobile e três desktop, com relatórios JSON/HTML em `.qa/performance/`. Defina `CHROME_PATH` se o Chrome não for detectado; `NEXO_AUDIT_URL` altera o alvo e `NEXO_AUDIT_OUTPUT` altera a pasta dos relatórios. Execute sem outros testes concorrentes para reduzir interferência. A medição padrão usa a home imersiva em uma visita nova.
-
-## Segurança e privacidade
-
-Somente `out/` é publicado. Arquivos de ambiente, IDE, testes, relatório local e o repositório `.git` não fazem parte do diretório servido. O código não necessita de credenciais e os links externos usam `noreferrer`. Os documentos públicos foram inspecionados para conteúdo, anexos e JavaScript embutido.
-
-`vercel.json` define proteção contra sniffing, restrição de enquadramento à mesma origem, política de referência, bloqueio de câmera/microfone/geolocalização e CSP compatível com os scripts inline do Next.js estático. O preview usa esses mesmos cabeçalhos para validá-los localmente. Uma CSP baseada em hashes pode ser uma evolução futura; não há geração de nonce de servidor no export estático.
-
-## Deploy na Vercel
-
-Esta entrega não executa publicação externa.
-
-1. Confirme o domínio público e os dados profissionais ainda pendentes de atualização. Faça a revisão final dos PDFs que serão distribuídos.
-2. Configure um projeto na Vercel a partir do repositório que você autorizar publicar. Use Node.js 24 e o preset Next.js.
-3. Configure `NEXT_PUBLIC_SITE_URL` com a origem HTTPS pública escolhida para esse ambiente.
-4. O arquivo `vercel.json` usa `npm run build` e diretório de saída `out`. Mantenha o pós-processamento dos segmentos estáticos.
-5. Após autorização para publicar, crie um preview e teste navegação client-side, acesso direto a uma rota interna, PDF, diálogo, assets, `robots.txt`, `sitemap.xml`, canonical e 404 real.
-6. Repita Lighthouse no domínio hospedado; compressão, CDN e hardware do visitante afetam os resultados.
-7. Promova a produção somente após revisar o preview. Ao trocar domínio, atualize a variável e refaça o build.
-
-Em outro host estático, publique exclusivamente `out/`, preserve as barras finais, sirva `diretorio/index.html` e use `404.html` para endereços ausentes com status HTTP 404. Não use fallback geral para `index.html`, pois isso mascara erros e prejudica SEO. Replique os cabeçalhos de `vercel.json` e habilite HTTPS e compressão no host.
-
-## Pendências externas
-
-O LinkedIn informado precisa de conferência manual. A demonstração de Festa Fantasia foi revisitada: a URL configurada no repositório redireciona à aplicação pública com tema Halloween; a página e a API de configurações responderam com sucesso em 16/10/2026. Captura e contexto de publicação estão registrados na auditoria. Não foram enviados cadastros ou votos. Situação acadêmica, vínculo atual e futuros documentos dependem de atualização da proprietária. Nenhum resultado, diploma, vaga ou vínculo foi inventado.
-
-## Fotografia pessoal
-
-`components/professional-portrait.tsx` está integrado à seção Sobre de forma opcional. Configure `portrait` em `lib/portrait.ts` somente após receber uma fotografia real e autorizada: `src`, texto alternativo, `width`, `height` e legenda opcional. Use um caminho local em `public/` e as dimensões verdadeiras da imagem. Com `null`, não há espaço vazio, imagem substituta nem download remoto.
-
-A fotografia usa largura fluida, altura automática e `object-fit: contain`, sem recorte, filtros de rosto ou alteração de proporções. A profundidade é criada pela moldura com perspectiva CSS, luz discreta e sombras, preservando integralmente os pixels da fotografia. No mobile e com movimento reduzido, o tratamento espacial é simplificado. Nenhuma fotografia foi criada ou alterada nesta revisão; `portrait` permanece `null` até o recebimento do arquivo autorizado. Conferir pose, rosto, tatuagens, roupa, acessórios e enquadramento com a proprietária antes de publicar.
+Os relatórios JSON de `docs/` também são históricos; não representam uma execução nova após cada edição.

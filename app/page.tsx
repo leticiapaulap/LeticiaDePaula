@@ -1,5 +1,5 @@
-import { ChapterTransition } from "@/components/chapter-transition";
-import { PortalHero } from "@/components/portal/portal-hero";
+import { ChapterTransition } from "@/components/compartilhados/transicoes/transicao-pagina";
+import { PortalHero } from "@/components/pagina-inicial/apresentacao-inicial";
 
 export default function Home() {
   return (

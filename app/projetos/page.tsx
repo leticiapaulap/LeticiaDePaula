@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ChapterTransition } from "@/components/chapter-transition";
-import { EditorialPage } from "@/components/editorial-page";
-import { ProjectsSection } from "@/components/projects-section";
-import { pageMetadata } from "@/lib/metadata";
+import { ChapterTransition } from "@/components/compartilhados/transicoes/transicao-pagina";
+import { EditorialPage } from "@/components/compartilhados/estrutura/pagina-editorial";
+import { ProjectsSection } from "@/components/projetos/secao-projetos";
+import { pageMetadata } from "@/lib/seo/metadados";
 
 export const metadata: Metadata = pageMetadata("Projetos", "Aplicações web de Letícia de Paula: objetivos, tecnologias, funcionalidades e estudos de caso com código público.", "/projetos/");
 

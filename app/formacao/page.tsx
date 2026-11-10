@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ChapterTransition } from "@/components/chapter-transition";
-import { CertificationsSection } from "@/components/certifications-section";
-import { EducationSection } from "@/components/education-section";
-import { EditorialPage } from "@/components/editorial-page";
-import { pageMetadata } from "@/lib/metadata";
+import { ChapterTransition } from "@/components/compartilhados/transicoes/transicao-pagina";
+import { CertificationsSection } from "@/components/formacao/secao-certificacoes";
+import { EducationSection } from "@/components/formacao/formacao-academica";
+import { EditorialPage } from "@/components/compartilhados/estrutura/pagina-editorial";
+import { pageMetadata } from "@/lib/seo/metadados";
 
 export const metadata: Metadata = pageMetadata("Formação e cursos", "Formação acadêmica, cursos e nove certificados disponíveis de Letícia de Paula.", "/formacao/");
 

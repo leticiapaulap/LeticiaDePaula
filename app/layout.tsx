@@ -1,23 +1,23 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Manrope } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
-import { ExperienceProvider } from "@/components/experience-provider";
-import { StructuredData } from "@/components/structured-data";
-import { pageMetadata } from "@/lib/metadata";
-import { navItems } from "@/lib/navigation";
-import "./globals.css";
-import "./experience.css";
-import "./refinements.css";
-import "./chapters.css";
-import "./hero.css";
-import "./editorial-chapters.css";
-import "./editorial-catalogs.css";
-import "./editorial-navigation.css";
-import "./editorial.css";
-import "./navigation-layout.css";
-import "./hero-portrait.css";
+import { ThemeProvider } from "@/components/compartilhados/tema/provedor-tema";
+import { Footer } from "@/components/rodape/rodape";
+import { Header } from "@/components/navegacao/menu-lateral";
+import { ExperienceProvider } from "@/components/compartilhados/estado/provedor-navegacao";
+import { StructuredData } from "@/components/compartilhados/seo/dados-estruturados";
+import { pageMetadata } from "@/lib/seo/metadados";
+import { navItems } from "@/data/navegacao/itens-menu";
+import "../styles/compartilhados/base.css";
+import "../styles/compartilhados/interacoes-e-acessibilidade.css";
+import "../styles/compartilhados/composicoes-de-secoes.css";
+import "../styles/compartilhados/paginas-e-transicoes.css";
+import "../styles/pagina-inicial/galeria-e-base-da-abertura.css";
+import "../styles/compartilhados/secoes-editoriais.css";
+import "../styles/compartilhados/catalogos-de-projetos-e-formacao.css";
+import "../styles/navegacao/transicoes-de-pagina.css";
+import "../styles/compartilhados/tema-e-tipografia.css";
+import "../styles/navegacao/menu-lateral-e-layout.css";
+import "../styles/pagina-inicial/apresentacao-fotografia-e-mini-leticia.css";
 
 const interfaceFont = Manrope({
   subsets: ["latin"],

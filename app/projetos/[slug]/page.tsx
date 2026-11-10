@@ -2,10 +2,10 @@ import { ArrowLeft, ArrowRight, ExternalLink, GitBranch } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ProjectVisual } from "@/components/project-visual";
-import { ProjectReturnLink } from "@/components/project-return-link";
-import { getProjectBySlug, projects } from "@/lib/data";
-import { pageMetadata } from "@/lib/metadata";
+import { ProjectVisual } from "@/components/projetos/visual-projeto";
+import { ProjectReturnLink } from "@/components/projetos/voltar-aos-projetos";
+import { getProjectBySlug, projects } from "@/data/conteudo";
+import { pageMetadata } from "@/lib/seo/metadados";
 
 type ProjectPageProps = {
   params: Promise<{

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { PrintActions } from "@/components/print-actions";
-import { education, experiences, professional, projects, skillGroups } from "@/lib/data";
-import { pageMetadata } from "@/lib/metadata";
+import { PrintActions } from "@/components/curriculo/acoes-impressao";
+import { education, experiences, professional, projects, skillGroups } from "@/data/conteudo";
+import { pageMetadata } from "@/lib/seo/metadados";
 
 export const metadata: Metadata = pageMetadata("Currículo Digital", "Currículo digital de Letícia de Paula, com apresentação profissional, projetos documentados e informações de formação.", "/curriculo/");
 

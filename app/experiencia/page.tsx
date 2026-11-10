@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ChapterTransition } from "@/components/chapter-transition";
-import { EditorialPage } from "@/components/editorial-page";
-import { ExperienceSection } from "@/components/experience-section";
-import { pageMetadata } from "@/lib/metadata";
+import { ChapterTransition } from "@/components/compartilhados/transicoes/transicao-pagina";
+import { EditorialPage } from "@/components/compartilhados/estrutura/pagina-editorial";
+import { ExperienceSection } from "@/components/experiencia/experiencia-profissional";
+import { pageMetadata } from "@/lib/seo/metadados";
 
 export const metadata: Metadata = pageMetadata("Experiência", "Trajetória profissional de Letícia de Paula em tecnologia, dados geoespaciais e suporte.", "/experiencia/");
 

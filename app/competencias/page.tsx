@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ChapterTransition } from "@/components/chapter-transition";
-import { EditorialPage } from "@/components/editorial-page";
-import { SkillsSection } from "@/components/skills-section";
-import { pageMetadata } from "@/lib/metadata";
+import { ChapterTransition } from "@/components/compartilhados/transicoes/transicao-pagina";
+import { EditorialPage } from "@/components/compartilhados/estrutura/pagina-editorial";
+import { SkillsSection } from "@/components/competencias/secao-competencias";
+import { pageMetadata } from "@/lib/seo/metadados";
 
 export const metadata: Metadata = pageMetadata("Competências", "Tecnologias organizadas por área e ligadas aos projetos que documentam seu uso.", "/competencias/");
 
